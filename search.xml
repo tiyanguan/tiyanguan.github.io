@@ -1,98 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>UML 类图</title>
-    <url>/2018/02/02/Design-Pattern-2018-02-02-UML%E7%B1%BB%E5%9B%BE/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> UML 类图 </blockquote>
-
-<a id="more"></a>
-<h2 id="类的图示（Class）"><a href="#类的图示（Class）" class="headerlink" title="类的图示（Class）"></a>类的图示（Class）</h2><p><img src="/upload_image/uml01.png" alt="Java 类图" title="图1-1 Person 类图"></p>
-<h3 id="类图分三层"><a href="#类图分三层" class="headerlink" title="类图分三层"></a>类图分三层</h3><ol>
-<li>类的名称，如果是抽象类就用斜体显示。</li>
-<li>类的特性，通常是字段和属性。</li>
-<li>类的操作，通常是方法或行为。</li>
-</ol>
-<h3 id="Java-四种访问权限在类图中的表示"><a href="#Java-四种访问权限在类图中的表示" class="headerlink" title="Java 四种访问权限在类图中的表示"></a>Java 四种访问权限在类图中的表示</h3><p>访问范围由大到小为：public、protected、default（即什么都不写）、private；‘+’表示 public，‘#’表示 protected，‘-’表示 private，什么都不写就表示 default 了。</p>
-<h3 id="分析图-1-1-Person-类图"><a href="#分析图-1-1-Person-类图" class="headerlink" title="分析图 1-1 Person 类图"></a>分析图 1-1 Person 类图</h3><p>第一行：类的名称为：Person；如果为抽象类，则<i>“Person”</i>采用斜体。<br>第二行：类的属性为：name ；“:”冒号前面表示属性的名字，后面表示属性的类型，还可以给属性赋初值。<br>第三行：类的方法：“&lt;&lt;Getter&gt;&gt;”或“&lt;&lt;Setter&gt;&gt;”表示方法的注释，可有可无，只是起到一个标记作用而已；冒号前面是方法的名字，注意方法的名字后面都是要带<b>括号</b>的“()”;冒号后面是方法的返回值。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name = <span class="string">"zhangsan"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">23</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="接口的图示（interface）"><a href="#接口的图示（interface）" class="headerlink" title="接口的图示（interface）"></a>接口的图示（interface）</h2><p>接口的 UML 图有两种表示方法：<br>1、名称上面 &lt;&lt;interface&gt;&gt; 用这个标识它是一个接口<br>2、「棒棒糖」表示法，圆圈旁边为接口名称，接口方法在实现类中出现</p>
-<h2 id="UML-关系图"><a href="#UML-关系图" class="headerlink" title="UML 关系图"></a>UML 关系图</h2><p><img src="/upload_image/uml02.png" alt="UML 类图" title="UML 类图"></p>
-<h2 id="继承关系「即泛化关系」"><a href="#继承关系「即泛化关系」" class="headerlink" title="继承关系「即泛化关系」"></a>继承关系「即泛化关系」</h2><blockquote>
-<p>继承关系用<b>空心三角形 + 实线</b>来表示<br>注意指向：子类指向父类（即空心三角形在父类这边）<br>助解：因为父类可以有多个子类，所以就会聚集成一个三角形，而子类则是一个线头的点</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类 继承了 父类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String StudentNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="实现接口"><a href="#实现接口" class="headerlink" title="实现接口"></a>实现接口</h2><blockquote>
-<p>实现接口用<b>空心三角形 + 虚线</b>来表示<br>注意指向：子类指向接口（即空心三角形在接口这边）<br>助解：因为接口可以有多个实现，所以也会聚集成一个三角形，而子类则是一个线头的点</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Say</span> </span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">say</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Say</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"person say ..."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系表示一类对象与另一类对象之间有联系，通常将一个类的对象作为另一个类的成员变量来表示关联关系</p>
-<blockquote>
-<p>关联关系用<b>实线箭头</b>表示<br>注意指向：箭头由引用类指向被引用类，表示引用类 要引用 被引用类的东西<br>助解：比如企鹅需要知道气候，而企鹅和气候是两个类，那么现在企鹅类中用到了气候类，所以企鹅依赖气候<br>因为企鹅需要知道气候的变化，即当一个类需要知道另一个类时，可以用关联关系<br>关联关系有：单向关联、双向关联、自身关联、多重性关联</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 气候类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Weather</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 企鹅类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Penguin</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 企鹅需要知道气候，所以这里引用了气候类，表示企鹅这个类引用了气候类,即一个类中有另一个类的引用</span></span><br><span class="line">    <span class="keyword">private</span> Weather weather;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h2><p>依赖关系是一种使用关系，特定事物的改变有可能会影响到使用该事物的其他事物，在需要表示一个事物使用另一个事物时使用依赖关系。大多数情况下，依赖关系体现在某个类的方法使用另一个类的对象作为参数。</p>
-<blockquote>
-<p>依赖关系用<b>虚线箭头</b>表示<br>注意指向：箭头由依赖方指向被被依赖方，表示依赖方 依赖于 被依赖方提供的东西<br>助解：动物生存依赖氧气、水，注意这里是动物的生存依赖氧气、水，不是动物本身依赖，动物要是挂了就不需要了</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 汽车类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"move"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Driver 类的方法使用了 Car 类对象作为方法的参数，即要想开车，必须先有车</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">(Car car)</span> </span>&#123;</span><br><span class="line">        car.move();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="关联关系-vs-依赖关系"><a href="#关联关系-vs-依赖关系" class="headerlink" title="关联关系 vs 依赖关系"></a>关联关系 vs 依赖关系</h2><p>依赖关系：是一种 使用关系。一个类 A 使用到了另一个类 B，而这种使用关系是具有偶然性的、临时性的、非常弱的，但是 B 类的变化会影响到 A。例如：客户使用产品需要提供者，产品的变更会影响客户的使用，但一个客户需要的产品可以有多个提供者。即一个类可能同时依赖多个类。</p>
-<p>关联关系：是一种 结构关系。它指明一个事物的对象与另一个事物的对象之间的联系。关联关系比依赖关系更强，不存在依赖关系的偶然性，关系也不是临时性的，而一般是长期性的。例如：商品和订单，订单中包含商品信息。</p>
-<p>小结：</p>
-<ul>
-<li>依赖关系是一种 使用关系，即类 A 在做某个动作的时候依赖到了其他对象类 B。</li>
-<li>关联关系是一种 结构关系，即类 A 中存在类 B，指明了类 A 对象和 类 B 对象之间的联系。</li>
-</ul>
-<h2 id="聚合关系"><a href="#聚合关系" class="headerlink" title="聚合关系"></a>聚合关系</h2><p>聚合是一种弱的「拥有」关系，体现的是 A 对象可以包含 B 对象，但 B 对象不是 A 对象的一部分</p>
-<blockquote>
-<p>聚合关系用<b>空心的菱形 + 实线箭头</b>表示<br>注意指向：空心的菱形放在聚合的群体那边，箭头指向群体中的每个个体<br>助解：大雁和雁群，因为大雁聚合形成雁群，则空心菱形表示聚合形成堆了，而箭头表示单个点</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 大雁</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goose</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 雁群</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GooseGroup</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 雁群类中有大雁的集合</span></span><br><span class="line">    <span class="keyword">private</span> Goose[] gooseList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合成关系「即组合关系」"><a href="#合成关系「即组合关系」" class="headerlink" title="合成关系「即组合关系」"></a>合成关系「即组合关系」</h2><p>合成是一种强的「拥有」关系，提现了严格的部分和整体的关系，部分和整体的生命周期一样</p>
-<blockquote>
-<p>合成关系用<b>实心的菱形 + 实线箭头</b>表示<br>注意指向：实心的菱形放在合成的整体那边，箭头指向部分，即用来合成整体的部件<br>助解：鸟和翅膀，部分和整体且生命周期一致</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 翅膀</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wing</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 鸟类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Wing wing;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成鸟类的同时生成翅膀</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bird</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.wing = <span class="keyword">new</span> Wing();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>参考列表：<br>《大话设计模式》<br>[深入浅出UML类图]<a href="http://www.uml.org.cn/oobject/201211231.asp" target="_blank" rel="noopener">http://www.uml.org.cn/oobject/201211231.asp</a><br>[UML基础系列：类图]<a href="http://www.cnblogs.com/lsgxeva/p/7720224.html" target="_blank" rel="noopener">http://www.cnblogs.com/lsgxeva/p/7720224.html</a></p>
-<p>感觉不错：<br>[Java类与类之间的5种关系及uml表示]<a href="https://blog.csdn.net/pj36536/article/details/53101764" target="_blank" rel="noopener">https://blog.csdn.net/pj36536/article/details/53101764</a><br>[UML类图与类的关系详解]<a href="https://blog.csdn.net/sinat_30397435/article/details/79018467" target="_blank" rel="noopener">https://blog.csdn.net/sinat_30397435/article/details/79018467</a></p>
-]]></content>
-      <categories>
-        <category>设计模式</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求实英语(二)</title>
-    <url>/2018/09/12/English-2018-09-12-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E4%BA%8C/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(二) —— 主谓宾 </blockquote>
-
-<a id="more"></a>
-<p>1、他整天没地方去也没事儿干。<br>He goes nowhere and has nothing to do every day.</p>
-<p>2、她天天在哪儿吃午饭？<br>Where does she have lunch every day?</p>
-<p>3、你怎么不常和他们一块儿来？<br>Why don’t you often come with them?</p>
-<p>4、王芳有姐姐吗？<br>Does WangFang have any sisters?</p>
-<p>5、为什么他总听你的而不听我的？我不知道。<br>Why does he always listen to you but doesn’t listen to me? I don’t know.</p>
-<p>6、他了解你多少？你非常了解他吗？<br>How much does he know you? Do you know him very well?</p>
-<p>7、你们每周怎么去那儿?<br>How do you get there every week?</p>
-<p>8、李梅不知道那事儿，但我知道。<br>LiMei doesn’t know that but me.</p>
-<p>9、每天下班后，Tod 都载我回家。<br>Tod picks me up home after work every day.</p>
-<p>10、这些小狗都叫什么？它的名字是 TianTian,那只叫 LeLe。<br>What are these dogs’ names? Its name is TianTian, that is called LeLe.</p>
-<p>11、他准时上学并及时做作业。<br>He goes to school on time and does his homework in time.</p>
-<p>12、没人相信他，因为他经常撒谎。他太丢人了。<br>Nobody believes him because he often tell lies. He is very shameful.</p>
-<p>13、你妈把我的手表放什么里边了？<br>what does your mother put my watch in?</p>
-<p>14、我像他，但却不喜欢他。<br>I am like hime, but I don’t like him.</p>
-<p>15、你这么辛苦工作是为了什么？<br>what do you work hard for?</p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>on time 准时<br>in time 及时</p>
-]]></content>
-      <categories>
-        <category>英语基础</category>
-      </categories>
-      <tags>
-        <tag>英语基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>求实英语(一)</title>
     <url>/2018/09/11/English-2018-09-11-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E4%B8%80/</url>
     <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(一) —— 主系表 </blockquote>
@@ -221,288 +129,6 @@
       </tags>
   </entry>
   <entry>
-    <title>求实英语(五)</title>
-    <url>/2019/03/27/English-2019-03-27-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E4%BA%94/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(五) —— there be </blockquote>
-
-<a id="more"></a>
-<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>1、地上有水吗？那儿有多少水？</p>
-<p>2、办公室里有几台电脑？</p>
-<p>3、什么里面有邮票？</p>
-<p>4、Tom 的书包里有面包吗？</p>
-<p>5、这里不该有学生，他们这时候应该在教室里学习。</p>
-<p>6、去年家里哪儿有旧书？</p>
-<p>7、什么在桌上？桌上有什么？</p>
-<p>8、明年我校将有 40 个班和 100 个老师。</p>
-<p>9、那儿一定有餐厅吗？</p>
-<p>10、过去这个村庄前边有一条小河。</p>
-<p>11、为什么二月份只有 28 天？</p>
-<p>12、从前有座山，山上有座庙。</p>
-<p>13、哪儿有好老师我就到哪儿去学。</p>
-<p>14、咱们学校什么时候有过实验室呀？</p>
-<p>15、只有不良的教育，没有不好的学生。</p>
-<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol>
-<li><p>Is there any water on the ground? How much water is there?</p>
-</li>
-<li><p>How many computers are there in the office?</p>
-</li>
-<li><p>what are there any stamps in?</p>
-</li>
-<li><p>Is there any bread in Tom’s bag?</p>
-</li>
-<li><p>Here shouldn’t be any students. They should be studying in the classroom now.</p>
-</li>
-<li><p>Where were there any old books at home last year?</p>
-</li>
-<li><p>What is on the desk? what is there on the desk?</p>
-</li>
-<li><p>There will be 40 classes and 100 teachers in our school next year.</p>
-</li>
-<li><p>Must there be any restaurants?</p>
-</li>
-<li><p>There used to be a river in front of this village.</p>
-</li>
-<li><p>Why are there only 28 days in Feb.?</p>
-</li>
-<li><p>There was a hill long before, and there was a temple on it.</p>
-</li>
-<li><p>I’ll go to study where there are some good teachers.</p>
-</li>
-<li><p>When have there been any laboratories in our school?</p>
-</li>
-<li><p>There is only a poor education, but there aren’t any poor students.</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>英语基础</category>
-      </categories>
-      <tags>
-        <tag>英语基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求实英语(四)</title>
-    <url>/2019/03/26/English-2019-03-26-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E5%9B%9B/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(四) —— 不定式 </blockquote>
-
-<a id="more"></a>
-<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>1、一言难尽！（一句话说不清楚)</p>
-<p>2、他昨天忘记带语文作业了。</p>
-<p>3、你喜欢和谁在一起？谁喜欢和你在一起？</p>
-<p>4、谁要做这件荒唐的事儿？</p>
-<p>5、在家读书和写作是我今天的计划。</p>
-<p>6、我还没决定要和谁一起去。</p>
-<p>7、他们知道何时出发吗？</p>
-<p>8、什么时候出发无所谓，问题是去什么地方。</p>
-<p>9、困难的是如何能准时到达那里。</p>
-<p>10、听到要回家乡过年使她非常高兴。</p>
-<p>11、和他在一起工作使我们情绪非常高涨。</p>
-<p>12、天变凉了，睡在这儿太冷。</p>
-<p>13、我决定当一名出色的律师。</p>
-<p>14、难道你没发现她要生气？</p>
-<p>15、男人爱潇洒，女人爱漂亮。</p>
-<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol>
-<li><p>It is hard to say .(with one word)</p>
-</li>
-<li><p>He forgot to bring his Chinese homework yesterday.</p>
-</li>
-<li><p>Whom do you like to be with? Who likes to be with you?</p>
-</li>
-<li><p>Who wants to do sth. fantastic?</p>
-</li>
-<li><p>To read and write at home is my plan today.</p>
-</li>
-<li><p>I haven’t decided yet whom to go with.</p>
-</li>
-<li><p>Do they know when to set out?</p>
-</li>
-<li><p>When to set out doesn’t matter, The question is where to go.</p>
-</li>
-<li><p>What is hard is how to get there on time.</p>
-</li>
-<li><p>It makes her very happy to hear to spend the New Year in her hometown.</p>
-</li>
-<li><p>To work with him makes us in high spirits.</p>
-</li>
-<li><p>The weather is getting cool, to sleep here is very cold.</p>
-</li>
-<li><p>I decide to be an excellent lawyer.</p>
-</li>
-<li><p>Don’t you find her to be angry?</p>
-</li>
-<li><p>Men like to be handsome. Woman like to be pretty.</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>英语基础</category>
-      </categories>
-      <tags>
-        <tag>英语基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求实英语(三)</title>
-    <url>/2018/09/21/English-2018-09-21-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E4%B8%89/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(三) —— 过去时 </blockquote>
-
-<a id="more"></a>
-<p>1、你去年经常拜访他们吗？<br>Did you ofter visit them last year?</p>
-<p>2、三年前你对这种工作有多少经验？<br>我的：How much experience did you have for this job three years ago?<br>答案：How much experience in this kind of work did you have three years age?  </p>
-<p>3、我没及时告诉她，因为我病了。<br>我的：I don’t tell her in time, because i was ill.<br>答案：I din’t tell her in time, because i was ill.</p>
-<p>4、我上周就认知他了，可他却一点儿也不了解我。<br>我的：I knew him last week, but he don’t know me little.<br>答案：I knwe him last wekk, but he didn’t know me at all.</p>
-<p>5、昨天你和王先生在哪儿？<br>where were you with Mr. Wang yesterday?</p>
-<p>6、你见过那个新来的老板了吗？<br>我的：Do you have seen the new boss?<br>答案：Have you seen that new boss?</p>
-<p>7、去年她像妈妈，可今年谁也不像。(此处 like 当介词)<br>我的：She was like her mother last year, but she isn’t like anyone this year.<br>答案：She was like her mother last year, but she is like no noe this year.</p>
-<p>8、 谁问有关我学习的事儿来着？<br>我的：Who was asked me about my study？<br>答案：Who has asked something about my study?</p>
-<p>9、爸爸昨晚没有责怪我。<br>Our father did’t scold me last night.</p>
-<p>10、昨天你在哪儿听到的那个消息？我是从报纸上看到的。<br>where did you hear that news yesterday？I read it from the paper.</p>
-<p>11、我的电脑又出毛病了。<br>我的：My computer has broken again.<br>答案：Something was wrong again with my computer.</p>
-<p>12、昨天我很紧张，你呢？<br>I was very nervous yesterday, and how were you?</p>
-<p>13、你们的值日生昨天擦黑板了吗？<br>Did your students on duty clean the blackboard yesterday?</p>
-<p>14、今天上午李先生出什么事了？<br>我的：What did happend with Mr.Li this forenoon？<br>答案：What happended to Mr. Li this morning?</p>
-<p>15、由于贫穷他去年就辍学了，我们去看看他吧。<br>我的：Because of poverty he droped out school last year, we are looking  at him tomorrow.<br>答案：He quit school last year because of being poor, Let’s go to see him tomorrow.</p>
-]]></content>
-      <categories>
-        <category>英语基础</category>
-      </categories>
-      <tags>
-        <tag>英语基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求实英语(六)</title>
-    <url>/2019/03/28/English-2019-03-28-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E5%85%AD/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(六) —— 定语 </blockquote>
-
-<a id="more"></a>
-<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>1、王芳手里的那本旧书太贵了。</p>
-<p>2、桌子上边的纸箱里装满了碎玻璃。</p>
-<p>3、树上的鸟儿成双对。</p>
-<p>4、昨天的工作没完成，明天的计划又来了。</p>
-<p>5、戴着眼镜的人是来自北京的教授。</p>
-<p>6、他喜欢的收音机旧的都没法听了。</p>
-<p>7、像 Tim 的那个男孩儿昨天来了吗？</p>
-<p>8、家里的电脑比这台容量大。</p>
-<p>9、像这种带有更多插图的书都在阅览室里。</p>
-<p>10、你告诉我的事儿对我而言非常重要。</p>
-<p>11、现在还有带橡皮的铅笔吗？</p>
-<p>12、和我哥哥在一起的人是我姐夫。</p>
-<p>13、你去过他提到的那个城市吗?</p>
-<p>14、没有谁的季节是农民最苦的日子。</p>
-<p>15、她脸上的泪水感动了那里的人。</p>
-<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol>
-<li><p>That old book in wangfang’s hand is very expensive.</p>
-</li>
-<li><p>The paper box on the desk is full of broken glass.</p>
-</li>
-<li><p>The birds in trees are in pairs.</p>
-</li>
-<li><p>The work yesterday was not finished, and the plan tomorrow is coming.</p>
-</li>
-<li><p>The person with glasses is the professor from Beijing.</p>
-</li>
-<li><p>The radio he likes is too old to listen to.</p>
-</li>
-<li><p>Did that boy like Tim come yesterday?</p>
-</li>
-<li><p>The computer (at) home has more capacity than this one here.</p>
-</li>
-<li><p>The book with more pictures like this are all in the reading-room.</p>
-</li>
-<li><p>Sth. you told me is vey important for me.</p>
-</li>
-<li><p>Are there any pencils with a rubber at present?</p>
-</li>
-<li><p>The man with my brother is my brother-in-law.</p>
-</li>
-<li><p>Have you been to that city he mentioned?</p>
-</li>
-<li><p>The season without any water is the hardest days for the farmers.</p>
-</li>
-<li><p>Tears on her face moved the people there.</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>英语基础</category>
-      </categories>
-      <tags>
-        <tag>英语基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>求实英语(七)</title>
-    <url>/2019/03/29/English-2019-03-29-%E6%B1%82%E5%AE%9E%E8%8B%B1%E8%AF%AD-%E4%B8%83/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 求实英语(七) —— 祈使句 </blockquote>
-
-<a id="more"></a>
-<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>1、她胆子小，别吓唬她！</p>
-<p>2、递给我那本书，我该学习了。</p>
-<p>3、别不好意思，再虚心点儿！</p>
-<p>4、在你走之前，先到我这儿来一下！</p>
-<p>5、别这么看着我！我很紧张。</p>
-<p>6、呆在这儿！哪儿也别去！</p>
-<p>7、做个好孩子，别跟 Tom 学！</p>
-<p>8、不要放弃你的事业！</p>
-<p>9、别嫌弃你妈妈，她为你不容易。</p>
-<p>10、好好做人，当个人民的好律师。</p>
-<p>11、少说多干！</p>
-<p>12、别犹豫了！快走吧！</p>
-<p>13、这道菜看着挺好，吃着会怎么样？</p>
-<p>14、那个男孩子咋一看倒是挺潇洒。</p>
-<p>15、为什么这首歌听起来像京戏？</p>
-<p>16、你不像你哥哥，至少长得不像。</p>
-<p>17、看上去他一本正经，实际上他什么也不是。</p>
-<p>18、那块布料手感怎么样？</p>
-<h2 id="参考答案"><a href="#参考答案" class="headerlink" title="参考答案"></a>参考答案</h2><ol>
-<li><p>Don’t frighten her! She is shy.</p>
-</li>
-<li><p>Pass me that book! It’s time for me to study.</p>
-</li>
-<li><p>Don’t by shy! Be more modest!</p>
-</li>
-<li><p>Come to me before you go!</p>
-</li>
-<li><p>Don’t look at me in this way! I am very nervous.</p>
-</li>
-<li><p>Be here! Don’t go anywhere!</p>
-</li>
-<li><p>Be a good child! Don’t do anything like Tom!</p>
-</li>
-<li><p>Don’t quit your cause!</p>
-</li>
-<li><p>Don’t dislike your mother! She is not easy for you.</p>
-</li>
-<li><p>Behave yourself! Be a competent lawyer for the people.</p>
-</li>
-<li><p>Speak less and do more!</p>
-</li>
-<li><p>Don’t hesitate! Hurry up to go!</p>
-</li>
-<li><p>This dish looks nice, how does it taste?</p>
-</li>
-<li><p>That boy looks handsome at first glance.</p>
-</li>
-<li><p>Why does the song sound like Beijing opera?</p>
-</li>
-<li><p>You are not like your brother, and you don’t look like him at least.</p>
-</li>
-<li><p>He looks serious , but he is nothing in fact.</p>
-</li>
-<li><p>How does that cloth feel?</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>英语基础</category>
-      </categories>
-      <tags>
-        <tag>英语基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo 博客搭建总结</title>
     <url>/2018/02/02/Hexo-2018-02-02-Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<blockquote class="blockquote-center"> Hexo 博客搭建总结 </blockquote>
@@ -523,6 +149,110 @@
 <p>11、<a href="http://www.yangyong.xyz/2018/01/03/add-hexo-next-post-views/" target="_blank" rel="noopener">博客主页显示文字阅读次数</a></p>
 <p>12、<a href="https://www.bluelzy.com/articles/use_valine_for_your_blog.html" target="_blank" rel="noopener">Hexo 添加评论系统 Valine</a></p>
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>还有些我在搭建过程中参考的博客给搞丢了，不过应该都比较好找，比如添加评论区，打赏，是由统计访问点击量啥的，都可以留言问我。尽管我没有了原来的链接，但是我知道怎么去搜索，这个很关键，在搭建博客过程中，我遇到那些问题，都不到输入什么关键词去查询答案，真的很悲催，我就这么悲催过来了，不希望你们再走我悲催的老路。关键是这些弯路走的没必要。</p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>UML 类图</title>
+    <url>/2018/02/02/Design-Pattern-2018-02-02-UML%E7%B1%BB%E5%9B%BE/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> UML 类图 </blockquote>
+
+<a id="more"></a>
+<h2 id="类的图示（Class）"><a href="#类的图示（Class）" class="headerlink" title="类的图示（Class）"></a>类的图示（Class）</h2><p><img src="/upload_image/uml01.png" alt="Java 类图" title="图1-1 Person 类图"></p>
+<h3 id="类图分三层"><a href="#类图分三层" class="headerlink" title="类图分三层"></a>类图分三层</h3><ol>
+<li>类的名称，如果是抽象类就用斜体显示。</li>
+<li>类的特性，通常是字段和属性。</li>
+<li>类的操作，通常是方法或行为。</li>
+</ol>
+<h3 id="Java-四种访问权限在类图中的表示"><a href="#Java-四种访问权限在类图中的表示" class="headerlink" title="Java 四种访问权限在类图中的表示"></a>Java 四种访问权限在类图中的表示</h3><p>访问范围由大到小为：public、protected、default（即什么都不写）、private；‘+’表示 public，‘#’表示 protected，‘-’表示 private，什么都不写就表示 default 了。</p>
+<h3 id="分析图-1-1-Person-类图"><a href="#分析图-1-1-Person-类图" class="headerlink" title="分析图 1-1 Person 类图"></a>分析图 1-1 Person 类图</h3><p>第一行：类的名称为：Person；如果为抽象类，则<i>“Person”</i>采用斜体。<br>第二行：类的属性为：name ；“:”冒号前面表示属性的名字，后面表示属性的类型，还可以给属性赋初值。<br>第三行：类的方法：“&lt;&lt;Getter&gt;&gt;”或“&lt;&lt;Setter&gt;&gt;”表示方法的注释，可有可无，只是起到一个标记作用而已；冒号前面是方法的名字，注意方法的名字后面都是要带<b>括号</b>的“()”;冒号后面是方法的返回值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name = <span class="string">"zhangsan"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">23</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="接口的图示（interface）"><a href="#接口的图示（interface）" class="headerlink" title="接口的图示（interface）"></a>接口的图示（interface）</h2><p>接口的 UML 图有两种表示方法：<br>1、名称上面 &lt;&lt;interface&gt;&gt; 用这个标识它是一个接口<br>2、「棒棒糖」表示法，圆圈旁边为接口名称，接口方法在实现类中出现</p>
+<h2 id="UML-关系图"><a href="#UML-关系图" class="headerlink" title="UML 关系图"></a>UML 关系图</h2><p><img src="/upload_image/uml02.png" alt="UML 类图" title="UML 类图"></p>
+<h2 id="继承关系「即泛化关系」"><a href="#继承关系「即泛化关系」" class="headerlink" title="继承关系「即泛化关系」"></a>继承关系「即泛化关系」</h2><blockquote>
+<p>继承关系用<b>空心三角形 + 实线</b>来表示<br>注意指向：子类指向父类（即空心三角形在父类这边）<br>助解：因为父类可以有多个子类，所以就会聚集成一个三角形，而子类则是一个线头的点</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 父类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类 继承了 父类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String StudentNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现接口"><a href="#实现接口" class="headerlink" title="实现接口"></a>实现接口</h2><blockquote>
+<p>实现接口用<b>空心三角形 + 虚线</b>来表示<br>注意指向：子类指向接口（即空心三角形在接口这边）<br>助解：因为接口可以有多个实现，所以也会聚集成一个三角形，而子类则是一个线头的点</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Say</span> </span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">say</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Say</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"person say ..."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系表示一类对象与另一类对象之间有联系，通常将一个类的对象作为另一个类的成员变量来表示关联关系</p>
+<blockquote>
+<p>关联关系用<b>实线箭头</b>表示<br>注意指向：箭头由引用类指向被引用类，表示引用类 要引用 被引用类的东西<br>助解：比如企鹅需要知道气候，而企鹅和气候是两个类，那么现在企鹅类中用到了气候类，所以企鹅依赖气候<br>因为企鹅需要知道气候的变化，即当一个类需要知道另一个类时，可以用关联关系<br>关联关系有：单向关联、双向关联、自身关联、多重性关联</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 气候类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Weather</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 企鹅类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Penguin</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 企鹅需要知道气候，所以这里引用了气候类，表示企鹅这个类引用了气候类,即一个类中有另一个类的引用</span></span><br><span class="line">    <span class="keyword">private</span> Weather weather;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h2><p>依赖关系是一种使用关系，特定事物的改变有可能会影响到使用该事物的其他事物，在需要表示一个事物使用另一个事物时使用依赖关系。大多数情况下，依赖关系体现在某个类的方法使用另一个类的对象作为参数。</p>
+<blockquote>
+<p>依赖关系用<b>虚线箭头</b>表示<br>注意指向：箭头由依赖方指向被被依赖方，表示依赖方 依赖于 被依赖方提供的东西<br>助解：动物生存依赖氧气、水，注意这里是动物的生存依赖氧气、水，不是动物本身依赖，动物要是挂了就不需要了</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 汽车类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"move"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Driver 类的方法使用了 Car 类对象作为方法的参数，即要想开车，必须先有车</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">(Car car)</span> </span>&#123;</span><br><span class="line">        car.move();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="关联关系-vs-依赖关系"><a href="#关联关系-vs-依赖关系" class="headerlink" title="关联关系 vs 依赖关系"></a>关联关系 vs 依赖关系</h2><p>依赖关系：是一种 使用关系。一个类 A 使用到了另一个类 B，而这种使用关系是具有偶然性的、临时性的、非常弱的，但是 B 类的变化会影响到 A。例如：客户使用产品需要提供者，产品的变更会影响客户的使用，但一个客户需要的产品可以有多个提供者。即一个类可能同时依赖多个类。</p>
+<p>关联关系：是一种 结构关系。它指明一个事物的对象与另一个事物的对象之间的联系。关联关系比依赖关系更强，不存在依赖关系的偶然性，关系也不是临时性的，而一般是长期性的。例如：商品和订单，订单中包含商品信息。</p>
+<p>小结：</p>
+<ul>
+<li>依赖关系是一种 使用关系，即类 A 在做某个动作的时候依赖到了其他对象类 B。</li>
+<li>关联关系是一种 结构关系，即类 A 中存在类 B，指明了类 A 对象和 类 B 对象之间的联系。</li>
+</ul>
+<h2 id="聚合关系"><a href="#聚合关系" class="headerlink" title="聚合关系"></a>聚合关系</h2><p>聚合是一种弱的「拥有」关系，体现的是 A 对象可以包含 B 对象，但 B 对象不是 A 对象的一部分</p>
+<blockquote>
+<p>聚合关系用<b>空心的菱形 + 实线箭头</b>表示<br>注意指向：空心的菱形放在聚合的群体那边，箭头指向群体中的每个个体<br>助解：大雁和雁群，因为大雁聚合形成雁群，则空心菱形表示聚合形成堆了，而箭头表示单个点</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 大雁</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goose</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 雁群</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GooseGroup</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 雁群类中有大雁的集合</span></span><br><span class="line">    <span class="keyword">private</span> Goose[] gooseList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="合成关系「即组合关系」"><a href="#合成关系「即组合关系」" class="headerlink" title="合成关系「即组合关系」"></a>合成关系「即组合关系」</h2><p>合成是一种强的「拥有」关系，提现了严格的部分和整体的关系，部分和整体的生命周期一样</p>
+<blockquote>
+<p>合成关系用<b>实心的菱形 + 实线箭头</b>表示<br>注意指向：实心的菱形放在合成的整体那边，箭头指向部分，即用来合成整体的部件<br>助解：鸟和翅膀，部分和整体且生命周期一致</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 翅膀</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wing</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 鸟类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Wing wing;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成鸟类的同时生成翅膀</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bird</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.wing = <span class="keyword">new</span> Wing();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考列表：<br>《大话设计模式》<br>[深入浅出UML类图]<a href="http://www.uml.org.cn/oobject/201211231.asp" target="_blank" rel="noopener">http://www.uml.org.cn/oobject/201211231.asp</a><br>[UML基础系列：类图]<a href="http://www.cnblogs.com/lsgxeva/p/7720224.html" target="_blank" rel="noopener">http://www.cnblogs.com/lsgxeva/p/7720224.html</a></p>
+<p>感觉不错：<br>[Java类与类之间的5种关系及uml表示]<a href="https://blog.csdn.net/pj36536/article/details/53101764" target="_blank" rel="noopener">https://blog.csdn.net/pj36536/article/details/53101764</a><br>[UML类图与类的关系详解]<a href="https://blog.csdn.net/sinat_30397435/article/details/79018467" target="_blank" rel="noopener">https://blog.csdn.net/sinat_30397435/article/details/79018467</a></p>
+]]></content>
+      <categories>
+        <category>设计模式</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo Next 搜索功能</title>
+    <url>/2018/03/14/Hexo-2018-03-14-HexoNext%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> 它侧身于生活的污泥中，虽不甘心，却又畏首畏尾 </blockquote>
+
+<a id="more"></a>
+<p>Hexo Next 添加搜索功能过程，本博客采用「Local Search」！</p>
+<h2 id="对主题版本的要求"><a href="#对主题版本的要求" class="headerlink" title="对主题版本的要求"></a>对主题版本的要求</h2><p>要使用搜索功能对你的主题版本可能有最低要求，我采用的是 Next 主题，最近更新的，为防止后面出现各种莫名其妙的问题，建议最好把主题版本更新一下。</p>
+<h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><h3 id="安装-hexo-generator-searchdb-，在站点的根目录下执行以下命令："><a href="#安装-hexo-generator-searchdb-，在站点的根目录下执行以下命令：" class="headerlink" title="安装 hexo-generator-searchdb ，在站点的根目录下执行以下命令："></a>安装 hexo-generator-searchdb ，在站点的根目录下执行以下命令：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+<h3 id="编辑-站点配置文件，新增以下内容到任意位置："><a href="#编辑-站点配置文件，新增以下内容到任意位置：" class="headerlink" title="编辑 站点配置文件，新增以下内容到任意位置："></a>编辑 站点配置文件，新增以下内容到任意位置：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">      path: search.xml</span><br><span class="line">      field: post</span><br><span class="line">      format: html</span><br><span class="line">      limit: 10000</span><br></pre></td></tr></table></figure>
+<h3 id="编辑-主题配置文件，启用本地搜索功能："><a href="#编辑-主题配置文件，启用本地搜索功能：" class="headerlink" title="编辑 主题配置文件，启用本地搜索功能："></a>编辑 主题配置文件，启用本地搜索功能：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">      enable: true</span><br></pre></td></tr></table></figure>
+<h2 id="重新生成静态文本"><a href="#重新生成静态文本" class="headerlink" title="重新生成静态文本"></a>重新生成静态文本</h2><p>hexo clean -&gt; hexo generate -&gt; hexo server  -&gt; 查看效果 -&gt; 收工</p>
+<h2 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h2><p><a href="http://www.itfanr.cc/2017/10/27/add-search-function-to-hexo-blog/" target="_blank" rel="noopener">Hexo 博客添加搜索功能</a></p>
+]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
+      <tags>
+        <tag>博客搭建</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo Next 代码块</title>
+    <url>/2018/03/15/Hexo-2018-03-15-HexoNext%E4%BB%A3%E7%A0%81%E5%9D%97/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> Hexo Next 代码块 </blockquote>
+
+<a id="more"></a>
+<h2 id="1、编辑主题配置文件-config-yml"><a href="#1、编辑主题配置文件-config-yml" class="headerlink" title="1、编辑主题配置文件 _config.yml"></a>1、编辑主题配置文件 _config.yml</h2><p>「注意是主题配置文件」此处用来设置代码块的背景色。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">highlight_theme: night eighties</span><br></pre></td></tr></table></figure></p>
+<h2 id="2、编辑站点配置文件-config-yml"><a href="#2、编辑站点配置文件-config-yml" class="headerlink" title="2、编辑站点配置文件_config.yml"></a>2、编辑站点配置文件_config.yml</h2><p>「注意亲测会报错」：在网上 Google 的答案中要求将 auto_detect 设置为 true，但是我设置以后使用 hexo generate 生成静态代码的时候会报错 TypeError: Cannot set property ‘lastIndex’ of undefined 所以最后还是乖乖设置成了 false ，对实际效果也没有任何影响，对于该配置需谨慎使用。</p>
+<hr>
+<p>「注意是站点配置文件」auto_detect 主要用来支持代码自动检测。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="3、编辑-Markdown-文章"><a href="#3、编辑-Markdown-文章" class="headerlink" title="3、编辑 Markdown 文章"></a>3、编辑 Markdown 文章</h2><p><code>注意</code>：「```」之后需要指定你代码块中所使用的开发语言，也可以不指定，即让系统自动识别你代码块中的开发语言是哪个，系统可能会识别失败或错误，所以最好还是指定。<code>注意</code>：符号「```」,是 Esc 下面那个，不是单引号「’’’」。</p>
+<p><img src="/upload_image/codeblock.png" alt="Markdown 代码块" title="Markdown 代码块"><br>效果图：<br><img src="/upload_image/codeblock1.png" alt="Markdown 效果图" title="Markdown 效果图"></p>
 ]]></content>
       <categories>
         <category>博客搭建</category>
@@ -725,27 +455,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo Next 搜索功能</title>
-    <url>/2018/03/14/Hexo-2018-03-14-HexoNext%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 它侧身于生活的污泥中，虽不甘心，却又畏首畏尾 </blockquote>
-
-<a id="more"></a>
-<p>Hexo Next 添加搜索功能过程，本博客采用「Local Search」！</p>
-<h2 id="对主题版本的要求"><a href="#对主题版本的要求" class="headerlink" title="对主题版本的要求"></a>对主题版本的要求</h2><p>要使用搜索功能对你的主题版本可能有最低要求，我采用的是 Next 主题，最近更新的，为防止后面出现各种莫名其妙的问题，建议最好把主题版本更新一下。</p>
-<h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><h3 id="安装-hexo-generator-searchdb-，在站点的根目录下执行以下命令："><a href="#安装-hexo-generator-searchdb-，在站点的根目录下执行以下命令：" class="headerlink" title="安装 hexo-generator-searchdb ，在站点的根目录下执行以下命令："></a>安装 hexo-generator-searchdb ，在站点的根目录下执行以下命令：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-<h3 id="编辑-站点配置文件，新增以下内容到任意位置："><a href="#编辑-站点配置文件，新增以下内容到任意位置：" class="headerlink" title="编辑 站点配置文件，新增以下内容到任意位置："></a>编辑 站点配置文件，新增以下内容到任意位置：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">      path: search.xml</span><br><span class="line">      field: post</span><br><span class="line">      format: html</span><br><span class="line">      limit: 10000</span><br></pre></td></tr></table></figure>
-<h3 id="编辑-主题配置文件，启用本地搜索功能："><a href="#编辑-主题配置文件，启用本地搜索功能：" class="headerlink" title="编辑 主题配置文件，启用本地搜索功能："></a>编辑 主题配置文件，启用本地搜索功能：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">      enable: true</span><br></pre></td></tr></table></figure>
-<h2 id="重新生成静态文本"><a href="#重新生成静态文本" class="headerlink" title="重新生成静态文本"></a>重新生成静态文本</h2><p>hexo clean -&gt; hexo generate -&gt; hexo server  -&gt; 查看效果 -&gt; 收工</p>
-<h2 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h2><p><a href="http://www.itfanr.cc/2017/10/27/add-search-function-to-hexo-blog/" target="_blank" rel="noopener">Hexo 博客添加搜索功能</a></p>
-]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>博客搭建</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>必知的写作排版指南</title>
     <url>/2018/07/26/Hexo-2018-07-26-%E5%BF%85%E7%9F%A5%E7%9A%84%E5%86%99%E4%BD%9C%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<blockquote class="blockquote-center"> 必知的写作排版指南 </blockquote>
@@ -830,32 +539,31 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo Next 代码块</title>
-    <url>/2018/03/15/Hexo-2018-03-15-HexoNext%E4%BB%A3%E7%A0%81%E5%9D%97/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> Hexo Next 代码块 </blockquote>
+    <title>Linux 入门总结(一)</title>
+    <url>/2018/09/06/Linux-2018-09-06-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%B8%80/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(一) —— Linux 系统简介 </blockquote>
 
 <a id="more"></a>
-<h2 id="1、编辑主题配置文件-config-yml"><a href="#1、编辑主题配置文件-config-yml" class="headerlink" title="1、编辑主题配置文件 _config.yml"></a>1、编辑主题配置文件 _config.yml</h2><p>「注意是主题配置文件」此处用来设置代码块的背景色。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">highlight_theme: night eighties</span><br></pre></td></tr></table></figure></p>
-<h2 id="2、编辑站点配置文件-config-yml"><a href="#2、编辑站点配置文件-config-yml" class="headerlink" title="2、编辑站点配置文件_config.yml"></a>2、编辑站点配置文件_config.yml</h2><p>「注意亲测会报错」：在网上 Google 的答案中要求将 auto_detect 设置为 true，但是我设置以后使用 hexo generate 生成静态代码的时候会报错 TypeError: Cannot set property ‘lastIndex’ of undefined 所以最后还是乖乖设置成了 false ，对实际效果也没有任何影响，对于该配置需谨慎使用。</p>
-<hr>
-<p>「注意是站点配置文件」auto_detect 主要用来支持代码自动检测。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="3、编辑-Markdown-文章"><a href="#3、编辑-Markdown-文章" class="headerlink" title="3、编辑 Markdown 文章"></a>3、编辑 Markdown 文章</h2><p><code>注意</code>：「```」之后需要指定你代码块中所使用的开发语言，也可以不指定，即让系统自动识别你代码块中的开发语言是哪个，系统可能会识别失败或错误，所以最好还是指定。<code>注意</code>：符号「```」,是 Esc 下面那个，不是单引号「’’’」。</p>
-<p><img src="/upload_image/codeblock.png" alt="Markdown 代码块" title="Markdown 代码块"><br>效果图：<br><img src="/upload_image/codeblock1.png" alt="Markdown 效果图" title="Markdown 效果图"></p>
+<h2 id="Unix-发展史"><a href="#Unix-发展史" class="headerlink" title="Unix 发展史"></a>Unix 发展史</h2><p>Unix 与 Linux 的关系就像是父子关系，Unix 是父亲，Linux 是儿子。肯.汤普森在 1969 年开发出了 Unix 系统。1971 年，肯.汤普森的同事丹尼斯.里奇发明了 C 语言，随后 Unix 系统绝大部分源代码用 C 语言重写，为提高 Unix 系统的可移植性打下基础。</p>
+<h2 id="Unix-主要发行版本"><a href="#Unix-主要发行版本" class="headerlink" title="Unix 主要发行版本"></a>Unix 主要发行版本</h2><p><img src="/upload_image/Unix_Major_Version.png" alt="Unix 主要发行版本" title="Unix 主要发行版本"></p>
+<h2 id="Linux-发展史"><a href="#Linux-发展史" class="headerlink" title="Linux 发展史"></a>Linux 发展史</h2><p>Linux 系统诞生于 1991 年，由芬兰大学生李纳斯(Linux Torvalds) 和后来陆续加入的爱好者共同完成。Unix 和 Linux 的内核都是用 c 语言写的。Linux 是开源软件。</p>
+<h2 id="Linux-发行版和-Linux-内核的区别？"><a href="#Linux-发行版和-Linux-内核的区别？" class="headerlink" title="Linux 发行版和 Linux 内核的区别？"></a>Linux 发行版和 Linux 内核的区别？</h2><p>内核版是 Linux 官方发布的，仅仅是单纯的内核。在拿到内核以后，每个产商可以加入自己的桌面、应用程序等再进行开发，称为发行版。Linux 内核官网：<a href="http://www.kernel.org。" target="_blank" rel="noopener">www.kernel.org。</a></p>
+<h2 id="Linux-主要发行版本"><a href="#Linux-主要发行版本" class="headerlink" title="Linux 主要发行版本"></a>Linux 主要发行版本</h2><p>Linux 主要分为两个系列：redhat 系列和 debian 系列。其本质是一样的，因为两者采用系统的内核。最主要的区别就是软件安装的方式不一样。Redhat 系列主要分为 HEL 和 federo 两个系列，其中 federo 是个人版，HEL 是企业版。对于 Linux 的企业版和个人版跟 windows 是不一样的，对于 windows 而言 windows7 是个人版，windows2008 是企业版，它们的区别是 windows7 可以看成是 windows2008 的一个阉割版，windows2008 才是完整的。但是 Linux 不同，个人版和企业版的区别在于，个人版是开发版，可能有的功能没有进行过测试，更像是一个实验体，而企业版是稳定版。</p>
+<p><img src="/upload_image/Linux_Major_Version.png" alt="Linux 主要发行版本" title="Linux 主要发行版本"></p>
+<h2 id="开源软件的特点"><a href="#开源软件的特点" class="headerlink" title="开源软件的特点"></a>开源软件的特点</h2><ol>
+<li>使用的自由：绝大多数开源软件免费（注意的是开源和免费并不是等同的，开源软件也可以出售，但是卖给你的是源代码，并不是编译之后的代码给你）。</li>
+<li>研究自由：可以获得软件源代码（开放源代码带来的好处——安全，足够多的眼睛可以发现更多的问题，可以容易的看到大神级人物的代码风格和注释）。</li>
+<li>散步及改良自由：可以自由传播、改良甚至销售。</li>
+</ol>
+<h2 id="Linux-的应用领域"><a href="#Linux-的应用领域" class="headerlink" title="Linux 的应用领域"></a>Linux 的应用领域</h2><ol>
+<li>基于 Linux 的企业服务器：企业服务器。</li>
+<li>嵌入式应用：Android 平台就是一个典型的 Linux 嵌入式应用、智能家电如机顶盒、游戏机、数码相机等。</li>
+<li>电影娱乐业：用于电影、图片的后期处理。</li>
+</ol>
+<h2 id="Linux-为什么选择命令行？"><a href="#Linux-为什么选择命令行？" class="headerlink" title="Linux 为什么选择命令行？"></a>Linux 为什么选择命令行？</h2><p>Linux 选用命令行界面主要是考虑到系统的稳定性和安全性，如果装了图形界面，对系统资源的占用是比较庞大的，所以比较不好用。而 windows 考虑的是易用性，windows 系统主要考虑的是系统的易用性。</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>1、<a href="http://www.netcraft.com" target="_blank" rel="noopener">www.netcraft.com</a> 是一个典型的扫描和踩点网站。只要输入你要查询的网站，就可以获取网站后台服务器所采用的操作系统。该网站是一个全球著名的信息统计网站。从攻击的角度叫踩点，从防御的角度叫扫描。</p>
+<p>2、<a href="http://www.top500.org" target="_blank" rel="noopener">www.top500.org</a> 会统计全球范围内运算能力排在前 500 的服务器或者叫群组。</p>
 ]]></content>
-      <categories>
-        <category>博客搭建</category>
-      </categories>
-      <tags>
-        <tag>博客搭建</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 入门总结(三)</title>
-    <url>/2018/09/12/Linux-2018-09-12-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%B8%89/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(三) —— Linux 网络 </blockquote>
-
-<a id="more"></a>]]></content>
       <categories>
         <category>Linux 基础</category>
       </categories>
@@ -910,6 +618,19 @@
 <p>分区：把大硬盘分为小的逻辑分区；<br>格式化：格式化的目的是为了写入文件系统，当然在写入文件系统的时候会附带的把硬盘当中的数据清空；<br>分区设备文件名：给每个分区定义设备文件名；<br>挂载：给每个分区分配挂载点，这个挂载点必须是目录，而且必须是空的目录才可以进行挂载点分配。</p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>Linux 基础</category>
+      </categories>
+      <tags>
+        <tag>Linux 基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 入门总结(三)</title>
+    <url>/2018/09/12/Linux-2018-09-12-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%B8%89/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(三) —— Linux 网络 </blockquote>
+
+<a id="more"></a>]]></content>
       <categories>
         <category>Linux 基础</category>
       </categories>
@@ -1025,39 +746,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux 入门总结(一)</title>
-    <url>/2018/09/06/Linux-2018-09-06-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%B8%80/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(一) —— Linux 系统简介 </blockquote>
-
-<a id="more"></a>
-<h2 id="Unix-发展史"><a href="#Unix-发展史" class="headerlink" title="Unix 发展史"></a>Unix 发展史</h2><p>Unix 与 Linux 的关系就像是父子关系，Unix 是父亲，Linux 是儿子。肯.汤普森在 1969 年开发出了 Unix 系统。1971 年，肯.汤普森的同事丹尼斯.里奇发明了 C 语言，随后 Unix 系统绝大部分源代码用 C 语言重写，为提高 Unix 系统的可移植性打下基础。</p>
-<h2 id="Unix-主要发行版本"><a href="#Unix-主要发行版本" class="headerlink" title="Unix 主要发行版本"></a>Unix 主要发行版本</h2><p><img src="/upload_image/Unix_Major_Version.png" alt="Unix 主要发行版本" title="Unix 主要发行版本"></p>
-<h2 id="Linux-发展史"><a href="#Linux-发展史" class="headerlink" title="Linux 发展史"></a>Linux 发展史</h2><p>Linux 系统诞生于 1991 年，由芬兰大学生李纳斯(Linux Torvalds) 和后来陆续加入的爱好者共同完成。Unix 和 Linux 的内核都是用 c 语言写的。Linux 是开源软件。</p>
-<h2 id="Linux-发行版和-Linux-内核的区别？"><a href="#Linux-发行版和-Linux-内核的区别？" class="headerlink" title="Linux 发行版和 Linux 内核的区别？"></a>Linux 发行版和 Linux 内核的区别？</h2><p>内核版是 Linux 官方发布的，仅仅是单纯的内核。在拿到内核以后，每个产商可以加入自己的桌面、应用程序等再进行开发，称为发行版。Linux 内核官网：<a href="http://www.kernel.org。" target="_blank" rel="noopener">www.kernel.org。</a></p>
-<h2 id="Linux-主要发行版本"><a href="#Linux-主要发行版本" class="headerlink" title="Linux 主要发行版本"></a>Linux 主要发行版本</h2><p>Linux 主要分为两个系列：redhat 系列和 debian 系列。其本质是一样的，因为两者采用系统的内核。最主要的区别就是软件安装的方式不一样。Redhat 系列主要分为 HEL 和 federo 两个系列，其中 federo 是个人版，HEL 是企业版。对于 Linux 的企业版和个人版跟 windows 是不一样的，对于 windows 而言 windows7 是个人版，windows2008 是企业版，它们的区别是 windows7 可以看成是 windows2008 的一个阉割版，windows2008 才是完整的。但是 Linux 不同，个人版和企业版的区别在于，个人版是开发版，可能有的功能没有进行过测试，更像是一个实验体，而企业版是稳定版。</p>
-<p><img src="/upload_image/Linux_Major_Version.png" alt="Linux 主要发行版本" title="Linux 主要发行版本"></p>
-<h2 id="开源软件的特点"><a href="#开源软件的特点" class="headerlink" title="开源软件的特点"></a>开源软件的特点</h2><ol>
-<li>使用的自由：绝大多数开源软件免费（注意的是开源和免费并不是等同的，开源软件也可以出售，但是卖给你的是源代码，并不是编译之后的代码给你）。</li>
-<li>研究自由：可以获得软件源代码（开放源代码带来的好处——安全，足够多的眼睛可以发现更多的问题，可以容易的看到大神级人物的代码风格和注释）。</li>
-<li>散步及改良自由：可以自由传播、改良甚至销售。</li>
-</ol>
-<h2 id="Linux-的应用领域"><a href="#Linux-的应用领域" class="headerlink" title="Linux 的应用领域"></a>Linux 的应用领域</h2><ol>
-<li>基于 Linux 的企业服务器：企业服务器。</li>
-<li>嵌入式应用：Android 平台就是一个典型的 Linux 嵌入式应用、智能家电如机顶盒、游戏机、数码相机等。</li>
-<li>电影娱乐业：用于电影、图片的后期处理。</li>
-</ol>
-<h2 id="Linux-为什么选择命令行？"><a href="#Linux-为什么选择命令行？" class="headerlink" title="Linux 为什么选择命令行？"></a>Linux 为什么选择命令行？</h2><p>Linux 选用命令行界面主要是考虑到系统的稳定性和安全性，如果装了图形界面，对系统资源的占用是比较庞大的，所以比较不好用。而 windows 考虑的是易用性，windows 系统主要考虑的是系统的易用性。</p>
-<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>1、<a href="http://www.netcraft.com" target="_blank" rel="noopener">www.netcraft.com</a> 是一个典型的扫描和踩点网站。只要输入你要查询的网站，就可以获取网站后台服务器所采用的操作系统。该网站是一个全球著名的信息统计网站。从攻击的角度叫踩点，从防御的角度叫扫描。</p>
-<p>2、<a href="http://www.top500.org" target="_blank" rel="noopener">www.top500.org</a> 会统计全球范围内运算能力排在前 500 的服务器或者叫群组。</p>
-]]></content>
-      <categories>
-        <category>Linux 基础</category>
-      </categories>
-      <tags>
-        <tag>Linux 基础</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 入门总结(六)</title>
     <url>/2018/09/25/Linux-2018-09-25-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E5%85%AD/</url>
     <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(六) —— Vim 编辑器 </blockquote>
@@ -1088,123 +776,6 @@
 <p>注意：以上定义的快捷键重启以后都不存在，要想永久生效，你需要将其定义在每个用户的宿主（家）目录中的配置文件里面。以 root 为例：vi /root/.vimrc (注意这个配置文件叫 .vimrc)这里面只能放一些<strong>编辑模式</strong>的命令，比如：设置行号、设置快捷键、ab 命令（前面可以没有冒号「:」）。</p>
 <p>/root/.vimrc 文件中自定义永久有效的快捷键<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># vim 自动设置行号</span><br><span class="line">set nu</span><br><span class="line"></span><br><span class="line"># ctrl + p 表示 I#&lt;Esc&gt;</span><br><span class="line">map ^p I#&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line"># 设置 ab 命令</span><br><span class="line">ab sb hello</span><br></pre></td></tr></table></figure></p>
 <h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><p><a href="http://www.jianshu.com/p/6aa2e0e39f99" target="_blank" rel="noopener">Vim速查表</a><br><a href="http://www.pchou.info/linux/2016/11/10/vim-skill.html" target="_blank" rel="noopener">vim 使用技巧</a><br><a href="https://zhinan.sogou.com/guide/detail/?id=316512949354&amp;utm_source=wechat_search&amp;utm_medium=organic" target="_blank" rel="noopener">Vim 的使用方法</a><br><a href="https://mp.weixin.qq.com/s/PxLzWlzqhhNrFMlm0hg2_A" target="_blank" rel="noopener">增强 Vim 编辑器</a><br><a href="https://mp.weixin.qq.com/s/k9PBlG5D6ylzTXfrj2ZI6g" target="_blank" rel="noopener">Vim 命令、操作、快捷键全集</a></p>
-]]></content>
-      <categories>
-        <category>Linux 基础</category>
-      </categories>
-      <tags>
-        <tag>Linux 基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 入门总结(五)</title>
-    <url>/2018/09/19/Linux-2018-09-19-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%BA%94/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(五) —— Linux 常用命令 </blockquote>
-
-<a id="more"></a>
-<h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><p>1、帮助命令 man<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    英文原意 manual；命令所在路径：/usr/bin/man；作用：获得帮助信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    man [命令或配置文件]</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 查看命令的帮助信息</span><br><span class="line">    man ls</span><br><span class="line"></span><br><span class="line">    # 查看配置文件的帮助信息</span><br><span class="line">    man services</span><br></pre></td></tr></table></figure></p>
-<p>manual 英文意思手册，指南；使用 man 命令相当于调用了一个 less 的浏览方式。</p>
-<p>如何看命令的帮助信息？1、知道命令是干什么用的，通过查看帮助信息的第一行即 NAME 行。2、知道命令的选项是干什么用的，通过「/+关键字」的方式可以快速定位到你要找的内容，通过 n 键向下继续查找。</p>
-<p>如何查看配置文件的帮助信息？1、这个配置文件是干什么用的，通过查看帮助信息的第一行即 NAME 行；2、这个配置文件的格式是什么样的，在 Linux 中任何配置文件都是有规律的，即格式，可以在配置文件的帮助文档中查看到。</p>
-<p>注意在使用 man 来查看配置文件帮助的时候，不可以写成「man + 配置文件绝对路径」！！！此时你得到的并不是帮助信息，而是配置文件的内容。查看配置文件帮助的时候只要使用「man + 配置文件名称」即可。通过查看第一行即 NAME 行，它会告诉你这个配置文件是一个什么样的文件。</p>
-<p>man 命令的帮助类型：「1」表示命令的帮助，「5」表示配置文件的帮助。eg：如 passwd 既对应一个命令又对应一个配置文件，使用 man 会优先显示命令的帮助。要想查看配置文件的帮助，则 <code>man 5 passwd</code> 加一个数字 5 声明你要查看配置文件的帮助。</p>
-<p>执行指令 man services 等查看配置文件帮助文档的时候出现「没有 services 的手册页条目」。解决办法：安装 man 帮助文档包。指令为：<code>yum install man-pages</code>。</p>
-<p>「whatis + 命令名称」它可以直接读取到这个命令 NAME 部分的信息。</p>
-<p>「apropos + 配置文件的名称」只想查看一个配置文件的简短信息。</p>
-<p><code>命令 --help</code> 只想查看命令的选项，不想看到其他的描述语言。</p>
-<p>命令 info 即 infomation，也可以获得帮助信息，其作用跟 man 大同小异，只是在帮助信息的显示有所差别，包括方式上支持一些跳转。</p>
-<p>2、帮助命令 help<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：Shell 内置命令；作用：获得 Shell 内置命令的帮助信息</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 查看 umask 命令的帮助信息</span><br><span class="line">    help umask</span><br></pre></td></tr></table></figure></p>
-<p>Shell 其实就是一个命令解释器，找不到命令所在路径的命令都是 Shell 内置命令，eg：cd、umask。这些命令不能使用 man 来查看帮助，它会列出 Shell 所有的帮助信息。可以使用 help 来获取 Shell 内置命令的帮助信息。</p>
-<p>3、Linux 中的命令大致可分为两类，内部命令和外部命令。内部命令：也称 Shell 内嵌命令；外部命令：存放在一个文件中，使用时需要去文件中查找，这些文件被定义在 $PATH 中。<strong>type 命令可以查看命令类型，以区别是内部命令还是外部命令，格式 <code>type 命令名称</code>。</strong></p>
-<h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><p>1、用户管理命令 useradd<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/sbin/useradd；作用：添加新用户</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    useradd 用户名</span><br></pre></td></tr></table></figure></p>
-<p>useradd 命令只有 root 用户可以使用。</p>
-<p>useradd 命令在添加的时候只是添加了用户的基本信息，例如家目录、相关的命令解释器的分配等，并没有给它设置一个验证密码。</p>
-<p>2、用户管理命令 passwd<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/passwd；作用：设置用户密码</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    passwd 用户名</span><br></pre></td></tr></table></figure></p>
-<p>注意：更改密码的时候只有管理员可以随意更改密码，普通用户必须要满足密码原则才可以更改密码成功。每个普通用户只能用 passwd 更改自己的密码，而管理员 root 可以用 passwd 更改任何人的密码。</p>
-<p>3、用户管理命令 who<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/who；作用：查看登录用户信息</span><br></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/Command_who_show.png" alt="who 命令显示内容" title="who 命令显示内容"><br>who 命令显示内容解释：登录用户名（一个用户可以多次登录）、登录的终端（tty 表示本地终端，即在 Linux 机器本身上登录，tty 又叫本地登录）（pts 表示远程终端，即远程登录）、登录时间、括号里的内容是登录的主机的 IP 地址，如果没有写就表示本机登录。</p>
-<p>4、用户管理命令 w<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/w；作用：查看登录用户详细信息</span><br></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/Command_w_show.png" alt="w 命令显示内容" title="w 命令显示内容"></p>
-<p>w 命令的第一行信息解释：当前系统时间、系统连续运行多久、当前一共有几个用户登录、负载均衡指数（这个指数有 3 个数值，分别记录了过去的 1 分钟、5 分钟和 15 分钟，系统的一个负载情况，一般来讲系统的负载值主要指的就是 cup 和内存的负载情况）。IDLE 表示该用户登录过来已经空闲多久了；PCPU 指的是该用户当前登录过来执行的操作占用的 cpu 的时间（下面的数字指的是当前执行的命令占用的 cpu 时间，因为进程在执行的时候是排队依次执行，每个进程在一个 cpu 循环周期里面会分配一定的 cpu 时间，如果一个进程在 cpu 循环周期里多次，它就会占用多个 cpu 时间）；WHAT 指的是他当前执行了什么操作；JCPU 累计占用的 cpu 时间。</p>
-<h2 id="压缩解压命令"><a href="#压缩解压命令" class="headerlink" title="压缩解压命令"></a>压缩解压命令</h2><p>1、压缩命令 gzip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/gzip；作用：压缩文件；压缩后文件格式：.gz</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    gzip [文件]</span><br></pre></td></tr></table></figure></p>
-<p>解压命令 gunzip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/gunzip；作用：解压缩 .gz 的压缩文件</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    gunzip [选项] 压缩文件</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -S    指定后缀以取代 .gz，suffix</span><br></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/gzip_gunzip.png" alt="gzip&amp;gunzip" title="gzip&amp;gunzip"></p>
-<p>注意：gzip 只能压缩文件，不能压缩目录。而且使用 gzip 压缩是不保留源文件的，使用 gunzip 解压缩也是不保留源文件的。解压缩命令：gunzip（即在 gzip 压缩命令中间加入 un）或者使用 gzip -d 命令，两种命令的效果是一样的。gzip 的压缩比约为 5:1。</p>
-<p>2、压缩解压命令 tar<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/tar；作用：打包目录；压缩后文件格式：.tar.gz</span><br><span class="line"></span><br><span class="line">格式：tar [选项] [压缩后文件名] [文件或目录]    </span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -c  打包，create</span><br><span class="line">    -x  解包，extract</span><br><span class="line">    -v  显示详细信息，verbose</span><br><span class="line">    -f  指定文件名，file</span><br><span class="line">    -z  打包的同时用 gzip 或 gunzip 压缩或解压</span><br></pre></td></tr></table></figure></p>
-<p>tar 本身的意思是打包，它可以把一个目录打包成一个文件，同时也可以在打包的同时做一个压缩。tar -cvzf 的压缩比约为 5:1。<strong>使用此组命令会保留源文件。</strong></p>
-<p><strong>注意：在使用 tar 的压缩解压命令的时候，-f 后面一定要紧跟它要指定的文件，否则可能会报错。如果 -f 后面没有紧跟它要指定的文件，则 tar 命令的选项中不能加「-」，否则会报错 <code>Cannot stat: No such file or directory</code>。</strong></p>
-<p>3、压缩命令 zip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/zip；作用：压缩文件或目录；压缩后文件格式：.zip</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    zip [选项] [压缩后文件名] [文件或目录]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -r  压缩目录</span><br></pre></td></tr></table></figure></p>
-<p>解压命令 unzip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/unzip；作用：解压 .zip 的压缩文件</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    unzip [压缩文件]</span><br></pre></td></tr></table></figure></p>
-<p>一般来讲，Linux 里面的压缩包的格式 windows 的压缩软件几乎都支持。但反过来就要看具体情况了。默认在使用的过程中，只有一种压缩格式 windows 和 Linux 双方都不需要再额外装什么软件都可以进行解压缩处理的就是 .zip 格式。<strong>使用 zip 命令：会保留源文件，可以压缩目录。</strong> 压缩比没有 gzip 那么可观，所以使用的会比较少。使用 unzip 命令进行解压缩的时候，不分压缩文件是目录还是文件，都可以进行解压缩。</p>
-<p>4、压缩命令 bzip2<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/bzip2；作用：压缩文件；压缩后文件格式：.bz2</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    bzip2 [选项] [文件]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -k  产生压缩文件后保留原文件，keep</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 压缩</span><br><span class="line">    bzip2 -k test</span><br><span class="line"></span><br><span class="line">    # 跟 tar 命令结合使用，采用 bzip2 的方式压缩</span><br><span class="line">    tar -cjf test.tar.bz2 test</span><br></pre></td></tr></table></figure></p>
-<p>这是一个 gzip 的升级版本。值得注意的是 bzip2 的压缩比是非常惊人的，一般往往用来压缩大的文件。还可以跟 tar 一起来使用：即用 tar 命令里的 z（z 表示 tar 命令中的压缩方式）替换为 j（j 表示 bzip2 的压缩方式）。注意 bzip2 只能处理文件，不能处理目录。</p>
-<p>解压命令 bunzip2<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/bunzip2；作用：解压缩</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    bunzip2 [选项] [压缩文件]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -k    解压缩后保留原文件，keep</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 解压</span><br><span class="line">    bunzip2 -k test.bz2</span><br><span class="line"></span><br><span class="line">    # 跟 tar 命令结合使用，解压 bzip2 方式的压缩</span><br><span class="line">    tar -xjf test.tar.bz2</span><br></pre></td></tr></table></figure></p>
-<p>如果该目录下有跟解压后的文件同名的文件则该命令会拒绝解压缩，不会像其他命令询问你是否覆盖等。要想解压则必须先删除或更改同名文件。在解压缩 .tar.bz2 文件的时候同样适用 tar 命令，注意把 z 替换为 j 即可。</p>
-<p>小结：</p>
-<ol>
-<li>.gz 类型的压缩文件 gzip 进行压缩 gunzip（或 gzip -d）进行解压缩。不能压缩目录，不能保留源文件。</li>
-<li>.tar 类型的文件 可以生成打包文件 tar -cf 打包，-xf 解包，可以利用此命令进行压缩目录。</li>
-<li>.tar.gz 类型的压缩文件 tar -zcf 打包并压缩，tar -zxf 解包并解压缩。</li>
-<li>.zip 类型的压缩文件 zip 压缩文件 zip -r 压缩目录，unzip 解压缩文件或者目录（压缩比不是特别高，windows 和 Linux 通过格式）。</li>
-<li>.bz2 类型的压缩文件 bzip2 进行压缩，bunzip2（或者是 bzip2 -d）进行解压缩。</li>
-<li>.tar.bz2 类型的压缩文件 tar -cjf 生成压缩包，tar -xjf 进行解压缩。</li>
-</ol>
-<h2 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h2><p>1、网络命令 write<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/write；作用：给用户发信息，以 Ctrl + D 保存 结束</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    write 用户名</span><br></pre></td></tr></table></figure></p>
-<p>注意：在 write 命令的输入界面，按退格键是不行的，需要按 Ctrl + 退格键或者按 Delete 键，表示退格的意思。内容输入结束后按回车，然后使用 Ctrl + D 保存并结束。<strong>特别注意的是只能给在线用户发送，如果用户不在线消息是发不出去的。</strong></p>
-<p>2、网络命令 wall<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    英文原意 write all；命令所在路劲：/usr/bin/wall；作用：发广播信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    wall 消息</span><br></pre></td></tr></table></figure></p>
-<p>给当前所有在线用户发送信息。在使用该命令发送广播信息的时候，自己也会受到一条发的广播信息。本地终端也会收到广播信息。<strong>注意只有在线用户可以收到消息。</strong></p>
-<p>3、网络命令 ping<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/ping；作用：测试网络连通性</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    ping [选项] IP地址</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -c   指定发送次数</span><br></pre></td></tr></table></figure></p>
-<p>现在使用最多的远程探测命令，工作机制：给远程主机发送一个信息包，判断你是否存在即看看你是否回应我，只要你回应，就证明咱们两个之间网络是通的。注意在使用 ping 命令的时候，重点看 package loss 即丢包率这个属性。如果丢包率非常高，即使你 ping 通了，证明你的网状态其实也非常差 。</p>
-<p>4、网络命令 ifconfig<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    英文原意 interface configure；命令所在路径：/sbin/ifconfig；作用：查看和设置网卡信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    ifconfig 网卡名称 IP地址</span><br></pre></td></tr></table></figure></p>
-<p>Linux 系统中默认有两块网卡，eth0 代表的是本地的真实网卡，lo 回环网卡，用来本机通信和测试的，地址也是固定的，都是 127.0.0.1，不插网线甚至网卡驱动不安装，都可以 ping 通。</p>
-<p><img src="/upload_image/ifconfig_command_show.png" alt="ifconfig" title="ifconfig"></p>
-<ol>
-<li>eth0:网卡接口名称；flags：标志位，UP 表示网卡启用激活状态； mtu：maximum transmission unit，网卡最大传输单元为 1500 字节；</li>
-<li>inet：IPv4 地址； netmask：子网掩码；broadcast：广播地址；</li>
-<li>inet6：IPv6 地址；</li>
-<li>ether(HWaddr)：以太网地址；txqueuelen 1000  (Ethernet)：以太网传输队列长度；网卡的硬件地址即我们所说的 MAC 地址，它是用十六进制表示的，48 位的地址，表示我的网卡的物理地址。MAC 地址是固化在网卡的只读存储器中的一个地址，位于网卡的芯片上，理论上来讲一般是不能改的。</li>
-<li>RX packets 13245  bytes 1989908 (1.8 MiB)：此次网卡激活后接搜到的报文数量，总大小；</li>
-<li>RX errors：接收时错误的个数；dropped：丢包个数；overruns：溢出个数；frame：帧。</li>
-<li>TX packets 162  bytes 18461 (18.0 KiB)：传输的报文数量，总大小；</li>
-<li>TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0：传输时错误、丢包、溢出、搬运、碰撞的个数。</li>
-</ol>
-<p>5、网络命令 mail<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/mail；作用：查看发送电子邮件</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    mail [用户名]</span><br></pre></td></tr></table></figure></p>
-<p>mail 命令比 write 命令有一个好处，就是不管对方在不在线，都可以给对方发送邮件。Linux 的纯字符界面也可以进行邮件的收发，它利用的并不是真正的搭建好的邮件服务器，而是如果是本机用户给本机用户发信，它利用的是本地的内存。</p>
-<p>mail 命令编辑完邮件后点击 Ctrl + D 保存结束。使用 mail 命令直接按回车，用来接受邮件，N 表示 new，即这是新收到的邮件还未阅读。想看第几分信，邮件前面有一个序列号，输入序列号回车就能看到这份邮件的具体内容，使用 h 键可以回到刚才的邮件列表，发现 N 消失了，表示邮件已读，要想删除邮件则「d 邮件序列号」，再按 h 查看邮件发现没有邮件了，q 键退出。</p>
-<p>学习 mail 命令主要是有的时候系统会给 root 发一些系统信息的邮件，当你在用 root 登录以后系统会提示你有新的邮件需要接受，这个时候就需要我们知道怎么样来收到系统发给你（root）的信息。系统给 root 发送的信息都是非常重要的，例如日志的统计信息、系统的报错信息，当我们发现 root 有这样的邮件的时候，千万不可以忽略它，应该仔细的查看它，因为这说明你对的系统当中可能出现了一些问题，有可能会影响到你的系统的安全。</p>
-<p>6、网络命令 last<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/last；作用：列出目前与过去登入系统的用户信息</span><br></pre></td></tr></table></figure></p>
-<p>该命令会统计我的计算机的所有用户的登陆的时间信息，包括计算机重启时间也会被记录下来。这是一个重要的日志查询点，可以查看系统是否有异常登陆重启等信息。该命令是一个非常有效，非常重要，非常常用的日志查询命令，在服务器上可能会多次使用这样的命令。只想知道用户最后一次登陆的时间，不想知道所有的登陆信息，则可以使用另外一条命令：lastlog。last 统计的是只要有人登陆它就会记录，包括你多次登陆的信息。而 lastlog 会先把所有的用户都列出来，包括一些不能登陆的系统用户。</p>
-<p>7、网络命令 lastlog<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/lastlog；作用：检查某特定用户上次登录的时间</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # -u 指的是用户的 UID，查看特定用户的最后一次登陆的时间</span><br><span class="line">    lastlog -u 500</span><br></pre></td></tr></table></figure></p>
-<p>8、网络命令 traceroute<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/traceroute；作用：显示数据包到主机间的路径</span><br></pre></td></tr></table></figure></p>
-<p>作用：探测到达某一个指定网站（某一个主机）的路径。这条命令非常有用，可以事先探测好你访问某网站的路径，然后当你访问该网站出现问题的时候，可以对照然后得出哪里出现了问题。我们 traceroute 一台主机时，会看到有一些行是以星号表示的。出现这样的情况，可能是防火墙封掉了返回信息，所以我们得不到什么相关的数据包返回数据。</p>
-<p>9、网络命令 netstat<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/netstat；作用：显示网路相关信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    netstat [选项]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -t   查询 TCP 协议的网络信息</span><br><span class="line">    -u   查询 UDP 协议的网络信息</span><br><span class="line">    -l   查看监听的端口，listening</span><br><span class="line">    -r   查看路由即查看网关，route</span><br><span class="line">    -n   用 IP 地址和端口号显示查询结果，而不是用域名或服务的名称，这样更快，因为省略了解析过程，numeric</span><br><span class="line">    -a   all</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 查看本机监听的端口，即查询当前计算机下，我开了哪些计算机端口</span><br><span class="line">    netstat -tuln</span><br><span class="line"></span><br><span class="line">    # 查看本机所有的网络连接</span><br><span class="line">    netstat -an</span><br><span class="line"></span><br><span class="line">    # 查看本机路由表，即查询路由列表</span><br><span class="line">    netstat -rn</span><br></pre></td></tr></table></figure></p>
-<p>net 网络的意思，stat 即 state 状态的意思，查询网络状态的命令。这条命令的用途在服务器上非常广泛的。TCP 是传输控制协议的简称；UDP 用户数据报协议的简称。一般情况下服务的端口号是固定的，我们可以通过判断本机开了哪些监听端口来判断我的计算机开启了哪些服务。注意：TCP 协议才可以直接接受访问，所以它有 listen，代表状态是监听的。而 UDP 是没有的，它可以直接发送，不监听即不顾你在不在线。访问服务的时候不管访问的是 22 还是访问其他的服务，你的发起端口即源端口是 1024 以上的随机端口，只有目标端口是固定的。</p>
-<p><img src="/upload_image/netstat_an.png" alt="netstat -an" title="netstat -an"><br>发现该命令的输出分了两大类，一类是上面的这些网络服务，除了有监听的协议之外，状态还出现了 ESTABLISHED 表示正在连接的。另一类就是下面的除了服务状态计算机中会有很多网络程序，它也会使用网络协议，使用网络端口，你可以看到这些程序所占用的端口，这个对我们意义不大。主要看到还是上面的信息。它跟 netstat -tlun最大的区别在于 netstat -tlun 只能查看监听，而它可以查看到正在连接的网络程序。</p>
-<p><img src="/upload_image/netstat-rn.png" alt="netstat -rn" title="netstat -rn"><br>Destination 为 0.0.0.0 那行是当前计算机的默认路由列表，其实就是自己的网关。可以通过该命令查询当前计算机的网关。还可以通过 <code>route -n</code> 或 <code>cat /etc/resolv.conf</code> 查看当前计算机的网关。</p>
-<p>10、网络命令 setup<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/setup；作用：配置网络</span><br></pre></td></tr></table></figure></p>
-<p>setup 是 redhat 开发的一个管理工具集合，它在其它的版本的 Linux 中不存在，这是 redhat 系类专有的。注意在配置完成后一点要重启网络服务：service network restart。使用 setup 配置的 IP 地址是永久生效的。该命令简单了解即可。</p>
-<h2 id="挂载命令-mount"><a href="#挂载命令-mount" class="headerlink" title="挂载命令 mount"></a>挂载命令 mount</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/mount</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    mount [-t 文件系统] 设备文件名 挂载点</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    mount -t iso9660 /dev/sr0 /mnt/cdrom</span><br></pre></td></tr></table></figure>
-<p>该命令的作用是把我的设备连接到我给它分配的挂载点（可以理解为 windows 中的盘符，只是我们的挂载点是目录，而 windows 中的是 CDEF）。分区都是自动挂载的，只要安装了，分区了，每次启动不需要手动参与直接就可以挂载。但是 Linux 的 U 盘、光盘、移动硬盘等外接存储设备不能实现自动挂载，每次开机都只能手工来挂载。</p>
-<p>挂载步骤：</p>
-<ol>
-<li>先创建挂载点：mkdir  /mnt/cdrom。</li>
-<li>开始实现挂载：mount -t （-t 后面指定光盘的文件系统）iso9660（光盘的文件系统是固定的） /dev/sr0（设备文件名称，其来源是系统默认指定的，Linux 系统在 redhat centOS6.0 以上的系统中，设备文件名默认就叫 sr0，只要记住就可以了，不需要知道它是怎么来的，当然也可以写 cdrom，实际上就是一个软连接，通过命令：ll  /dev/cdrom 可以查看到）。这条命令中其实 -t iso9660 是可以省略的，因为该命令的这个选项或者说分区的光盘的文件系统是默认的，系统就知道它就叫  iso 9660，不写也可以。</li>
-</ol>
-<p>挂载其实就是找到这个硬件，给它分配一个设备文件名，再给它找一个盘符（即目录），把它的设备文件名和盘符连接起来，就是挂载。（挂载的本质：就是把设备文件名连接到挂载点上）。如果之前你的这个挂载点上做过挂载，那么你需要把它卸载以后再进行挂载：umonut  /dev/sr0。正常挂载完，mount 命令是没有任何提示的，这里提示的作用是报错，它尝试把它挂成写权限，但是光驱是只读的，所以被迫挂成了只读的，光盘绝大多数都是只读的。（windows 是光盘符下访问，而 Linux 中的盘符是目录）挂载完成后通过 cd（即cd  /mnt/cdrom）切换到盘符目录下去访问它的数据。（/dev/sr0 是一个文件，cd 命令是进不去的）。注意：必须要执行卸载命令，才可以弹出光盘。切记不可以在光盘挂载点下面卸载，因为系统会认为光盘正在使用，不允许卸载。你需要退出挂载点，直接 cd 即可返回到自己的宿主目录。在卸载的时候，因为 /dev/sr0 和 /mnt/cdrom 它们两个通过 mount 命令已经连接了，所以后面加其中任何一个都是可以的，但是只能跟一个，要是跟两个它就会卸载两遍，第二遍它就会报错。直接回车没有任何提示表示卸载成功，再回到 /mnt/cdrom 执行 ls 命令发现变成了空目录了。</p>
-<h2 id="关机重启命令"><a href="#关机重启命令" class="headerlink" title="关机重启命令"></a>关机重启命令</h2><p>1、shutdown 命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：shutdown [选项] 时间</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -c   取消前一个关机命令，cancel</span><br><span class="line">    -h   关机，halt</span><br><span class="line">    -r   重启，reboot</span><br></pre></td></tr></table></figure></p>
-<p>除了 shutdown 命令之外还有其他命令可以实现关机或重启，只是早期的时候只有 shutdown 命令会在关机和重启之前正确的保存它正在启动的服务，尽管现在 Linux 中绝大多数的关机重启命令都已经实现了正确的关闭服务和保存数据，只是我们已经习惯了 shutdown 命令了。虽然其他命令也可以做到，但是 shutdown 命令更安全一点，我们更信任它。</p>
-<p>2、其他关机命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 关机</span><br><span class="line">halt</span><br><span class="line"></span><br><span class="line"># 关机</span><br><span class="line">power off</span><br><span class="line"></span><br><span class="line"># 关机</span><br><span class="line">init 0</span><br></pre></td></tr></table></figure></p>
-<p>注意：poweroff 相当于直接断电，谨慎使用！！！</p>
-<p>3、其他重启命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 重启</span><br><span class="line">reboot</span><br><span class="line"></span><br><span class="line"># 重启</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure></p>
-<p>4、系统运行级别<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0   关机</span><br><span class="line">1   单用户</span><br><span class="line">2   不完全多用户，不含 NFS 服务</span><br><span class="line">3   完全多用户</span><br><span class="line">4   未分配</span><br><span class="line">5   图形界面</span><br><span class="line">6   重启</span><br></pre></td></tr></table></figure></p>
-<p>单用户类似于 windows 中的安全模式，其实就是启动最小的服务，其他多余的东西、附加的程序都不要，甚至连网都不要，只启动最核心的程序，进去是用来做修复的。只能是 root 登录进去，其他用户都不行，顾名思义即为单用户。运行级别 1 是没有图形界面的，不光 1 级别没有图形界面，1、2、3 这 3 个运行级别都是没有图形界面的，4 是没有使用的，即可以自己定义，5 是标准的图形界面。2、3 其实都是命令行，区别是：3 是完全的命令行，而 2 是不包含 NFS 服务的命令行，即它也是命令行只是不完整（2 级别也没有网络服务）。NFS 服务：（network file system）网络文件系统，使用 NFS 是实现两个 Linux 之间的文件共享或者是 Linux 和 Unix 之间的文件共享的服务。由于 NFS 用户验证的机制比较弱，即可能不是太安全，有它自己的安全隐患在里面，所以不太建议使用 NFS 来进行文件共享，当然使用它进行文件共享确实很简单方便。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看系统默认运行级别</span><br><span class="line">cat /etc/inittab</span><br><span class="line"></span><br><span class="line"># 修改系统默认运行级别，注意：id 最后是有冒号的「:」，千万不可以丢！！！</span><br><span class="line">id:3:initdefault:</span><br><span class="line"></span><br><span class="line"># 查看系统运行级别</span><br><span class="line">runlevel</span><br></pre></td></tr></table></figure>
-<p>注意：0 和 6 不能设为系统默认运行级别。在 Linux 中用 X11 代表图形界面，大写的 X 指的是 Xwindow，一般来讲，在 Linux 中看到类似于这样的表示（包括只有一个大写的 X）都表示 Linux 的一个图形环境的意思。</p>
-<p>执行 runlevel 命令之后会有「N  3」这样的显示，3 表示当前运行的级别号，N 代表上一个运行级别，即进入 3 级别之前我在哪个级别（由于我们是开机之后直接进来的，所以是 N 表示 null 的意思）。</p>
-<p><code>init 5</code> 表示切换到运行级别 5 即图形界面，由于我没有装图形界面它不会执行，且远程工具上是不会报错的，但是在 Linux 本地上会有报错提示，它尝试去启动 5 级别，但是没有启动成功。但是系统以为你进去了，所以执行 runlevel 命令的时候会有显示 <code>5 3</code>。</p>
-<p>5、退出登录命令 logout<br>退出一个登录 Shell。注意：在使用完 Linux 后，一定要 logout！！！否则后果很严重！！！</p>
-<p>6、Linux 中的管道符<br>利用 Linux 所提供的管道符「|」将两个命令隔开，管道符左边命令的输出就会作为管道符右边命令的输入。连续使用管道意味着第一个命令的输出会作为第二个命令的输入，第二个命令的输出又会作为第三个命令的输入，依此类推。</p>
-<h1 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h1><p><a href="http://blog.51cto.com/9762617/1678917" target="_blank" rel="noopener">centOS 7 安装 man 中文版手册</a><br><a href="https://blog.csdn.net/qq_36838191/article/details/80314101" target="_blank" rel="noopener">Linux 中的内部命令和外部命令</a><br><a href="http://blog.51cto.com/xuding/1728866" target="_blank" rel="noopener">Linux 网络属性配置命令</a></p>
 ]]></content>
       <categories>
         <category>Linux 基础</category>
@@ -1409,6 +980,123 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux 入门总结(五)</title>
+    <url>/2018/09/19/Linux-2018-09-19-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%BA%94/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(五) —— Linux 常用命令 </blockquote>
+
+<a id="more"></a>
+<h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><p>1、帮助命令 man<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    英文原意 manual；命令所在路径：/usr/bin/man；作用：获得帮助信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    man [命令或配置文件]</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 查看命令的帮助信息</span><br><span class="line">    man ls</span><br><span class="line"></span><br><span class="line">    # 查看配置文件的帮助信息</span><br><span class="line">    man services</span><br></pre></td></tr></table></figure></p>
+<p>manual 英文意思手册，指南；使用 man 命令相当于调用了一个 less 的浏览方式。</p>
+<p>如何看命令的帮助信息？1、知道命令是干什么用的，通过查看帮助信息的第一行即 NAME 行。2、知道命令的选项是干什么用的，通过「/+关键字」的方式可以快速定位到你要找的内容，通过 n 键向下继续查找。</p>
+<p>如何查看配置文件的帮助信息？1、这个配置文件是干什么用的，通过查看帮助信息的第一行即 NAME 行；2、这个配置文件的格式是什么样的，在 Linux 中任何配置文件都是有规律的，即格式，可以在配置文件的帮助文档中查看到。</p>
+<p>注意在使用 man 来查看配置文件帮助的时候，不可以写成「man + 配置文件绝对路径」！！！此时你得到的并不是帮助信息，而是配置文件的内容。查看配置文件帮助的时候只要使用「man + 配置文件名称」即可。通过查看第一行即 NAME 行，它会告诉你这个配置文件是一个什么样的文件。</p>
+<p>man 命令的帮助类型：「1」表示命令的帮助，「5」表示配置文件的帮助。eg：如 passwd 既对应一个命令又对应一个配置文件，使用 man 会优先显示命令的帮助。要想查看配置文件的帮助，则 <code>man 5 passwd</code> 加一个数字 5 声明你要查看配置文件的帮助。</p>
+<p>执行指令 man services 等查看配置文件帮助文档的时候出现「没有 services 的手册页条目」。解决办法：安装 man 帮助文档包。指令为：<code>yum install man-pages</code>。</p>
+<p>「whatis + 命令名称」它可以直接读取到这个命令 NAME 部分的信息。</p>
+<p>「apropos + 配置文件的名称」只想查看一个配置文件的简短信息。</p>
+<p><code>命令 --help</code> 只想查看命令的选项，不想看到其他的描述语言。</p>
+<p>命令 info 即 infomation，也可以获得帮助信息，其作用跟 man 大同小异，只是在帮助信息的显示有所差别，包括方式上支持一些跳转。</p>
+<p>2、帮助命令 help<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：Shell 内置命令；作用：获得 Shell 内置命令的帮助信息</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 查看 umask 命令的帮助信息</span><br><span class="line">    help umask</span><br></pre></td></tr></table></figure></p>
+<p>Shell 其实就是一个命令解释器，找不到命令所在路径的命令都是 Shell 内置命令，eg：cd、umask。这些命令不能使用 man 来查看帮助，它会列出 Shell 所有的帮助信息。可以使用 help 来获取 Shell 内置命令的帮助信息。</p>
+<p>3、Linux 中的命令大致可分为两类，内部命令和外部命令。内部命令：也称 Shell 内嵌命令；外部命令：存放在一个文件中，使用时需要去文件中查找，这些文件被定义在 $PATH 中。<strong>type 命令可以查看命令类型，以区别是内部命令还是外部命令，格式 <code>type 命令名称</code>。</strong></p>
+<h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><p>1、用户管理命令 useradd<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/sbin/useradd；作用：添加新用户</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    useradd 用户名</span><br></pre></td></tr></table></figure></p>
+<p>useradd 命令只有 root 用户可以使用。</p>
+<p>useradd 命令在添加的时候只是添加了用户的基本信息，例如家目录、相关的命令解释器的分配等，并没有给它设置一个验证密码。</p>
+<p>2、用户管理命令 passwd<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/passwd；作用：设置用户密码</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    passwd 用户名</span><br></pre></td></tr></table></figure></p>
+<p>注意：更改密码的时候只有管理员可以随意更改密码，普通用户必须要满足密码原则才可以更改密码成功。每个普通用户只能用 passwd 更改自己的密码，而管理员 root 可以用 passwd 更改任何人的密码。</p>
+<p>3、用户管理命令 who<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/who；作用：查看登录用户信息</span><br></pre></td></tr></table></figure></p>
+<p><img src="/upload_image/Command_who_show.png" alt="who 命令显示内容" title="who 命令显示内容"><br>who 命令显示内容解释：登录用户名（一个用户可以多次登录）、登录的终端（tty 表示本地终端，即在 Linux 机器本身上登录，tty 又叫本地登录）（pts 表示远程终端，即远程登录）、登录时间、括号里的内容是登录的主机的 IP 地址，如果没有写就表示本机登录。</p>
+<p>4、用户管理命令 w<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/w；作用：查看登录用户详细信息</span><br></pre></td></tr></table></figure></p>
+<p><img src="/upload_image/Command_w_show.png" alt="w 命令显示内容" title="w 命令显示内容"></p>
+<p>w 命令的第一行信息解释：当前系统时间、系统连续运行多久、当前一共有几个用户登录、负载均衡指数（这个指数有 3 个数值，分别记录了过去的 1 分钟、5 分钟和 15 分钟，系统的一个负载情况，一般来讲系统的负载值主要指的就是 cup 和内存的负载情况）。IDLE 表示该用户登录过来已经空闲多久了；PCPU 指的是该用户当前登录过来执行的操作占用的 cpu 的时间（下面的数字指的是当前执行的命令占用的 cpu 时间，因为进程在执行的时候是排队依次执行，每个进程在一个 cpu 循环周期里面会分配一定的 cpu 时间，如果一个进程在 cpu 循环周期里多次，它就会占用多个 cpu 时间）；WHAT 指的是他当前执行了什么操作；JCPU 累计占用的 cpu 时间。</p>
+<h2 id="压缩解压命令"><a href="#压缩解压命令" class="headerlink" title="压缩解压命令"></a>压缩解压命令</h2><p>1、压缩命令 gzip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/gzip；作用：压缩文件；压缩后文件格式：.gz</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    gzip [文件]</span><br></pre></td></tr></table></figure></p>
+<p>解压命令 gunzip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/gunzip；作用：解压缩 .gz 的压缩文件</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    gunzip [选项] 压缩文件</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -S    指定后缀以取代 .gz，suffix</span><br></pre></td></tr></table></figure></p>
+<p><img src="/upload_image/gzip_gunzip.png" alt="gzip&amp;gunzip" title="gzip&amp;gunzip"></p>
+<p>注意：gzip 只能压缩文件，不能压缩目录。而且使用 gzip 压缩是不保留源文件的，使用 gunzip 解压缩也是不保留源文件的。解压缩命令：gunzip（即在 gzip 压缩命令中间加入 un）或者使用 gzip -d 命令，两种命令的效果是一样的。gzip 的压缩比约为 5:1。</p>
+<p>2、压缩解压命令 tar<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/tar；作用：打包目录；压缩后文件格式：.tar.gz</span><br><span class="line"></span><br><span class="line">格式：tar [选项] [压缩后文件名] [文件或目录]    </span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -c  打包，create</span><br><span class="line">    -x  解包，extract</span><br><span class="line">    -v  显示详细信息，verbose</span><br><span class="line">    -f  指定文件名，file</span><br><span class="line">    -z  打包的同时用 gzip 或 gunzip 压缩或解压</span><br></pre></td></tr></table></figure></p>
+<p>tar 本身的意思是打包，它可以把一个目录打包成一个文件，同时也可以在打包的同时做一个压缩。tar -cvzf 的压缩比约为 5:1。<strong>使用此组命令会保留源文件。</strong></p>
+<p><strong>注意：在使用 tar 的压缩解压命令的时候，-f 后面一定要紧跟它要指定的文件，否则可能会报错。如果 -f 后面没有紧跟它要指定的文件，则 tar 命令的选项中不能加「-」，否则会报错 <code>Cannot stat: No such file or directory</code>。</strong></p>
+<p>3、压缩命令 zip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/zip；作用：压缩文件或目录；压缩后文件格式：.zip</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    zip [选项] [压缩后文件名] [文件或目录]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -r  压缩目录</span><br></pre></td></tr></table></figure></p>
+<p>解压命令 unzip<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/unzip；作用：解压 .zip 的压缩文件</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    unzip [压缩文件]</span><br></pre></td></tr></table></figure></p>
+<p>一般来讲，Linux 里面的压缩包的格式 windows 的压缩软件几乎都支持。但反过来就要看具体情况了。默认在使用的过程中，只有一种压缩格式 windows 和 Linux 双方都不需要再额外装什么软件都可以进行解压缩处理的就是 .zip 格式。<strong>使用 zip 命令：会保留源文件，可以压缩目录。</strong> 压缩比没有 gzip 那么可观，所以使用的会比较少。使用 unzip 命令进行解压缩的时候，不分压缩文件是目录还是文件，都可以进行解压缩。</p>
+<p>4、压缩命令 bzip2<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/bzip2；作用：压缩文件；压缩后文件格式：.bz2</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    bzip2 [选项] [文件]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -k  产生压缩文件后保留原文件，keep</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 压缩</span><br><span class="line">    bzip2 -k test</span><br><span class="line"></span><br><span class="line">    # 跟 tar 命令结合使用，采用 bzip2 的方式压缩</span><br><span class="line">    tar -cjf test.tar.bz2 test</span><br></pre></td></tr></table></figure></p>
+<p>这是一个 gzip 的升级版本。值得注意的是 bzip2 的压缩比是非常惊人的，一般往往用来压缩大的文件。还可以跟 tar 一起来使用：即用 tar 命令里的 z（z 表示 tar 命令中的压缩方式）替换为 j（j 表示 bzip2 的压缩方式）。注意 bzip2 只能处理文件，不能处理目录。</p>
+<p>解压命令 bunzip2<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/bunzip2；作用：解压缩</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    bunzip2 [选项] [压缩文件]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -k    解压缩后保留原文件，keep</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 解压</span><br><span class="line">    bunzip2 -k test.bz2</span><br><span class="line"></span><br><span class="line">    # 跟 tar 命令结合使用，解压 bzip2 方式的压缩</span><br><span class="line">    tar -xjf test.tar.bz2</span><br></pre></td></tr></table></figure></p>
+<p>如果该目录下有跟解压后的文件同名的文件则该命令会拒绝解压缩，不会像其他命令询问你是否覆盖等。要想解压则必须先删除或更改同名文件。在解压缩 .tar.bz2 文件的时候同样适用 tar 命令，注意把 z 替换为 j 即可。</p>
+<p>小结：</p>
+<ol>
+<li>.gz 类型的压缩文件 gzip 进行压缩 gunzip（或 gzip -d）进行解压缩。不能压缩目录，不能保留源文件。</li>
+<li>.tar 类型的文件 可以生成打包文件 tar -cf 打包，-xf 解包，可以利用此命令进行压缩目录。</li>
+<li>.tar.gz 类型的压缩文件 tar -zcf 打包并压缩，tar -zxf 解包并解压缩。</li>
+<li>.zip 类型的压缩文件 zip 压缩文件 zip -r 压缩目录，unzip 解压缩文件或者目录（压缩比不是特别高，windows 和 Linux 通过格式）。</li>
+<li>.bz2 类型的压缩文件 bzip2 进行压缩，bunzip2（或者是 bzip2 -d）进行解压缩。</li>
+<li>.tar.bz2 类型的压缩文件 tar -cjf 生成压缩包，tar -xjf 进行解压缩。</li>
+</ol>
+<h2 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h2><p>1、网络命令 write<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/write；作用：给用户发信息，以 Ctrl + D 保存 结束</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    write 用户名</span><br></pre></td></tr></table></figure></p>
+<p>注意：在 write 命令的输入界面，按退格键是不行的，需要按 Ctrl + 退格键或者按 Delete 键，表示退格的意思。内容输入结束后按回车，然后使用 Ctrl + D 保存并结束。<strong>特别注意的是只能给在线用户发送，如果用户不在线消息是发不出去的。</strong></p>
+<p>2、网络命令 wall<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    英文原意 write all；命令所在路劲：/usr/bin/wall；作用：发广播信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    wall 消息</span><br></pre></td></tr></table></figure></p>
+<p>给当前所有在线用户发送信息。在使用该命令发送广播信息的时候，自己也会受到一条发的广播信息。本地终端也会收到广播信息。<strong>注意只有在线用户可以收到消息。</strong></p>
+<p>3、网络命令 ping<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/ping；作用：测试网络连通性</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    ping [选项] IP地址</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -c   指定发送次数</span><br></pre></td></tr></table></figure></p>
+<p>现在使用最多的远程探测命令，工作机制：给远程主机发送一个信息包，判断你是否存在即看看你是否回应我，只要你回应，就证明咱们两个之间网络是通的。注意在使用 ping 命令的时候，重点看 package loss 即丢包率这个属性。如果丢包率非常高，即使你 ping 通了，证明你的网状态其实也非常差 。</p>
+<p>4、网络命令 ifconfig<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    英文原意 interface configure；命令所在路径：/sbin/ifconfig；作用：查看和设置网卡信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    ifconfig 网卡名称 IP地址</span><br></pre></td></tr></table></figure></p>
+<p>Linux 系统中默认有两块网卡，eth0 代表的是本地的真实网卡，lo 回环网卡，用来本机通信和测试的，地址也是固定的，都是 127.0.0.1，不插网线甚至网卡驱动不安装，都可以 ping 通。</p>
+<p><img src="/upload_image/ifconfig_command_show.png" alt="ifconfig" title="ifconfig"></p>
+<ol>
+<li>eth0:网卡接口名称；flags：标志位，UP 表示网卡启用激活状态； mtu：maximum transmission unit，网卡最大传输单元为 1500 字节；</li>
+<li>inet：IPv4 地址； netmask：子网掩码；broadcast：广播地址；</li>
+<li>inet6：IPv6 地址；</li>
+<li>ether(HWaddr)：以太网地址；txqueuelen 1000  (Ethernet)：以太网传输队列长度；网卡的硬件地址即我们所说的 MAC 地址，它是用十六进制表示的，48 位的地址，表示我的网卡的物理地址。MAC 地址是固化在网卡的只读存储器中的一个地址，位于网卡的芯片上，理论上来讲一般是不能改的。</li>
+<li>RX packets 13245  bytes 1989908 (1.8 MiB)：此次网卡激活后接搜到的报文数量，总大小；</li>
+<li>RX errors：接收时错误的个数；dropped：丢包个数；overruns：溢出个数；frame：帧。</li>
+<li>TX packets 162  bytes 18461 (18.0 KiB)：传输的报文数量，总大小；</li>
+<li>TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0：传输时错误、丢包、溢出、搬运、碰撞的个数。</li>
+</ol>
+<p>5、网络命令 mail<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/mail；作用：查看发送电子邮件</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    mail [用户名]</span><br></pre></td></tr></table></figure></p>
+<p>mail 命令比 write 命令有一个好处，就是不管对方在不在线，都可以给对方发送邮件。Linux 的纯字符界面也可以进行邮件的收发，它利用的并不是真正的搭建好的邮件服务器，而是如果是本机用户给本机用户发信，它利用的是本地的内存。</p>
+<p>mail 命令编辑完邮件后点击 Ctrl + D 保存结束。使用 mail 命令直接按回车，用来接受邮件，N 表示 new，即这是新收到的邮件还未阅读。想看第几分信，邮件前面有一个序列号，输入序列号回车就能看到这份邮件的具体内容，使用 h 键可以回到刚才的邮件列表，发现 N 消失了，表示邮件已读，要想删除邮件则「d 邮件序列号」，再按 h 查看邮件发现没有邮件了，q 键退出。</p>
+<p>学习 mail 命令主要是有的时候系统会给 root 发一些系统信息的邮件，当你在用 root 登录以后系统会提示你有新的邮件需要接受，这个时候就需要我们知道怎么样来收到系统发给你（root）的信息。系统给 root 发送的信息都是非常重要的，例如日志的统计信息、系统的报错信息，当我们发现 root 有这样的邮件的时候，千万不可以忽略它，应该仔细的查看它，因为这说明你对的系统当中可能出现了一些问题，有可能会影响到你的系统的安全。</p>
+<p>6、网络命令 last<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/last；作用：列出目前与过去登入系统的用户信息</span><br></pre></td></tr></table></figure></p>
+<p>该命令会统计我的计算机的所有用户的登陆的时间信息，包括计算机重启时间也会被记录下来。这是一个重要的日志查询点，可以查看系统是否有异常登陆重启等信息。该命令是一个非常有效，非常重要，非常常用的日志查询命令，在服务器上可能会多次使用这样的命令。只想知道用户最后一次登陆的时间，不想知道所有的登陆信息，则可以使用另外一条命令：lastlog。last 统计的是只要有人登陆它就会记录，包括你多次登陆的信息。而 lastlog 会先把所有的用户都列出来，包括一些不能登陆的系统用户。</p>
+<p>7、网络命令 lastlog<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/lastlog；作用：检查某特定用户上次登录的时间</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # -u 指的是用户的 UID，查看特定用户的最后一次登陆的时间</span><br><span class="line">    lastlog -u 500</span><br></pre></td></tr></table></figure></p>
+<p>8、网络命令 traceroute<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/traceroute；作用：显示数据包到主机间的路径</span><br></pre></td></tr></table></figure></p>
+<p>作用：探测到达某一个指定网站（某一个主机）的路径。这条命令非常有用，可以事先探测好你访问某网站的路径，然后当你访问该网站出现问题的时候，可以对照然后得出哪里出现了问题。我们 traceroute 一台主机时，会看到有一些行是以星号表示的。出现这样的情况，可能是防火墙封掉了返回信息，所以我们得不到什么相关的数据包返回数据。</p>
+<p>9、网络命令 netstat<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/netstat；作用：显示网路相关信息</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    netstat [选项]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -t   查询 TCP 协议的网络信息</span><br><span class="line">    -u   查询 UDP 协议的网络信息</span><br><span class="line">    -l   查看监听的端口，listening</span><br><span class="line">    -r   查看路由即查看网关，route</span><br><span class="line">    -n   用 IP 地址和端口号显示查询结果，而不是用域名或服务的名称，这样更快，因为省略了解析过程，numeric</span><br><span class="line">    -a   all</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 查看本机监听的端口，即查询当前计算机下，我开了哪些计算机端口</span><br><span class="line">    netstat -tuln</span><br><span class="line"></span><br><span class="line">    # 查看本机所有的网络连接</span><br><span class="line">    netstat -an</span><br><span class="line"></span><br><span class="line">    # 查看本机路由表，即查询路由列表</span><br><span class="line">    netstat -rn</span><br></pre></td></tr></table></figure></p>
+<p>net 网络的意思，stat 即 state 状态的意思，查询网络状态的命令。这条命令的用途在服务器上非常广泛的。TCP 是传输控制协议的简称；UDP 用户数据报协议的简称。一般情况下服务的端口号是固定的，我们可以通过判断本机开了哪些监听端口来判断我的计算机开启了哪些服务。注意：TCP 协议才可以直接接受访问，所以它有 listen，代表状态是监听的。而 UDP 是没有的，它可以直接发送，不监听即不顾你在不在线。访问服务的时候不管访问的是 22 还是访问其他的服务，你的发起端口即源端口是 1024 以上的随机端口，只有目标端口是固定的。</p>
+<p><img src="/upload_image/netstat_an.png" alt="netstat -an" title="netstat -an"><br>发现该命令的输出分了两大类，一类是上面的这些网络服务，除了有监听的协议之外，状态还出现了 ESTABLISHED 表示正在连接的。另一类就是下面的除了服务状态计算机中会有很多网络程序，它也会使用网络协议，使用网络端口，你可以看到这些程序所占用的端口，这个对我们意义不大。主要看到还是上面的信息。它跟 netstat -tlun最大的区别在于 netstat -tlun 只能查看监听，而它可以查看到正在连接的网络程序。</p>
+<p><img src="/upload_image/netstat-rn.png" alt="netstat -rn" title="netstat -rn"><br>Destination 为 0.0.0.0 那行是当前计算机的默认路由列表，其实就是自己的网关。可以通过该命令查询当前计算机的网关。还可以通过 <code>route -n</code> 或 <code>cat /etc/resolv.conf</code> 查看当前计算机的网关。</p>
+<p>10、网络命令 setup<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/usr/bin/setup；作用：配置网络</span><br></pre></td></tr></table></figure></p>
+<p>setup 是 redhat 开发的一个管理工具集合，它在其它的版本的 Linux 中不存在，这是 redhat 系类专有的。注意在配置完成后一点要重启网络服务：service network restart。使用 setup 配置的 IP 地址是永久生效的。该命令简单了解即可。</p>
+<h2 id="挂载命令-mount"><a href="#挂载命令-mount" class="headerlink" title="挂载命令 mount"></a>挂载命令 mount</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">简介：</span><br><span class="line">    命令所在路径：/bin/mount</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    mount [-t 文件系统] 设备文件名 挂载点</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    mount -t iso9660 /dev/sr0 /mnt/cdrom</span><br></pre></td></tr></table></figure>
+<p>该命令的作用是把我的设备连接到我给它分配的挂载点（可以理解为 windows 中的盘符，只是我们的挂载点是目录，而 windows 中的是 CDEF）。分区都是自动挂载的，只要安装了，分区了，每次启动不需要手动参与直接就可以挂载。但是 Linux 的 U 盘、光盘、移动硬盘等外接存储设备不能实现自动挂载，每次开机都只能手工来挂载。</p>
+<p>挂载步骤：</p>
+<ol>
+<li>先创建挂载点：mkdir  /mnt/cdrom。</li>
+<li>开始实现挂载：mount -t （-t 后面指定光盘的文件系统）iso9660（光盘的文件系统是固定的） /dev/sr0（设备文件名称，其来源是系统默认指定的，Linux 系统在 redhat centOS6.0 以上的系统中，设备文件名默认就叫 sr0，只要记住就可以了，不需要知道它是怎么来的，当然也可以写 cdrom，实际上就是一个软连接，通过命令：ll  /dev/cdrom 可以查看到）。这条命令中其实 -t iso9660 是可以省略的，因为该命令的这个选项或者说分区的光盘的文件系统是默认的，系统就知道它就叫  iso 9660，不写也可以。</li>
+</ol>
+<p>挂载其实就是找到这个硬件，给它分配一个设备文件名，再给它找一个盘符（即目录），把它的设备文件名和盘符连接起来，就是挂载。（挂载的本质：就是把设备文件名连接到挂载点上）。如果之前你的这个挂载点上做过挂载，那么你需要把它卸载以后再进行挂载：umonut  /dev/sr0。正常挂载完，mount 命令是没有任何提示的，这里提示的作用是报错，它尝试把它挂成写权限，但是光驱是只读的，所以被迫挂成了只读的，光盘绝大多数都是只读的。（windows 是光盘符下访问，而 Linux 中的盘符是目录）挂载完成后通过 cd（即cd  /mnt/cdrom）切换到盘符目录下去访问它的数据。（/dev/sr0 是一个文件，cd 命令是进不去的）。注意：必须要执行卸载命令，才可以弹出光盘。切记不可以在光盘挂载点下面卸载，因为系统会认为光盘正在使用，不允许卸载。你需要退出挂载点，直接 cd 即可返回到自己的宿主目录。在卸载的时候，因为 /dev/sr0 和 /mnt/cdrom 它们两个通过 mount 命令已经连接了，所以后面加其中任何一个都是可以的，但是只能跟一个，要是跟两个它就会卸载两遍，第二遍它就会报错。直接回车没有任何提示表示卸载成功，再回到 /mnt/cdrom 执行 ls 命令发现变成了空目录了。</p>
+<h2 id="关机重启命令"><a href="#关机重启命令" class="headerlink" title="关机重启命令"></a>关机重启命令</h2><p>1、shutdown 命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：shutdown [选项] 时间</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -c   取消前一个关机命令，cancel</span><br><span class="line">    -h   关机，halt</span><br><span class="line">    -r   重启，reboot</span><br></pre></td></tr></table></figure></p>
+<p>除了 shutdown 命令之外还有其他命令可以实现关机或重启，只是早期的时候只有 shutdown 命令会在关机和重启之前正确的保存它正在启动的服务，尽管现在 Linux 中绝大多数的关机重启命令都已经实现了正确的关闭服务和保存数据，只是我们已经习惯了 shutdown 命令了。虽然其他命令也可以做到，但是 shutdown 命令更安全一点，我们更信任它。</p>
+<p>2、其他关机命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 关机</span><br><span class="line">halt</span><br><span class="line"></span><br><span class="line"># 关机</span><br><span class="line">power off</span><br><span class="line"></span><br><span class="line"># 关机</span><br><span class="line">init 0</span><br></pre></td></tr></table></figure></p>
+<p>注意：poweroff 相当于直接断电，谨慎使用！！！</p>
+<p>3、其他重启命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 重启</span><br><span class="line">reboot</span><br><span class="line"></span><br><span class="line"># 重启</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure></p>
+<p>4、系统运行级别<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0   关机</span><br><span class="line">1   单用户</span><br><span class="line">2   不完全多用户，不含 NFS 服务</span><br><span class="line">3   完全多用户</span><br><span class="line">4   未分配</span><br><span class="line">5   图形界面</span><br><span class="line">6   重启</span><br></pre></td></tr></table></figure></p>
+<p>单用户类似于 windows 中的安全模式，其实就是启动最小的服务，其他多余的东西、附加的程序都不要，甚至连网都不要，只启动最核心的程序，进去是用来做修复的。只能是 root 登录进去，其他用户都不行，顾名思义即为单用户。运行级别 1 是没有图形界面的，不光 1 级别没有图形界面，1、2、3 这 3 个运行级别都是没有图形界面的，4 是没有使用的，即可以自己定义，5 是标准的图形界面。2、3 其实都是命令行，区别是：3 是完全的命令行，而 2 是不包含 NFS 服务的命令行，即它也是命令行只是不完整（2 级别也没有网络服务）。NFS 服务：（network file system）网络文件系统，使用 NFS 是实现两个 Linux 之间的文件共享或者是 Linux 和 Unix 之间的文件共享的服务。由于 NFS 用户验证的机制比较弱，即可能不是太安全，有它自己的安全隐患在里面，所以不太建议使用 NFS 来进行文件共享，当然使用它进行文件共享确实很简单方便。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看系统默认运行级别</span><br><span class="line">cat /etc/inittab</span><br><span class="line"></span><br><span class="line"># 修改系统默认运行级别，注意：id 最后是有冒号的「:」，千万不可以丢！！！</span><br><span class="line">id:3:initdefault:</span><br><span class="line"></span><br><span class="line"># 查看系统运行级别</span><br><span class="line">runlevel</span><br></pre></td></tr></table></figure>
+<p>注意：0 和 6 不能设为系统默认运行级别。在 Linux 中用 X11 代表图形界面，大写的 X 指的是 Xwindow，一般来讲，在 Linux 中看到类似于这样的表示（包括只有一个大写的 X）都表示 Linux 的一个图形环境的意思。</p>
+<p>执行 runlevel 命令之后会有「N  3」这样的显示，3 表示当前运行的级别号，N 代表上一个运行级别，即进入 3 级别之前我在哪个级别（由于我们是开机之后直接进来的，所以是 N 表示 null 的意思）。</p>
+<p><code>init 5</code> 表示切换到运行级别 5 即图形界面，由于我没有装图形界面它不会执行，且远程工具上是不会报错的，但是在 Linux 本地上会有报错提示，它尝试去启动 5 级别，但是没有启动成功。但是系统以为你进去了，所以执行 runlevel 命令的时候会有显示 <code>5 3</code>。</p>
+<p>5、退出登录命令 logout<br>退出一个登录 Shell。注意：在使用完 Linux 后，一定要 logout！！！否则后果很严重！！！</p>
+<p>6、Linux 中的管道符<br>利用 Linux 所提供的管道符「|」将两个命令隔开，管道符左边命令的输出就会作为管道符右边命令的输入。连续使用管道意味着第一个命令的输出会作为第二个命令的输入，第二个命令的输出又会作为第三个命令的输入，依此类推。</p>
+<h1 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h1><p><a href="http://blog.51cto.com/9762617/1678917" target="_blank" rel="noopener">centOS 7 安装 man 中文版手册</a><br><a href="https://blog.csdn.net/qq_36838191/article/details/80314101" target="_blank" rel="noopener">Linux 中的内部命令和外部命令</a><br><a href="http://blog.51cto.com/xuding/1728866" target="_blank" rel="noopener">Linux 网络属性配置命令</a></p>
+]]></content>
+      <categories>
+        <category>Linux 基础</category>
+      </categories>
+      <tags>
+        <tag>Linux 基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux 入门总结(九)</title>
     <url>/2018/10/23/Linux-2018-10-23-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E4%B9%9D/</url>
     <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(九) —— 权限管理 </blockquote>
@@ -1486,6 +1174,76 @@
 <p>3、示例：授权 test 用户可以重启服务器<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim /etc/sudoers</span><br><span class="line"># 添加如下内容，注意命令要写绝对路径，可以通过 whereis 查找命令绝对路径</span><br><span class="line">test ALL = /sbin/shutdown -r now</span><br></pre></td></tr></table></figure></p>
 <p>4、示例：普通用户执行 sudo 赋予的命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看可用的 sudo 命令</span><br><span class="line">sudo -l</span><br><span class="line"></span><br><span class="line"># 普通用户执行 sudo 赋予的命令</span><br><span class="line">sudo /sbin/shutdown -r now</span><br></pre></td></tr></table></figure></p>
 <p><strong>注意：普通用户是可以使用 vim 的，但是普通用户自己用 vim 的时候是局限在自己的权限范围之内的。如果用 sudo 的方式把 root 用户的 vim 赋给普通用户，那么普通用户在执行 vim 命令的时候他的身份会自动切换成为 root，这是极其危险的。</strong></p>
+]]></content>
+      <categories>
+        <category>Linux 基础</category>
+      </categories>
+      <tags>
+        <tag>Linux 基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 入门总结(十)</title>
+    <url>/2018/10/24/Linux-2018-10-24-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E5%8D%81/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(十) —— 文件系统管理 </blockquote>
+
+<a id="more"></a>
+<h2 id="分区和文件系统"><a href="#分区和文件系统" class="headerlink" title="分区和文件系统"></a>分区和文件系统</h2><p>1、分区类型<br><img src="/upload_image/disk_prartition.png" alt="分区类型" title="分区类型"></p>
+<p>2、分区表示方法<br><img src="/upload_image/prartition_show.png" alt="分区表示方法" title="分区表示方法"></p>
+<p>3、分区的设备文件名<br><img src="/upload_image/prartition_device_name.png" alt="分区的设备文件名" title="分区的设备文件名"><br>其中，sd 表示硬盘的接口类型，a 代表第一块硬盘，1、2、3、4 代表 4 个主分区。注意：分区的设备文件名是固定的，我们只需要记下来，能看懂就行。注意：逻辑分区最少从 5 开始，1、2、3、4 这 4 个数字是留给主分区或扩展分区用的。</p>
+<p>4、文件系统<br>了解文件系统 ext、ext1、ext2、ext3、ext4。</p>
+<p><strong>小结：分区的表示方式，采用 /dev 下的 sd 代表 SATA 硬盘接口，hd 代表 IDE 硬盘的接口，a、b、c、d 代表第几块硬盘，1、2、3、4 代表主分区或扩展分区，5、6、7、8、… 代表逻辑分区。</strong></p>
+<h2 id="文件系统常用命令"><a href="#文件系统常用命令" class="headerlink" title="文件系统常用命令"></a>文件系统常用命令</h2><p>1、文件系统查看命令 df<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">作用：</span><br><span class="line">    df - report file system disk space usage</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    df [选项] [挂载点]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -a  显示所有的文件系统信息，包括特殊文件系统，如 /proc、/sysfs</span><br><span class="line">    -h  使用习惯单位显示容量，如 KB、MB、GB 等</span><br><span class="line">    -T  显示文件系统类型</span><br><span class="line">    -m  以 MB 为单位显示容量</span><br><span class="line">    -k  以 KB 为单位显示容量。默认就是以 KB 为单位</span><br></pre></td></tr></table></figure></p>
+<p>2、统计目录或文件大小<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">作用：</span><br><span class="line">    du - estimate(估计) file space usage</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    du [选项] [目录或文件]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -a 显示每个子文件的磁盘占用量。默认只统计子目录的磁盘占用量</span><br><span class="line">    -h 使用习惯单位显示磁盘占用量，如 KB、MB、GB 等</span><br><span class="line">    -s 统计总占用量，而不列出子目录和子文件的占用量</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 统计 /etc/ 目录大小</span><br><span class="line">    du /etc/</span><br><span class="line">    输出结果：它会列出该目录下所有子目录各占用了多大空间，最后统计这个目录的总大小</span><br></pre></td></tr></table></figure></p>
+<p>注意：du 命令是用来统计目录或文件大小的，但是一般不用它来统计文件大小，因为通过「ls -l」命令就可以很清楚的看到文件的大小。<strong>但是 ls 命令在统计目录大小的时候，它只会统计该目录下一级子目录和子文件的文件名占用了多大空间，并不会统计该目录下子目录当中的数据或者文件当中的数据占用了多大空间。</strong> 所以你会看到 ls 命令在显示目录的大小的时候一般就只有几 KB，这也是 ls 命令的局限性所在。要想统计目录的大小就必须使用 du 命令。</p>
+<p>3、du 命令和 df 命令的区别</p>
+<blockquote>
+<p>df 命令是从文件系统考虑的，不光要考虑文件占用的空间，还要统计被命令或程序占用的空间（最常见的就是文件已经删除，但是程序并没有释放空间）。</p>
+</blockquote>
+<blockquote>
+<p>du 命令是面向文件的，只会计算文件后目录占用的空降。</p>
+</blockquote>
+<p>Linux 系统要定期重启，来释放被进程或者已经删除的文件所占用的硬盘空间。要以 df 命令看到的剩余空间才是真正可以使用的空间。</p>
+<p>4、文件系统修复命令 fsck<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    fsck [选项] 分区设备文件名</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -a 不用显示用户提示，自动修复文件系统</span><br><span class="line">    -y 自动修复。和 -a 作用一致，不过有些文件系统只支持 -y</span><br></pre></td></tr></table></figure></p>
+<p>系统会自动执行该命令进行修复检测，一般不用该命令，除非真的需要。没事别用，否则有可能会造成系统崩溃。该命令了解即可。</p>
+<p>5、显示磁盘状态命令 dumpe2fs<br><strong>注意：该命令只针对 ext 文件系统有效。</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    dumpe2fs 分区设备文件名</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    dumpe2fs /dev/sda3 | more</span><br></pre></td></tr></table></figure></p>
+<p>「| more」 分屏显示，即将很多内容，分成多段来显示。主要是用来查看超级块的信息的，可以看到分区中一个数据块的大小。注意：每个数据块中(常见的为 4kb)，只能保存一个文件中的数据。</p>
+<p>在 Centos7 系统下使用 dumpe2fs 查看文件系统查不到对应的超级块，原因是 Centos7 默认安装的文件系统是 XFS 类型而不是 ext2/ext3/ext4。对于 XFS，使用 dumpe2fs 命令是找不到对应的超级块，可以使用 xfs_info 来查看分区信息。<a href="https://wenku.baidu.com/view/3d882d2c0812a21614791711cc7931b765ce7baf.html?re=view" target="_blank" rel="noopener">CentOS 7 查看磁盘状态</a></p>
+<p>小结：du 只统计文件大小，df 不光统计文件大小，还要统计被系统占用的空间。所以用 du 看文件大小更准确，用 df 看剩余空间更准确。</p>
+<p>6、查询与自动挂载<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查询系统中已经挂载的设备，-l 会显示卷标名称</span><br><span class="line">mount [-l]</span><br><span class="line"></span><br><span class="line"># 依据配置文件 /etc/fstab 的内容，自动挂载</span><br><span class="line"># 按照配置文件的需求，把所有的分区重新挂载一遍，a 即 all</span><br><span class="line">mount -a</span><br></pre></td></tr></table></figure></p>
+<p>mount 是用来进行设备挂载的命令，Linux 中所有的可存储设备：包括硬盘、光盘、u盘、软盘、移动硬盘等，都必须挂载之后才能使用，只是硬盘的挂载是系统自动进行的，其他的就需要手工挂载了。</p>
+<p>挂载：Linux 中每一个硬件都有一个设备文件名，也会有一个挂载点（空目录），挂载就是把设备文件名和挂载点联系起来。<strong>只有通过访问挂载点，来访问这个设备，即设备是不能直接访问的，得需要通过挂载点才能访问。</strong></p>
+<p>7、挂载命令格式<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    mount [选项] 设备文件名 挂载点</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -t 文件系统        加入文件系统类型来指定挂载的类型，如 ext3、ext4、iso9660 等文件系统</span><br><span class="line">    -L 卷标名          挂载指定卷标的分区，而不是安装设备文件名挂载。卷标：就相当于给你的分区起一个别名，意义不大，不写也无所谓</span><br><span class="line">    -o 特殊选项        可以指定挂载的额外选项</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 重新挂载 /home 分区，并使用 noexec 权限</span><br><span class="line">    mount -o remount,noexec /home</span><br><span class="line">    # 测试，发现不能执行了</span><br><span class="line">    cd /home &amp;&amp; vim hello.sh &amp;&amp; chmod 755 hello.sh &amp;&amp; ./hello.sh</span><br><span class="line">    # 最后记得改回去，要不会影响系统启动的</span><br><span class="line">    mount -o remount,exec /home</span><br></pre></td></tr></table></figure></p>
+<p>以下为 -o 的特殊选项：<br><img src="/upload_image/mount_o_option.png" alt="-o 的特殊选项" title="-o 的特殊选项"></p>
+<p>注意：mount -o 的这些选项参数，针对的都是分区。-o 后面可以同时跟多个选项，选项之间以逗号分隔。</p>
+<p>7、挂载示例<br>（1）挂载光盘<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 建立挂载点</span><br><span class="line">mkdir /mnt/cdrom/</span><br><span class="line"></span><br><span class="line"># 挂载光盘</span><br><span class="line">mount -t iso9660 /dev/cdrom/ /mnt/cdrom/</span><br><span class="line">或</span><br><span class="line">mount /dev/sr0 /mnt/cdrom/</span><br></pre></td></tr></table></figure></p>
+<p>只要是<strong>空目录</strong>都可以作为挂载点。注意光盘是只读的。</p>
+<p>（2）卸载命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    umount 设备文件名或挂载点</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    umount /mnt/cdrom</span><br></pre></td></tr></table></figure></p>
+<p>用完光盘之后，必须手动卸载，否则光驱不会弹出来。注意：不要在光盘目录下卸载，否则会报设备正忙的错。</p>
+<p>（3）挂载 U 盘<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看 U 盘设备文件名</span><br><span class="line">fdisk -l</span><br><span class="line"></span><br><span class="line"># 挂载 U 盘</span><br><span class="line">mount -t vfat /dev/sdb1 /mnt/usb/</span><br></pre></td></tr></table></figure></p>
+<p>注意：Linux 默认是不支持 NTFS 文件系统的。注意：U 盘的设备文件名不是固定的，因为 U 盘跟硬盘采用同样的命名规则，如果系统中只有一块硬盘，U 盘就会识别为 sdb，依次类推，如果系统中已经有两块硬盘，则 U 盘就会识别为 sdc。即它是需要自动识别的，不需要去分配，只要插入，它就会自动去识别。在插入 U 盘的时候，鼠标一定要点到虚拟机里面（VMware 中），否则它就不是 Linux 虚拟机识别 U 盘了，而是 Windows 去识别 U 盘了。Linux 中把 fat16 文件系统识别为 fat，fat32 文件系统识别为 vfat。注意：先卸载再拔出 U 盘。</p>
+<p>8、Linux 挂载 NTFS 文件系统的硬件设备<br>由于 Linux 本身不支持 NTFS 文件系统，所以需要利用第三方软件让 Linux 支持 NTFS 文件系统。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1、下载 NTFS-3G 插件</span><br><span class="line">http://www.tuxera.com/community/ntfs-3g-download/</span><br><span class="line">2、安装 NTFS-3G 插件</span><br><span class="line">解压 &amp;&amp; 进入压缩目录 &amp;&amp; 「./configure」编译器准备。没有指定安装目录，安装到默认位置。 &amp;&amp; 编译 &amp;&amp; 安装</span><br><span class="line">3、插入 NTFS 文件系统的外设</span><br><span class="line">移动硬盘，插入硬盘的时候，鼠标要点进 VMware 虚拟机里面</span><br><span class="line">4、挂载</span><br><span class="line">mount -t ntfs-3g 分区设备文件名 挂载点</span><br></pre></td></tr></table></figure></p>
+<h2 id="fdisk-分区"><a href="#fdisk-分区" class="headerlink" title="fdisk 分区"></a>fdisk 分区</h2><p>Linux 中真正的手工分区命令 fdisk。要掌握如何利用 fdisk 命令给 Linux 新建一个新的分区。</p>
+<p>1、添加新硬盘<br>注意：添加硬盘的时候，必须先断电，否则虚拟机中硬件是无法添加和删除的，真实机也是这样的。</p>
+<p>2、查看新硬盘<br>使用「fdisk -l」命令查询一下新硬盘是否被识别了。该命令最主要的作用就是查询系统当中有多少可以被识别的硬件设备。</p>
+<p>3、使用 fdisk 命令分区<br>fdisk /dev/sdb</p>
+<p><img src="/upload_image/fdisk_manual.png" alt="fdisk 交互指令" title="fdisk 交互指令"><br>主要知道 d、l、m、n、p、q、w 的作用即可。</p>
+<p>4、重新读取分区表信息，使得新添加的分区生效<br>partprobe</p>
+<p>5、格式化分区，注意扩展分区是不能格式化和写入数据的，但是逻辑分区可以<br>mkfs -t ext4 /dev/sdb1</p>
+<p>6、建立挂载点并挂载分区<br>mkdir /disk1 &amp;&amp; mount /dev/sdb1 /disk1/</p>
+<p>注意：使用 fdisk -l 命令只能看到分区是否被正常分配，但是不能知道分区是否被 Linux 挂载，要想知道分区是否被挂载可以使用 mount 或 df 命令。</p>
+<p>7、分区的自动挂载<br>在 Linux 当中，如果使用命令来挂载，一旦重启命令操作的结果就会消失。要想永久生效，就要写入文件。自动挂载归根结底是要写入 /etc/fstab 文件。</p>
+<p><img src="/upload_image/etc_fstab.png" alt="fstab 文件" title="fstab 文件"><br>第一个字段：最好使用 UUID。因为设备文件名有个问题，如果不小心把分区的顺序颠倒了，或者升级了系统内核，或者添加了新的硬盘，这种情况非常容易造成系统崩溃，但是系统是按照原先的顺序进行系统的启动和调用的。UUID 的作用相当于给每个分区起了一个唯一识别号，不管分区顺序如何变，分区的 UUID 号都是不会变的。可以使用「dumpe2fs -h 分区设备文件名」可以查看到分区的 UUID。</p>
+<p>第四个字段：defaults 指分区自动挂载的时候使用默认权限，跟 mount 挂载的时候通过 -o 指定挂载权限是一回事。</p>
+<p>第五个字段：注意这里的自动备份针对的是分区，即目录必须是分区才可以。自动备份到 lost+found 目录下。</p>
+<p>第六个字段：一般我们新添加的分区，不应该等于 1，因为 1 是系统分配的，其优先级本应该最高，所以说我们分配的分区优先级应该比 2 大（数字越大，优先级越低）。注意：/etc/fstab 文件是重要的系统启动文件，修改的时候要特别小心，否则会把系统搞崩溃。</p>
+<p><strong>注意：当修改完 /etc/fstab 文件后不要着急重启，先执行「mount -a」命令，如果 /etc/fstab 文件中有错误，会有提示，不至于重启的时候系统崩溃。</strong> 该命令的作用是根据配置文件 /etc/fstab 的内容，自动挂载。</p>
+<p>如果还是不小心把 /etc/fstab 文件中的内容写错了，是还有修复的机会的。重启系统，输入 root 用户的密码，这时候会进入到系统，但是却发现不能编辑 /etc/fstab 文件，因为分区在报错了之后，挂载的时候挂成了只读权限，所以任何文件都无法修改，这个时候只需要重新把根分区挂载成读写权限就可以了「mount -o remount,rw /」。注意：/etc/fstab 文件修复，只能修复这个文件的报错，但是如果你在这个文件中把根分区 / 写错了，则无法修复，系统会直接崩溃。</p>
+<h2 id="分配-swap-分区"><a href="#分配-swap-分区" class="headerlink" title="分配 swap 分区"></a>分配 swap 分区</h2><p>1、free 命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看内存与 swap 分区使用情况，选项 -h 人性化显示大小</span><br><span class="line">free</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>cached(缓存)：是指把读取出来的数据保存在内存当中，当再次读取时，不用读取硬盘而直接从内存当中读取，加速了数据的读取过程。<br>buffer(缓冲)：是指在写入数据时，先把分散的写入操作保存到内存当中，当达到一定程度再集中写入硬盘，减少了磁盘碎片和硬盘的反复寻道，加速了数据的写入过程。</p>
+</blockquote>
+<p>2、添加 swap 分区操作步骤<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1、新建 swap 分区</span><br><span class="line"># 注意：把分区 ID 改为 82</span><br><span class="line">fdisk /dev/sdb</span><br><span class="line"></span><br><span class="line"># 2、格式化，注意分区设备名</span><br><span class="line">mkswap /dev/sdb6</span><br><span class="line"></span><br><span class="line"># 3、加入 swap 分区，注意分区设备名</span><br><span class="line">swapon /dev/sdb6</span><br><span class="line"># 取消 swap 分区</span><br><span class="line">swapoff /dev/sdb6</span><br><span class="line"></span><br><span class="line"># 4、swap 分区开机自动挂载</span><br><span class="line">vim /etc/fstab</span><br><span class="line">写入内容：/dev/sdb6 swap swap defaults 0 0</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <categories>
         <category>Linux 基础</category>
@@ -1674,76 +1432,6 @@
 <p>注意：欢迎信息不要写 welcome 之类的，应该写的是警告信息。注意：针对的是本地登录。</p>
 <p>2.<strong>远程</strong> 终端欢迎信息：/etc/issue.net<br>注意：转义符在 /etc/issue.net 文件中不能使用，即本地终端的转义符在这里都不能使用，这里只能写纯文本信息。是否显示此欢迎信息由 ssh 的配置文件 /etc/ssh/sshd_config 决定，加入「Banner /etc/issue.net」行才能显示。（记得重启 ssh 服务）。重启 ssh 服务：<code>service sshd restart</code></p>
 <p>3.<strong>本地和远程</strong>登录后欢迎信息：/etc/motd<br>不管是本地登录，还是远程登录，都可以显示此欢迎信息。但是，它是登录后的欢迎信息。刚才那两个文件是登录前的提示信息。</p>
-]]></content>
-      <categories>
-        <category>Linux 基础</category>
-      </categories>
-      <tags>
-        <tag>Linux 基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 入门总结(十)</title>
-    <url>/2018/10/24/Linux-2018-10-24-Linux%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93-%E5%8D%81/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> Linux 入门总结(十) —— 文件系统管理 </blockquote>
-
-<a id="more"></a>
-<h2 id="分区和文件系统"><a href="#分区和文件系统" class="headerlink" title="分区和文件系统"></a>分区和文件系统</h2><p>1、分区类型<br><img src="/upload_image/disk_prartition.png" alt="分区类型" title="分区类型"></p>
-<p>2、分区表示方法<br><img src="/upload_image/prartition_show.png" alt="分区表示方法" title="分区表示方法"></p>
-<p>3、分区的设备文件名<br><img src="/upload_image/prartition_device_name.png" alt="分区的设备文件名" title="分区的设备文件名"><br>其中，sd 表示硬盘的接口类型，a 代表第一块硬盘，1、2、3、4 代表 4 个主分区。注意：分区的设备文件名是固定的，我们只需要记下来，能看懂就行。注意：逻辑分区最少从 5 开始，1、2、3、4 这 4 个数字是留给主分区或扩展分区用的。</p>
-<p>4、文件系统<br>了解文件系统 ext、ext1、ext2、ext3、ext4。</p>
-<p><strong>小结：分区的表示方式，采用 /dev 下的 sd 代表 SATA 硬盘接口，hd 代表 IDE 硬盘的接口，a、b、c、d 代表第几块硬盘，1、2、3、4 代表主分区或扩展分区，5、6、7、8、… 代表逻辑分区。</strong></p>
-<h2 id="文件系统常用命令"><a href="#文件系统常用命令" class="headerlink" title="文件系统常用命令"></a>文件系统常用命令</h2><p>1、文件系统查看命令 df<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">作用：</span><br><span class="line">    df - report file system disk space usage</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    df [选项] [挂载点]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -a  显示所有的文件系统信息，包括特殊文件系统，如 /proc、/sysfs</span><br><span class="line">    -h  使用习惯单位显示容量，如 KB、MB、GB 等</span><br><span class="line">    -T  显示文件系统类型</span><br><span class="line">    -m  以 MB 为单位显示容量</span><br><span class="line">    -k  以 KB 为单位显示容量。默认就是以 KB 为单位</span><br></pre></td></tr></table></figure></p>
-<p>2、统计目录或文件大小<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">作用：</span><br><span class="line">    du - estimate(估计) file space usage</span><br><span class="line"></span><br><span class="line">格式：</span><br><span class="line">    du [选项] [目录或文件]</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -a 显示每个子文件的磁盘占用量。默认只统计子目录的磁盘占用量</span><br><span class="line">    -h 使用习惯单位显示磁盘占用量，如 KB、MB、GB 等</span><br><span class="line">    -s 统计总占用量，而不列出子目录和子文件的占用量</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 统计 /etc/ 目录大小</span><br><span class="line">    du /etc/</span><br><span class="line">    输出结果：它会列出该目录下所有子目录各占用了多大空间，最后统计这个目录的总大小</span><br></pre></td></tr></table></figure></p>
-<p>注意：du 命令是用来统计目录或文件大小的，但是一般不用它来统计文件大小，因为通过「ls -l」命令就可以很清楚的看到文件的大小。<strong>但是 ls 命令在统计目录大小的时候，它只会统计该目录下一级子目录和子文件的文件名占用了多大空间，并不会统计该目录下子目录当中的数据或者文件当中的数据占用了多大空间。</strong> 所以你会看到 ls 命令在显示目录的大小的时候一般就只有几 KB，这也是 ls 命令的局限性所在。要想统计目录的大小就必须使用 du 命令。</p>
-<p>3、du 命令和 df 命令的区别</p>
-<blockquote>
-<p>df 命令是从文件系统考虑的，不光要考虑文件占用的空间，还要统计被命令或程序占用的空间（最常见的就是文件已经删除，但是程序并没有释放空间）。</p>
-</blockquote>
-<blockquote>
-<p>du 命令是面向文件的，只会计算文件后目录占用的空降。</p>
-</blockquote>
-<p>Linux 系统要定期重启，来释放被进程或者已经删除的文件所占用的硬盘空间。要以 df 命令看到的剩余空间才是真正可以使用的空间。</p>
-<p>4、文件系统修复命令 fsck<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    fsck [选项] 分区设备文件名</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -a 不用显示用户提示，自动修复文件系统</span><br><span class="line">    -y 自动修复。和 -a 作用一致，不过有些文件系统只支持 -y</span><br></pre></td></tr></table></figure></p>
-<p>系统会自动执行该命令进行修复检测，一般不用该命令，除非真的需要。没事别用，否则有可能会造成系统崩溃。该命令了解即可。</p>
-<p>5、显示磁盘状态命令 dumpe2fs<br><strong>注意：该命令只针对 ext 文件系统有效。</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    dumpe2fs 分区设备文件名</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    dumpe2fs /dev/sda3 | more</span><br></pre></td></tr></table></figure></p>
-<p>「| more」 分屏显示，即将很多内容，分成多段来显示。主要是用来查看超级块的信息的，可以看到分区中一个数据块的大小。注意：每个数据块中(常见的为 4kb)，只能保存一个文件中的数据。</p>
-<p>在 Centos7 系统下使用 dumpe2fs 查看文件系统查不到对应的超级块，原因是 Centos7 默认安装的文件系统是 XFS 类型而不是 ext2/ext3/ext4。对于 XFS，使用 dumpe2fs 命令是找不到对应的超级块，可以使用 xfs_info 来查看分区信息。<a href="https://wenku.baidu.com/view/3d882d2c0812a21614791711cc7931b765ce7baf.html?re=view" target="_blank" rel="noopener">CentOS 7 查看磁盘状态</a></p>
-<p>小结：du 只统计文件大小，df 不光统计文件大小，还要统计被系统占用的空间。所以用 du 看文件大小更准确，用 df 看剩余空间更准确。</p>
-<p>6、查询与自动挂载<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查询系统中已经挂载的设备，-l 会显示卷标名称</span><br><span class="line">mount [-l]</span><br><span class="line"></span><br><span class="line"># 依据配置文件 /etc/fstab 的内容，自动挂载</span><br><span class="line"># 按照配置文件的需求，把所有的分区重新挂载一遍，a 即 all</span><br><span class="line">mount -a</span><br></pre></td></tr></table></figure></p>
-<p>mount 是用来进行设备挂载的命令，Linux 中所有的可存储设备：包括硬盘、光盘、u盘、软盘、移动硬盘等，都必须挂载之后才能使用，只是硬盘的挂载是系统自动进行的，其他的就需要手工挂载了。</p>
-<p>挂载：Linux 中每一个硬件都有一个设备文件名，也会有一个挂载点（空目录），挂载就是把设备文件名和挂载点联系起来。<strong>只有通过访问挂载点，来访问这个设备，即设备是不能直接访问的，得需要通过挂载点才能访问。</strong></p>
-<p>7、挂载命令格式<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    mount [选项] 设备文件名 挂载点</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">    -t 文件系统        加入文件系统类型来指定挂载的类型，如 ext3、ext4、iso9660 等文件系统</span><br><span class="line">    -L 卷标名          挂载指定卷标的分区，而不是安装设备文件名挂载。卷标：就相当于给你的分区起一个别名，意义不大，不写也无所谓</span><br><span class="line">    -o 特殊选项        可以指定挂载的额外选项</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    # 重新挂载 /home 分区，并使用 noexec 权限</span><br><span class="line">    mount -o remount,noexec /home</span><br><span class="line">    # 测试，发现不能执行了</span><br><span class="line">    cd /home &amp;&amp; vim hello.sh &amp;&amp; chmod 755 hello.sh &amp;&amp; ./hello.sh</span><br><span class="line">    # 最后记得改回去，要不会影响系统启动的</span><br><span class="line">    mount -o remount,exec /home</span><br></pre></td></tr></table></figure></p>
-<p>以下为 -o 的特殊选项：<br><img src="/upload_image/mount_o_option.png" alt="-o 的特殊选项" title="-o 的特殊选项"></p>
-<p>注意：mount -o 的这些选项参数，针对的都是分区。-o 后面可以同时跟多个选项，选项之间以逗号分隔。</p>
-<p>7、挂载示例<br>（1）挂载光盘<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 建立挂载点</span><br><span class="line">mkdir /mnt/cdrom/</span><br><span class="line"></span><br><span class="line"># 挂载光盘</span><br><span class="line">mount -t iso9660 /dev/cdrom/ /mnt/cdrom/</span><br><span class="line">或</span><br><span class="line">mount /dev/sr0 /mnt/cdrom/</span><br></pre></td></tr></table></figure></p>
-<p>只要是<strong>空目录</strong>都可以作为挂载点。注意光盘是只读的。</p>
-<p>（2）卸载命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">格式：</span><br><span class="line">    umount 设备文件名或挂载点</span><br><span class="line"></span><br><span class="line">举例：</span><br><span class="line">    umount /mnt/cdrom</span><br></pre></td></tr></table></figure></p>
-<p>用完光盘之后，必须手动卸载，否则光驱不会弹出来。注意：不要在光盘目录下卸载，否则会报设备正忙的错。</p>
-<p>（3）挂载 U 盘<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看 U 盘设备文件名</span><br><span class="line">fdisk -l</span><br><span class="line"></span><br><span class="line"># 挂载 U 盘</span><br><span class="line">mount -t vfat /dev/sdb1 /mnt/usb/</span><br></pre></td></tr></table></figure></p>
-<p>注意：Linux 默认是不支持 NTFS 文件系统的。注意：U 盘的设备文件名不是固定的，因为 U 盘跟硬盘采用同样的命名规则，如果系统中只有一块硬盘，U 盘就会识别为 sdb，依次类推，如果系统中已经有两块硬盘，则 U 盘就会识别为 sdc。即它是需要自动识别的，不需要去分配，只要插入，它就会自动去识别。在插入 U 盘的时候，鼠标一定要点到虚拟机里面（VMware 中），否则它就不是 Linux 虚拟机识别 U 盘了，而是 Windows 去识别 U 盘了。Linux 中把 fat16 文件系统识别为 fat，fat32 文件系统识别为 vfat。注意：先卸载再拔出 U 盘。</p>
-<p>8、Linux 挂载 NTFS 文件系统的硬件设备<br>由于 Linux 本身不支持 NTFS 文件系统，所以需要利用第三方软件让 Linux 支持 NTFS 文件系统。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1、下载 NTFS-3G 插件</span><br><span class="line">http://www.tuxera.com/community/ntfs-3g-download/</span><br><span class="line">2、安装 NTFS-3G 插件</span><br><span class="line">解压 &amp;&amp; 进入压缩目录 &amp;&amp; 「./configure」编译器准备。没有指定安装目录，安装到默认位置。 &amp;&amp; 编译 &amp;&amp; 安装</span><br><span class="line">3、插入 NTFS 文件系统的外设</span><br><span class="line">移动硬盘，插入硬盘的时候，鼠标要点进 VMware 虚拟机里面</span><br><span class="line">4、挂载</span><br><span class="line">mount -t ntfs-3g 分区设备文件名 挂载点</span><br></pre></td></tr></table></figure></p>
-<h2 id="fdisk-分区"><a href="#fdisk-分区" class="headerlink" title="fdisk 分区"></a>fdisk 分区</h2><p>Linux 中真正的手工分区命令 fdisk。要掌握如何利用 fdisk 命令给 Linux 新建一个新的分区。</p>
-<p>1、添加新硬盘<br>注意：添加硬盘的时候，必须先断电，否则虚拟机中硬件是无法添加和删除的，真实机也是这样的。</p>
-<p>2、查看新硬盘<br>使用「fdisk -l」命令查询一下新硬盘是否被识别了。该命令最主要的作用就是查询系统当中有多少可以被识别的硬件设备。</p>
-<p>3、使用 fdisk 命令分区<br>fdisk /dev/sdb</p>
-<p><img src="/upload_image/fdisk_manual.png" alt="fdisk 交互指令" title="fdisk 交互指令"><br>主要知道 d、l、m、n、p、q、w 的作用即可。</p>
-<p>4、重新读取分区表信息，使得新添加的分区生效<br>partprobe</p>
-<p>5、格式化分区，注意扩展分区是不能格式化和写入数据的，但是逻辑分区可以<br>mkfs -t ext4 /dev/sdb1</p>
-<p>6、建立挂载点并挂载分区<br>mkdir /disk1 &amp;&amp; mount /dev/sdb1 /disk1/</p>
-<p>注意：使用 fdisk -l 命令只能看到分区是否被正常分配，但是不能知道分区是否被 Linux 挂载，要想知道分区是否被挂载可以使用 mount 或 df 命令。</p>
-<p>7、分区的自动挂载<br>在 Linux 当中，如果使用命令来挂载，一旦重启命令操作的结果就会消失。要想永久生效，就要写入文件。自动挂载归根结底是要写入 /etc/fstab 文件。</p>
-<p><img src="/upload_image/etc_fstab.png" alt="fstab 文件" title="fstab 文件"><br>第一个字段：最好使用 UUID。因为设备文件名有个问题，如果不小心把分区的顺序颠倒了，或者升级了系统内核，或者添加了新的硬盘，这种情况非常容易造成系统崩溃，但是系统是按照原先的顺序进行系统的启动和调用的。UUID 的作用相当于给每个分区起了一个唯一识别号，不管分区顺序如何变，分区的 UUID 号都是不会变的。可以使用「dumpe2fs -h 分区设备文件名」可以查看到分区的 UUID。</p>
-<p>第四个字段：defaults 指分区自动挂载的时候使用默认权限，跟 mount 挂载的时候通过 -o 指定挂载权限是一回事。</p>
-<p>第五个字段：注意这里的自动备份针对的是分区，即目录必须是分区才可以。自动备份到 lost+found 目录下。</p>
-<p>第六个字段：一般我们新添加的分区，不应该等于 1，因为 1 是系统分配的，其优先级本应该最高，所以说我们分配的分区优先级应该比 2 大（数字越大，优先级越低）。注意：/etc/fstab 文件是重要的系统启动文件，修改的时候要特别小心，否则会把系统搞崩溃。</p>
-<p><strong>注意：当修改完 /etc/fstab 文件后不要着急重启，先执行「mount -a」命令，如果 /etc/fstab 文件中有错误，会有提示，不至于重启的时候系统崩溃。</strong> 该命令的作用是根据配置文件 /etc/fstab 的内容，自动挂载。</p>
-<p>如果还是不小心把 /etc/fstab 文件中的内容写错了，是还有修复的机会的。重启系统，输入 root 用户的密码，这时候会进入到系统，但是却发现不能编辑 /etc/fstab 文件，因为分区在报错了之后，挂载的时候挂成了只读权限，所以任何文件都无法修改，这个时候只需要重新把根分区挂载成读写权限就可以了「mount -o remount,rw /」。注意：/etc/fstab 文件修复，只能修复这个文件的报错，但是如果你在这个文件中把根分区 / 写错了，则无法修复，系统会直接崩溃。</p>
-<h2 id="分配-swap-分区"><a href="#分配-swap-分区" class="headerlink" title="分配 swap 分区"></a>分配 swap 分区</h2><p>1、free 命令<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 查看内存与 swap 分区使用情况，选项 -h 人性化显示大小</span><br><span class="line">free</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>cached(缓存)：是指把读取出来的数据保存在内存当中，当再次读取时，不用读取硬盘而直接从内存当中读取，加速了数据的读取过程。<br>buffer(缓冲)：是指在写入数据时，先把分散的写入操作保存到内存当中，当达到一定程度再集中写入硬盘，减少了磁盘碎片和硬盘的反复寻道，加速了数据的写入过程。</p>
-</blockquote>
-<p>2、添加 swap 分区操作步骤<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 1、新建 swap 分区</span><br><span class="line"># 注意：把分区 ID 改为 82</span><br><span class="line">fdisk /dev/sdb</span><br><span class="line"></span><br><span class="line"># 2、格式化，注意分区设备名</span><br><span class="line">mkswap /dev/sdb6</span><br><span class="line"></span><br><span class="line"># 3、加入 swap 分区，注意分区设备名</span><br><span class="line">swapon /dev/sdb6</span><br><span class="line"># 取消 swap 分区</span><br><span class="line">swapoff /dev/sdb6</span><br><span class="line"></span><br><span class="line"># 4、swap 分区开机自动挂载</span><br><span class="line">vim /etc/fstab</span><br><span class="line">写入内容：/dev/sdb6 swap swap defaults 0 0</span><br></pre></td></tr></table></figure></p>
 ]]></content>
       <categories>
         <category>Linux 基础</category>
