@@ -99,7 +99,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="合约升级,">
 
 
 
@@ -112,16 +112,25 @@
 
 
 
-<meta name="description" content="for myself, not only myself">
-<meta property="og:type" content="website">
-<meta property="og:title" content="体验官">
-<meta property="og:url" content="tiyanguan.github.io/archives/2022/07/index.html">
+<meta name="description" content="深入理解合约升级(3) - call 与 delegatecall">
+<meta name="keywords" content="合约升级">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解合约升级(3) - call 与 delegatecall">
+<meta property="og:url" content="tiyanguan.github.io/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/index.html">
 <meta property="og:site_name" content="体验官">
-<meta property="og:description" content="for myself, not only myself">
+<meta property="og:description" content="深入理解合约升级(3) - call 与 delegatecall">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/1.png">
+<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/2.png">
+<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/3.png">
+<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/4.png">
+<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/5.png">
+<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/6.png">
+<meta property="og:updated_time" content="2022-07-28T16:43:13.421Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="体验官">
-<meta name="twitter:description" content="for myself, not only myself">
+<meta name="twitter:title" content="深入理解合约升级(3) - call 与 delegatecall">
+<meta name="twitter:description" content="深入理解合约升级(3) - call 与 delegatecall">
+<meta name="twitter:image" content="/upload_image/2022-07-29-深入理解合约升级3/1.png">
 
 
 
@@ -151,7 +160,7 @@
 
 
 
-  <link rel="canonical" href="tiyanguan.github.io/archives/2022/07/">
+  <link rel="canonical" href="tiyanguan.github.io/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/">
 
 
 
@@ -159,7 +168,7 @@
 
 <link rel="stylesheet" href="/js/prism/prism.css">
 
-  <title>归档 | 体验官</title>
+  <title>深入理解合约升级(3) - call 与 delegatecall | 体验官</title>
   
 
 
@@ -178,7 +187,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <!-- 在右上角或者左上角实现fork me on github -->
@@ -317,142 +326,331 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="tiyanguan.github.io/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="martin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="体验官">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">深入理解合约升级(3) - call 与 delegatecall</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+                      
+                        <span class="post-meta-item-icon">
+                          <i class="fa fa-calendar-o"></i>
+                        </span>
+                        
+                          <span class="post-meta-item-text">发表于</span>
+                        
+                        <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-07-29T00:00:00+08:00">
+                          2022-07-29
+                        </time>
+                      
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 3 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Ethereum/" itemprop="url" rel="index">
+                    <span itemprop="name">Ethereum</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2022">2022</h1>
-          </div>
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/" itemprop="url">
-              
-                <span itemprop="name">深入理解合约升级(3) - call 与 delegatecall</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2022-07-29T00:00:00+08:00" content="2022-07-29">
-          07-29
-        </time>
-      </div>
-
-    </header>
-  </article>
 
 
+          
+          
+             <span id="/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/" class="leancloud_visitors" data-flag-title="深入理解合约升级(3) - call 与 delegatecall">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度</span>
+               
+                 <span id="busuanzi_container_page_pv">
+                   <span id="busuanzi_value_page_pv"></span>
+                 </span>
+                 <span class="leancloud-visitors-count"></span>
+                 <span>℃</span>
+             </span>
+          
 
-      
+          
+           <span class="post-meta-divider">|</span>
+          
 
-        
-        
-        
+                      
+                        
+                        <span class="post-meta-item-icon">
+                          <i class="fa fa-file-word-o"></i>
+                        </span>
+                        
+                          <span class="post-meta-item-text">字数统计</span>
+                        
+                        <span title="字数统计">
+                          1,400
+                        </span>
+                      
 
-        
-        
+                      
+                        <span class="post-meta-divider">|</span>
+                      
 
-        
+                      
+                        <span class="post-meta-item-icon">
+                          <i class="fa fa-clock-o"></i>
+                        </span>
+                        
+                          <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                        
+                        <span title="阅读时长">
+                          5
+                        </span>
+                      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2022/07/28/Ethereum-2022-07-28-深入理解合约升级-2-Solidity-内存布局/" itemprop="url">
-              
-                <span itemprop="name">深入理解合约升级(2) - Solidity 内存布局</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2022-07-28T00:00:00+08:00" content="2022-07-28">
-          07-28
-        </time>
-      </div>
+        </div>
+      </header>
+    
 
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2022/07/27/Ethereum-2022-07-27-深入理解合约升级-1-概括/" itemprop="url">
-              
-                <span itemprop="name">深入理解合约升级(1) - 概括</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2022-07-27T00:00:00+08:00" content="2022-07-27">
-          07-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <blockquote class="blockquote-center"> 深入理解合约升级(3) - call 与 delegatecall </blockquote>
+
+<a id="more"></a>
+<h2 id="call-与-delegatecall-的区别"><a href="#call-与-delegatecall-的区别" class="headerlink" title="call 与 delegatecall 的区别"></a>call 与 delegatecall 的区别</h2><p><code>call</code> 和 <code>delegatecall</code> 是 Solidity 中调用外部合约的方法，但是它俩却有挺大的区别。假设 A 合约调用 B 合约，当在 A 合约中使用 <code>call</code> 调用 B 合约时，使用的是 B 合约的上下文，修改的是 B 合约的内存插槽值。而在如果在 A 合约中使用 <code>delegatecall</code> 调用 B 合约，那么在 B 合约的函数执行过程中，使用的是 A 合约的上下文，同时修改的也是 A 合约的内存插槽值。这么说有些抽象，我们来看一个简单的示意图：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/1.png" alt="通过 call 调用" title="通过 call 调用"></p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/2.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
+<p>从上面的图中我们可以看出，在使用 <code>call</code> 调用时，B 合约使用的上下文数据均是 B 本身的。而当使用 <code>delegatecall</code> 调用时，B 合约使用了 A 合约中的上下文数据。我们来写段代码测试一下：</p>
+<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
+
+
+contract A {
+    address public b;
+    constructor(address _b) {
+        b = _b;
+    }
+
+    function foo() external {
+        (bool success, bytes memory data) = 
+            b.call(abi.encodeWithSignature(&quot;foo()&quot;));
+        require(success, &quot;Tx failed&quot;);
+    }
+}
+
+contract B {
+    event Log(address sender, address me);
+    function foo() external {
+        emit Log(msg.sender, address(this));
+    }
+}
+</code></pre>
+<p>上面代码中，我们在 A 合约中使用 <code>call</code> 调用 B 合约，通过 <code>Log</code> 事件记录一些信息。先部署 B 合约，然后将其地址作为参数部署 A 合约，接着我们调用 <code>foo</code> 函数，可以获取到 <code>Log</code> 事件的内容为：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/3.png" alt="通过 call 调用" title="通过 call 调用"></p>
+<p>与我们前面的说的规则一致，使用 <code>call</code> 调用时，使用的是 B 本身的上下文。接下来我们将 <code>call</code> 改成 <code>delegatecall</code>：</p>
+<pre><code class="line-numbers language-solidity">function foo() external {
+    (bool success, bytes memory data) = 
+        b.delegatecall(abi.encodeWithSignature(&quot;foo()&quot;));
+    require(success, &quot;Tx failed&quot;);
+}
+</code></pre>
+<p>再来看看执行结果：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/4.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
+<p>可以看到当使用了 <code>delegatecall</code> 调用时，使用了 A 合约的上下文。</p>
+<p>上面我们还提到，当使用 <code>delegatecall</code> 时，修改的是调用合约的内存插槽值，这是什么意思呢，我们来看一个例子：</p>
+<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
+
+
+contract A {
+    uint256 public alice;
+    uint256 public bob;
+
+    address public b;
+    constructor(address _b) {
+        b = _b;
+    }
+
+    function foo(uint256 _alice, uint256 _bob) external {
+        (bool success, bytes memory data) = 
+            b.delegatecall(abi.encodeWithSignature(&quot;foo(uint256,uint256)&quot;, 
+            _alice, _bob));
+        require(success, &quot;Tx failed&quot;);
+    }
+}
+
+contract B {
+    uint256 public alice;
+    uint256 public bob;
+    function foo(uint256 _alice, uint256 _bob) external {
+        alice = _alice;
+        bob = _bob;
+    }
+}
+</code></pre>
+<p>这段代码中，我们使用 <code>delegatecall</code> 来调用 <code>foo</code> 函数，<code>foo</code> 函数的作用是给 B 合约的两个变量赋值。但是实际调用后的结果是，A 合约的两个变量被赋值，而 B 中的变量仍为空。这就是我们前面说的，<code>delegatecall</code> 会修改调用合约的内存插槽值，我们来看一个图示：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/5.png" alt="内存插槽" title="内存插槽"></p>
+<p>在 A 合约中有三个状态变量，B 合约中有两个状态变量。当 A 合约使用 <code>delegatecall</code> 调用 B 合约时，对 B 合约状态变量的赋值会通过插槽顺序分别影响 A 合约的各个变量。也就是说，对 B 合约插槽 0 的变量 <code>alice</code> 赋值，实际上是把值赋给了 A 合约插槽 0 的变量 <code>alice</code>。同理，对 B 合约的第 n 个插槽赋值，实际上会对 A 合约的第 n 个插槽赋值。注意，这里仅仅和插槽顺序有关，而和变量名无关。如果我们将 B 合约改为：</p>
+<pre><code class="line-numbers language-solidity">contract B {
+    // 调换了变量声明顺序
+    uint256 public bob;
+    uint256 public alice;
+    function foo(uint256 _alice, uint256 _bob) external {
+        // 调换了赋值内容
+        bob = _alice;
+        alice = _bob;
+    }
+}
+</code></pre>
+<p>这段代码中，虽然变量声明以及赋值的顺序调换，但是 <code>foo</code> 的内容仍然是将 <code>_alice</code> 赋值给插槽 0 的变量，将 <code>_bob</code> 赋值给插槽 1 的变量，因此 A 合约的结果不变。</p>
+<h2 id="delegatecall-在合约升级方面的应用"><a href="#delegatecall-在合约升级方面的应用" class="headerlink" title="delegatecall 在合约升级方面的应用"></a>delegatecall 在合约升级方面的应用</h2><p>学习理解 <code>delegatecall</code> 是我们后面学习合约升级的基础，合约升级的原理就是代理合约通过 <code>delegatecall</code> 调用逻辑合约，此时逻辑合约的上下文以及数据都是来自于代理合约，那么即使升级，更换了逻辑合约，所有的数据仍然存在于代理合约中，没有影响。可升级合约还有一个限制是，在升级合约时，不能更改已有的状态变量的顺序，如果需要新添变量，只能放在当前所有变量之后，不能在其中插入，原因就是这会改变插槽对应关系，使变量内容混乱。例如，若升级前的插槽为：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/6.png" alt="内存插槽" title="内存插槽"></p>
+<p>此时，变量 a 和 b 的值分别存储在代理合约的插槽 0，1 中。若添加变量 c，将其放在 a 和 b 中间，那么后续对于 c 的修改实际修改的是 b 的插槽，而对于 b 的修改则是在一个新的插槽上操作，造成数据混乱。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>delegatecall</code> 会在被调用合约中使用调用合约的上下文，同时影响的是调用合约的内存插槽，这有时会对合约开发带来一些困扰。在使用时，一定要多考虑各方面的影响。同时，<code>delegatecall</code> 也是代理合约升级模式的基石，要理解合约升级，必须要明白这种调用方式的方方面面。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blockchain-academy.hs-mittweida.de/courses/solidity-coding-beginners-to-intermediate/lessons/solidity-5-calling-other-contracts-visibility-state-access/topic/delegatecall/" target="_blank" rel="noopener">blockchain-academy.hs-mittweida.de</a><br><a href="https://www.anquanke.com/post/id/152590" target="_blank" rel="noopener">www.anquanke.com</a><br><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a></p>
+<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
+<li><a href>深入理解合约升级(1) - 概括</a></li>
+<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
+<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
+<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
+<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
+</ol>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/0gmFpVZVlHhwb2YlmaSY8Dyv5r3Z24sKIks38cyQRFk" target="_blank" rel="noopener">原文链接</a></h2>
+      
     </div>
+    
+    
+    
+
+
+
+
+    <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:36px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+        
+    </div>
+
+    <div>
+        
+          
+
+        
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/合约升级/" rel="tag"><i class="fa fa-tag"></i> 合约升级</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/07/28/Ethereum-2022-07-28-深入理解合约升级-2-Solidity-内存布局/" rel="next" title="深入理解合约升级(2) - Solidity 内存布局">
+                <i class="fa fa-chevron-left"></i> 深入理解合约升级(2) - Solidity 内存布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -460,6 +658,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -480,8 +685,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -594,6 +808,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#call-与-delegatecall-的区别"><span class="nav-number">1.</span> <span class="nav-text">call 与 delegatecall 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delegatecall-在合约升级方面的应用"><span class="nav-number">2.</span> <span class="nav-text">delegatecall 在合约升级方面的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合约升级系列文章"><span class="nav-number">5.</span> <span class="nav-text">合约升级系列文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文链接"><span class="nav-number">6.</span> <span class="nav-text">原文链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -740,6 +970,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

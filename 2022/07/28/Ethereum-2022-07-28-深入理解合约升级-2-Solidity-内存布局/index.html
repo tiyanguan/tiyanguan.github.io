@@ -161,6 +161,8 @@
 
 
 
+<link rel="stylesheet" href="/js/prism/prism.css">
+
   <title>深入理解合约升级(2) - Solidity 内存布局 | 体验官</title>
   
 
@@ -469,7 +471,7 @@
 
 <a id="more"></a>
 <p>这篇文章我们来学习一下 Solidity 的内存布局。首先我们需要明白，我们这里谈到的内存是 Solidity 合约中的状态变量，而不是在函数方法中定义的临时变量。前者是存在于以太坊的存储结构中的，而后者只是运行时的临时内存变量。例如：</p>
-<pre><code class="solidity">contract Storage {
+<pre><code class="line-numbers language-solidity">contract Storage {
     uint256 public a;
     bytes32 public b;
 
@@ -484,7 +486,7 @@
 <p>Solidity 中有这么多的数据类型，它们都是怎么存储在这些插槽中的呢？我们来看看。</p>
 <h2 id="插槽分配"><a href="#插槽分配" class="headerlink" title="插槽分配"></a>插槽分配</h2><h3 id="固定长度类型"><a href="#固定长度类型" class="headerlink" title="固定长度类型"></a>固定长度类型</h3><p>我们知道，Solidity 中的数据类型有很多，常见的有 <code>uint</code>，<code>bytes(n)</code>， <code>address</code>，<code>bool</code>，<code>string</code> 等等。其中 <code>uint</code> 还有不同长度的，比如 <code>uint8</code>，<code>uint256</code> 等，<code>bytes(n)</code> 也包括 <code>bytes2</code>，<code>bytes32</code> 等。还有 <code>mapping</code> 以及 <code>数组</code> 类型等。前面提到过，一个插槽的大小是 32 个字节，那么像 <code>uint256</code>，<code>bytes32</code> 这些 32 字节大小的类型就可以刚好放在一个插槽中。</p>
 <p>来看一个简单的例子：</p>
-<pre><code class="solidity">contract Storage {
+<pre><code class="line-numbers language-solidity">contract Storage {
     uint256 public a;
     uint256 public b;
     uint256 public c;
@@ -497,7 +499,7 @@
 }
 </code></pre>
 <p>上面的合约中，<code>a</code>,<code>b</code>,<code>c</code> 三个变量都是 <code>uint256</code> 类型的，恰好每个变量都占用了一个插槽，分别是插槽0，1，2。我们部署合约，调用 <code>foo</code> 函数，读取它们的值来确认一下：</p>
-<pre><code class="Solidity">const {ethers} = require(&quot;ethers&quot;);
+<pre><code class="line-numbers language-Solidity">const {ethers} = require(&quot;ethers&quot;);
 const provider = new ethers.providers.JsonRpcProvider()
 
 const main = async () =&gt; {
@@ -526,7 +528,7 @@ main()
 </blockquote>
 <p>对应的 10 进制数为 1，2，123，验证正确。</p>
 <p>我们再对上面的合约做一点小小的改动：</p>
-<pre><code class="solidity">uint8 public a;
+<pre><code class="line-numbers language-solidity">uint8 public a;
 uint8 public b;
 uint256 public c;
 </code></pre>
@@ -540,7 +542,7 @@ uint256 public c;
 </blockquote>
 <p>插槽 2 直接就没有数据了，这是为什么呢？因为一个插槽的大小是 32 字节，而 <code>a</code> 和 <code>b</code> 都只占用 1 个字节，Solidity 为了节省存储空间，会将它俩放在同一个插槽中，而下一个 <code>c</code> 变量，由于它占用了 32 字节，因此它要占用下一个插槽。</p>
 <p>那么我们再做一点小改动，将 <code>b</code> 和 <code>c</code> 调换位置:</p>
-<pre><code class="solidity">uint8 public a;
+<pre><code class="line-numbers language-solidity">uint8 public a;
 uint256 public c;
 uint8 public b;
 </code></pre>
@@ -553,7 +555,7 @@ uint8 public b;
 <li>如果数据长度超出 <code>31</code> 字节，则在主插槽存储 <code>length * 2 + 1</code>， 数据照常存储在 <code>keccak256(slot)</code> 中。</li>
 </ol>
 <p>来看一个实际的例子验证一下：</p>
-<pre><code class="solidity">contract Storage {
+<pre><code class="line-numbers language-solidity">contract Storage {
     string public a;
     string public b;
 
@@ -572,10 +574,10 @@ uint8 public b;
 <p>0x0000000000000000000000000000000000000000000000000000000000000041（最后一个字节存储长度 0x41，即 65 = 32 * 2 + 1）</p>
 </blockquote>
 <p>我们再去看看 keccak256(slot) 中存储的值，通过</p>
-<pre><code class="solidity">keccak256(abi.encode(1));
+<pre><code class="line-numbers language-solidity">keccak256(abi.encode(1));
 </code></pre>
 <p>计算出哈希值，这也就是插槽的位置，再去读取其值：</p>
-<pre><code class="solidity">// 第二个参数为插槽的位置，使用 ethersjs 库需要加引号，否则报错
+<pre><code class="line-numbers language-solidity">// 第二个参数为插槽的位置，使用 ethersjs 库需要加引号，否则报错
 let a = await provider.getStorageAt(
     &quot;0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1&quot;,
 &quot;0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6&quot;
@@ -592,10 +594,10 @@ let a = await provider.getStorageAt(
 <li>所处的插槽，空置，不存储内容，</li>
 <li><code>mapping</code> 中的数据，存储在插槽 <code>keccak256(key.slot)</code> 中，也就是：</li>
 </ol>
-<pre><code class="solidity">keccak256(abi.encode(key, slot))
+<pre><code class="line-numbers language-solidity">keccak256(abi.encode(key, slot))
 </code></pre>
 <p>来看一个例子：</p>
-<pre><code class="solidity">contract Storage {
+<pre><code class="line-numbers language-solidity">contract Storage {
     mapping(uint256 =&gt; uint256) public a;
 
     function foo() public {
@@ -625,7 +627,7 @@ let a = await provider.getStorageAt(
 <li>数组内存储的元素，存储在以 <code>keccak256(slot)</code> 插槽开始的位置</li>
 </ol>
 <p>同样来看一个例子：</p>
-<pre><code class="solidity">contract Storage {
+<pre><code class="line-numbers language-solidity">contract Storage {
     uint256[] public a;
 
     function foo() public {
@@ -710,6 +712,10 @@ let a = await provider.getStorageAt(
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/" rel="prev" title="深入理解合约升级(3) - call 与 delegatecall">
+                深入理解合约升级(3) - call 与 delegatecall <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -790,7 +796,7 @@ let a = await provider.getStorageAt(
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -946,11 +952,12 @@ let a = await provider.getStorageAt(
 
 <div class="theme-info">
   <i class="fa fa-paint-brush" aria-hidden="true"></i>
-  <span class="post-count">博客全站共 3.6k 字</span>
+  <span class="post-count">博客全站共 5.0k 字</span>
 </div>
 
 
 
+<script src="/js/prism/prism.js" async></script>
         
 
 
