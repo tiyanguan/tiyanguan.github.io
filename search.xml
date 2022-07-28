@@ -31,7 +31,202 @@
 <li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
 <li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
 </ol>
-<h2 id="引用链接"><a href="#引用链接" class="headerlink" title="引用链接"></a><a href="https://mirror.xyz/xyyme.eth/RZscMYGkeGTY8z6ccHseY8HKu-ER3pX0mFYoWXRqXQ0" target="_blank" rel="noopener">引用链接</a></h2>]]></content>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/RZscMYGkeGTY8z6ccHseY8HKu-ER3pX0mFYoWXRqXQ0" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
+      <categories>
+        <category>Ethereum</category>
+      </categories>
+      <tags>
+        <tag>合约升级</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解合约升级(2) - Solidity 内存布局</title>
+    <url>/2022/07/28/Ethereum-2022-07-28-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-2-Solidity-%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(2) - Solidity 内存布局 </blockquote>
+
+<a id="more"></a>
+<p>这篇文章我们来学习一下 Solidity 的内存布局。首先我们需要明白，我们这里谈到的内存是 Solidity 合约中的状态变量，而不是在函数方法中定义的临时变量。前者是存在于以太坊的存储结构中的，而后者只是运行时的临时内存变量。例如：</p>
+<pre><code class="solidity">contract Storage {
+    uint256 public a;
+    bytes32 public b;
+
+    function foo() public {
+        uint256 c;
+    }
+}
+</code></pre>
+<p>这段代码中，变量 <code>a</code> 和 <code>b</code> 是状态变量，属于我们讨论的范围，而 <code>c</code> 不属于，因为它是运行时临时变量。</p>
+<h2 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h2><p>Solidity 中的内存布局，有一个插槽（slot）的概念。每一个合约，都有 <code>2 ^ 256</code> 个内存插槽用于存储状态变量，但是这些插槽并不是实际存在的，也就是说，并没有实际占用了这么多空间，而是按需分配，用到时就会分配，不用时就不存在。插槽数量的上限是 <code>2 ^ 256</code>，每个插槽的大小是 <code>32</code> 个字节。图示如下：</p>
+<p><img src="/upload_image/2022-07-28-深入理解合约升级2/1.png" alt></p>
+<p>Solidity 中有这么多的数据类型，它们都是怎么存储在这些插槽中的呢？我们来看看。</p>
+<h2 id="插槽分配"><a href="#插槽分配" class="headerlink" title="插槽分配"></a>插槽分配</h2><h3 id="固定长度类型"><a href="#固定长度类型" class="headerlink" title="固定长度类型"></a>固定长度类型</h3><p>我们知道，Solidity 中的数据类型有很多，常见的有 <code>uint</code>，<code>bytes(n)</code>， <code>address</code>，<code>bool</code>，<code>string</code> 等等。其中 <code>uint</code> 还有不同长度的，比如 <code>uint8</code>，<code>uint256</code> 等，<code>bytes(n)</code> 也包括 <code>bytes2</code>，<code>bytes32</code> 等。还有 <code>mapping</code> 以及 <code>数组</code> 类型等。前面提到过，一个插槽的大小是 32 个字节，那么像 <code>uint256</code>，<code>bytes32</code> 这些 32 字节大小的类型就可以刚好放在一个插槽中。</p>
+<p>来看一个简单的例子：</p>
+<pre><code class="solidity">contract Storage {
+    uint256 public a;
+    uint256 public b;
+    uint256 public c;
+
+    function foo() public {
+        a = 1;
+        b = 2;
+        c = 123;
+    }
+}
+</code></pre>
+<p>上面的合约中，<code>a</code>,<code>b</code>,<code>c</code> 三个变量都是 <code>uint256</code> 类型的，恰好每个变量都占用了一个插槽，分别是插槽0，1，2。我们部署合约，调用 <code>foo</code> 函数，读取它们的值来确认一下：</p>
+<pre><code class="Solidity">const {ethers} = require(&quot;ethers&quot;);
+const provider = new ethers.providers.JsonRpcProvider()
+
+const main = async () =&gt; {
+    // 第一个参数是部署的合约地址
+    // 第二个参数是插槽的位置，这里注意，如果是十进制，就直接写数字
+    // 如果是十六进制，需要加上引号，例如 &#39;0x0&#39;
+    let a = await provider.getStorageAt(
+        &quot;0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1&quot;,
+        0
+    )
+    console.log(a)
+}
+
+main()
+</code></pre>
+<p>这段代码使用了 ethersjs 库来读取合约插槽的数据，也可以使用其他的方法，例如 Python 可以使用 web3py 库。</p>
+<p>我们分别读取0，1，2三个插槽的数据，分别为</p>
+<blockquote>
+<p>0x0000000000000000000000000000000000000000000000000000000000000001</p>
+</blockquote>
+<blockquote>
+<p>0x0000000000000000000000000000000000000000000000000000000000000002</p>
+</blockquote>
+<blockquote>
+<p>0x000000000000000000000000000000000000000000000000000000000000007b</p>
+</blockquote>
+<p>对应的 10 进制数为 1，2，123，验证正确。</p>
+<p>我们再对上面的合约做一点小小的改动：</p>
+<pre><code class="solidity">uint8 public a;
+uint8 public b;
+uint256 public c;
+</code></pre>
+<p>同样，我们部署并调用 <code>foo</code> 函数，再读取其插槽值，我们可以看到，插槽 0 的数据变成了：</p>
+<blockquote>
+<p>0x0000000000000000000000000000000000000000000000000000000000000201</p>
+</blockquote>
+<p>而插槽 1 的数据变成了：</p>
+<blockquote>
+<p>0x000000000000000000000000000000000000000000000000000000000000007b</p>
+</blockquote>
+<p>插槽 2 直接就没有数据了，这是为什么呢？因为一个插槽的大小是 32 字节，而 <code>a</code> 和 <code>b</code> 都只占用 1 个字节，Solidity 为了节省存储空间，会将它俩放在同一个插槽中，而下一个 <code>c</code> 变量，由于它占用了 32 字节，因此它要占用下一个插槽。</p>
+<p>那么我们再做一点小改动，将 <code>b</code> 和 <code>c</code> 调换位置:</p>
+<pre><code class="solidity">uint8 public a;
+uint256 public c;
+uint8 public b;
+</code></pre>
+<p>此时我们再去查看插槽数据，会发现，三个变量都各自占据了一个插槽，这是因为，虽然 <code>a</code> 只占据了插槽 0 中的 1 个字节，但是由于下一个变量 <code>c</code> 要占据一整个插槽，所以 <code>c</code> 只能去下一个插槽，那么 <code>b</code> 也就只能去第三个插槽了。</p>
+<p>这里带给我们的思考就是，在开发合约时，内存的布局分配也是很重要的，合理地分配内存布局可以节省内存空间，也就节省了 gas 费用。</p>
+<p>前面我们提到的 <code>bytes(n)</code> 类型，和 <code>uint</code> 类似，也是同样的道理。同时还有 <code>bool</code> 类型，它只占用 1 个字节。<code>address</code> 类型，占用 20 个字节。因此在开发过程中，可以将一些小字节类型放在一起，从而节省 gas 费用。</p>
+<h2 id="非固定长度类型"><a href="#非固定长度类型" class="headerlink" title="非固定长度类型"></a>非固定长度类型</h2><p>上面我们说到的，都是定长的数据类型。而像 <code>string</code>，<code>bytes</code> 这种非固定长度的类型，它们的存储规则是：</p>
+<ol>
+<li>如果数据长度小于等于 <code>31</code> 字节， 则它存储在高位字节（左对齐），最低位字节存储 <code>length * 2</code>。</li>
+<li>如果数据长度超出 <code>31</code> 字节，则在主插槽存储 <code>length * 2 + 1</code>， 数据照常存储在 <code>keccak256(slot)</code> 中。</li>
+</ol>
+<p>来看一个实际的例子验证一下：</p>
+<pre><code class="solidity">contract Storage {
+    string public a;
+    string public b;
+
+    function foo() public {
+        // a是31个字节，b是32个字节
+        a = &#39;abcabcabcabcabcabcabcabcabcabca&#39;;
+        b = &#39;abcabcabcabcabcabcabcabcabcabcab&#39;;
+    }
+}
+</code></pre>
+<p>查看插槽 0 和 1 的值，分别为：</p>
+<blockquote>
+<p>0x616263616263616263616263616263616263616263616263616263616263613e（最后一个字节存储长度 0x3e，即 62 = 31 * 2）</p>
+</blockquote>
+<blockquote>
+<p>0x0000000000000000000000000000000000000000000000000000000000000041（最后一个字节存储长度 0x41，即 65 = 32 * 2 + 1）</p>
+</blockquote>
+<p>我们再去看看 keccak256(slot) 中存储的值，通过</p>
+<pre><code class="solidity">keccak256(abi.encode(1));
+</code></pre>
+<p>计算出哈希值，这也就是插槽的位置，再去读取其值：</p>
+<pre><code class="solidity">// 第二个参数为插槽的位置，使用 ethersjs 库需要加引号，否则报错
+let a = await provider.getStorageAt(
+    &quot;0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1&quot;,
+&quot;0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6&quot;
+)
+</code></pre>
+<p>结果为：</p>
+<blockquote>
+<p>0x6162636162636162636162636162636162636162636162636162636162636162</p>
+</blockquote>
+<p>验证成功，注意我们这里的使用的是数据长度恰好为 32 字节，如果大于 32 字节，那么剩余的长度就会继续往下一个插槽【即 <code>keccak256(abi.encode(1)) + 1</code> 】延伸。</p>
+<p>接下来我们看看 <code>mapping</code> 和 <code>数组</code> 类型是怎么存储的。</p>
+<p>对于 <code>mapping</code> 类型，规则是：</p>
+<ol>
+<li>所处的插槽，空置，不存储内容，</li>
+<li><code>mapping</code> 中的数据，存储在插槽 <code>keccak256(key.slot)</code> 中，也就是：</li>
+</ol>
+<pre><code class="solidity">keccak256(abi.encode(key, slot))
+</code></pre>
+<p>来看一个例子：</p>
+<pre><code class="solidity">contract Storage {
+    mapping(uint256 =&gt; uint256) public a;
+
+    function foo() public {
+        a[1] = 123;
+        a[2] = 345;
+    }
+}
+</code></pre>
+<p>通过 <code>keccak256(abi.encode(1, 0))</code> 和 <code>keccak256(abi.encode(2, 0))</code> 分别计算出， <code>a[1]</code> 和 <code>a[2]</code> 所处的插槽位置为：</p>
+<blockquote>
+<p>0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d</p>
+</blockquote>
+<blockquote>
+<p>0xabbb5caa7dda850e60932de0934eb1f9d0f59695050f761dc64e443e5030a569</p>
+</blockquote>
+<p>我们进行验证，插槽 0 的值为 0，上述这两个插槽的值分别为：</p>
+<blockquote>
+<p>0x000000000000000000000000000000000000000000000000000000000000007b</p>
+</blockquote>
+<blockquote>
+<p>0x0000000000000000000000000000000000000000000000000000000000000159</p>
+</blockquote>
+<p>即分别为 123 和 345，验证成功。</p>
+<p>再来看看数组类型，它所满足的规则是：</p>
+<ol>
+<li>所处的插槽，存储数组的长度</li>
+<li>数组内存储的元素，存储在以 <code>keccak256(slot)</code> 插槽开始的位置</li>
+</ol>
+<p>同样来看一个例子：</p>
+<pre><code class="solidity">contract Storage {
+    uint256[] public a;
+
+    function foo() public {
+        a.push(12);
+        a.push(34);
+    }
+}
+</code></pre>
+<p>运行 <code>foo</code> 函数后，插槽 0 值就变成了 2，这里注意，如果运行了两次 <code>foo</code>，那么就变成了 4，因为数组的长度变成了 4。我们来计算 <code>keccak256(abi.encode(0))</code> 的值为：</p>
+<blockquote>
+<p>0x290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e563</p>
+</blockquote>
+<p>查询其插槽上的值为 12，再看看下一个插槽【即 <code>keccak256(abi.encode(0)) + 1</code> 】的值为 34，满足规则。</p>
+<p>对于组合类型，例如 <code>mapping(uint256 =&gt; uint256[])</code>，那么就按照组合的规则，从外到里进行计算即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Solidity 中的内存布局，都严格遵守既定规则，并不是杂乱无章的。理解了内存布局，对于我们后面学习可升级合约，帮助很大。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html" target="_blank" rel="noopener">docs.soliditylang.org</a><br><a href="https://learnblockchain.cn/books/geth/part7/storage.html" target="_blank" rel="noopener">learnblockchain.cn</a><br><a href="http://aandds.com/blog/solidity-storage-layout.html" target="_blank" rel="noopener">aandds.com</a></p>
+<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
+<li><a href>深入理解合约升级(1) - 概括</a></li>
+<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
+<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
+<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
+<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
+</ol>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/5eu3_7f7275rqY-fNMUP5BKS8izV9Tshmv8Z5H9bsec" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
       <categories>
         <category>Ethereum</category>
       </categories>
