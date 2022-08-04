@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<script>
+    (function(){
+        if(''){
+            if (prompt('请输入文章密码') !== ''){
+                alert('密码错误！');
+                history.back();
+            }
+        }
+    })();
+</script>
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="合约升级,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="体验官" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="深入理解合约升级(4) - 合约升级原理的代码实现">
+<meta name="keywords" content="合约升级">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解合约升级(4) - 合约升级原理的代码实现">
+<meta property="og:url" content="tiyanguan.github.io/2022/07/30/Ethereum-2022-07-30-深入理解合约升级-4-合约升级原理的代码实现/index.html">
+<meta property="og:site_name" content="体验官">
+<meta property="og:description" content="深入理解合约升级(4) - 合约升级原理的代码实现">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="/upload_image/2022-07-30-深入理解合约升级4/1.png">
+<meta property="og:image" content="/upload_image/2022-07-30-深入理解合约升级4/2.png">
+<meta property="og:updated_time" content="2022-08-04T06:12:43.641Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解合约升级(4) - 合约升级原理的代码实现">
+<meta name="twitter:description" content="深入理解合约升级(4) - 合约升级原理的代码实现">
+<meta name="twitter:image" content="/upload_image/2022-07-30-深入理解合约升级4/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="tiyanguan.github.io/2022/07/30/Ethereum-2022-07-30-深入理解合约升级-4-合约升级原理的代码实现/">
+
+
+
+
+
+<link rel="stylesheet" href="/js/prism/prism.css">
+
+  <title>深入理解合约升级(4) - 合约升级原理的代码实现 | 体验官</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <!-- 在右上角或者左上角实现fork me on github -->
+    <a href="https://github.com/tiyanguan"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">体验官</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">for myself, not only myself</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-标签">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="tiyanguan.github.io/2022/07/30/Ethereum-2022-07-30-深入理解合约升级-4-合约升级原理的代码实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="martin">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="体验官">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解合约升级(4) - 合约升级原理的代码实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+                      
+                        <span class="post-meta-item-icon">
+                          <i class="fa fa-calendar-o"></i>
+                        </span>
+                        
+                          <span class="post-meta-item-text">发表于</span>
+                        
+                        <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-07-30T00:00:00+08:00">
+                          2022-07-30
+                        </time>
+                      
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Ethereum/" itemprop="url" rel="index">
+                    <span itemprop="name">Ethereum</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+          
+             <span id="/2022/07/30/Ethereum-2022-07-30-深入理解合约升级-4-合约升级原理的代码实现/" class="leancloud_visitors" data-flag-title="深入理解合约升级(4) - 合约升级原理的代码实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度</span>
+               
+                 <span id="busuanzi_container_page_pv">
+                   <span id="busuanzi_value_page_pv"></span>
+                 </span>
+                 <span class="leancloud-visitors-count"></span>
+                 <span>℃</span>
+             </span>
+          
+
+          
+           <span class="post-meta-divider">|</span>
+          
+
+                      
+                        
+                        <span class="post-meta-item-icon">
+                          <i class="fa fa-file-word-o"></i>
+                        </span>
+                        
+                          <span class="post-meta-item-text">字数统计</span>
+                        
+                        <span title="字数统计">
+                          2,997
+                        </span>
+                      
+
+                      
+                        <span class="post-meta-divider">|</span>
+                      
+
+                      
+                        <span class="post-meta-item-icon">
+                          <i class="fa fa-clock-o"></i>
+                        </span>
+                        
+                          <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                        
+                        <span title="阅读时长">
+                          11
+                        </span>
+                      
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote class="blockquote-center"> 深入理解合约升级(4) - 合约升级原理的代码实现 </blockquote>
+
+<a id="more"></a>
+<p>前面的文章我们提到，合约升级的原理是将合约架构分为 <code>代理合约</code> 与 <code>逻辑合约</code>，通过前面对于内存结构以及 <code>delegatecall</code> 的学习，我们已经基本掌握的合约升级的基础。这篇文章我们就从代码层面来看看合约升级到底应该如何实现。</p>
+<p><img src="/upload_image/2022-07-30-深入理解合约升级4/1.png" alt></p>
+<p>这是我们在第一篇文章中的图例，当我们学习了内存结构以及 <code>delegatecall</code> 之后，我们再来看这幅图，就能够很好地理解了：数据都存放在代理合约的内存插槽中，而由于代理合约使用了 <code>delegatecall</code>，因此函数执行都在逻辑合约中运行，修改的却是代理合约中的数据。这样就可以方便替换逻辑合约，实现合约升级。</p>
+<h2 id="合约升级实现过程"><a href="#合约升级实现过程" class="headerlink" title="合约升级实现过程"></a>合约升级实现过程</h2><h3 id="简版-Proxy"><a href="#简版-Proxy" class="headerlink" title="简版 Proxy"></a>简版 Proxy</h3><p>首先我们考虑，对于代理合约而言，如何将请求转发到逻辑合约。最简单的方法就是对于逻辑合约中的每个函数，都在代理合约中包装一层，然后通过 <code>delegatecall</code> 来分别调用各个函数。这种方法是不可行的，因为既然我们都用到了可升级合约，那就说明我们后期会对合约做改动，我们总不能每添加一个函数，都在代理合约中添加一个包装层。一是这样很冗余，二是这样无法实现，因为代理合约也是区块链上的智能合约，它本身是不可变的。</p>
+<p>这时我们想到，能不能够利用 Solidity 中的 <code>fallback</code> 与 <code>receive</code> 函数，它们的作用就是接收并处理一切未实现的函数（两者的区别是，<code>receive</code> 接收所有 <code>msg.data</code> 为空的调用，<code>fallback</code> 接收所有未匹配函数的调用）。如果我们将所有的函数调用都通过 <code>fallback</code> 转发给逻辑合约，那么是否就达到目标了呢？我们来看看代码：</p>
+<pre><code class="line-numbers language-solidity">// 注：这个实现有问题（后文有描述），不要直接使用！
+contract Proxy {
+    address public implementation;
+    address public admin;
+
+    constructor() public {
+        admin = msg.sender;
+    }
+    function setImplementation(address newImplementation) external {
+        require(msg.sender == admin, &quot;must called by admin&quot;);
+        implementation = newImplementation;
+    }
+    function changeAdmin(address newAdmin) external {
+        require(msg.sender == admin, &quot;must called by admin&quot;);
+        admin = newAdmin;
+    }
+
+    function _delegate() internal {
+        require(msg.sender != admin, &quot;admin cannot fallback to proxy target&quot;);
+        address _implementation = implementation;
+        // 下面代码是利用 delegatecall 把请求转发给 _implementation 所指定地址的合约中去
+        assembly {
+            calldatacopy(0, 0, calldatasize())
+            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
+            returndatacopy(0, 0, returndatasize())
+
+            switch result
+            case 0 { revert(0, returndatasize()) }
+            default { return(0, returndatasize()) }
+        }
+    }
+
+    fallback () payable external {
+        _delegate();
+    }
+    // Will run if call data is empty.
+    receive () payable external {
+        _delegate();
+    }
+}
+</code></pre>
+<p>这段代码中，我们将 <code>fallback</code> 和 <code>receive</code> 函数都指向了 <code>_delegate</code> 函数，它会将有请求都转发给逻辑合约。乍一看没有什么问题，但是需要注意：</p>
+<ol>
+<li>此合约中有两个字段，<code>implementation</code> 和 <code>admin</code>，分别存储逻辑合约地址和管理员地址（管理员地址用户更换逻辑合约升级）。它们分别占据了插槽 0 和 1 的位置，那么这就有可能和我们的逻辑合约中的内存发生冲突，如果逻辑合约中有对这俩插槽的修改，那就直接把这两个很重要的变量给改掉了，那就乱套了。</li>
+<li>还有一个问题就是代理合约本身也存在一些自身的方法，比如 <code>changeAdmin</code> 等，如果逻辑合约中恰好也有这些方法，那么用户的请求就不会转发到逻辑合约。</li>
+</ol>
+<h3 id="EIP-1967"><a href="#EIP-1967" class="headerlink" title="EIP-1967"></a>EIP-1967</h3><p>该如何解决这个问题呢？<a href="https://eips.ethereum.org/EIPS/eip-1967" target="_blank" rel="noopener">EIP-1967</a> 提出了一个解决办法，它把 <code>implementation</code> 和 <code>admin</code> 这两个字段放在了两个特殊的插槽中：</p>
+<pre><code class="line-numbers language-solidity"># bytes32(uint256(keccak256(&#39;eip1967.proxy.implementation&#39;)) - 1)
+0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+# bytes32(uint256(keccak256(&#39;eip1967.proxy.admin&#39;)) - 1)
+0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+</code></pre>
+<p>这两个插槽是经过哈希计算出来的值，根据概率来看，不可能与逻辑合约中的其他内存位置发生冲突。此时，我们的代码就变成了：</p>
+<pre><code class="line-numbers language-solidity">bytes32 private constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+
+bytes32 private constant _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
+</code></pre>
+<p>注意这里指用了 <code>constant</code> 来保存插槽位置，<code>constant</code> 关键字保存的是常量，并不保存在插槽中。这样我们就解决了前面提到的第一个问题。</p>
+<p>我们再来看看第二个问题，这个问题看似很好解决，比如我们给代理合约中的函数都起一些不常用的名字就行。例如，把上面的 <code>changeAdmin</code> 改成 <code>changeAdmin12345</code>。但是问题没有这么简单，我们要知道，智能合约匹配请求是根据函数签名 <code>keccak256</code> 值的前 4 个字节来判断的，如果两个函数的哈希值前 4 位相同，那么它们就被判断为同一个函数，例如：</p>
+<pre><code class="line-numbers language-solidity"># keccak256(&quot;proxyOwner()&quot;) 前 4 字节为 025313a2
+proxyOwner()
+
+# keccak256(&quot;clash550254402()&quot;) 前 4 字节为 025313a2
+clash550254402()
+</code></pre>
+<p>这个问题被称为 <code>Proxy selector clashing</code>。这可能会造成一些问题，如果我们的逻辑合约中恰好有函数的哈希值前 4 位与代理合约中的某个函数相同，那就会造成用户的请求实际上是在代理合约中执行的，而执行结果必然是我们不希望发生的。</p>
+<h3 id="Transparent-Proxy"><a href="#Transparent-Proxy" class="headerlink" title="Transparent Proxy"></a>Transparent Proxy</h3><p><a href="https://blog.openzeppelin.com/the-transparent-proxy-pattern/" target="_blank" rel="noopener">Transparent Proxy</a> 提出了解决方案，它主要从两方面解决这个问题：</p>
+<ol>
+<li>来自普通用户的请求全部转发给逻辑合约，即使代理合约与逻辑合约发生了名称冲突，也要转发</li>
+<li>来自管理员 <code>admin</code> 的请求，全部不转发，由代理合约处理</li>
+</ol>
+<p>主要的代码如下：</p>
+<pre><code class="line-numbers language-solidity">contract Proxy {
+    bytes32 private constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+    bytes32 private constant _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
+
+    modifier ifAdmin() {
+        // 如果调用者是 admin，就执行；否则转发到 Implementation 合约
+        if (msg.sender == admin()) {
+            _;
+        } else {
+            _delegate();
+        }
+    }
+
+    constructor() public {
+        address admin = msg.sender;
+        bytes32 slot = _ADMIN_SLOT;
+        assembly {
+            sstore(slot, admin)
+        }
+    }
+    function implementation() public ifAdmin returns (address impl) {
+        bytes32 slot = _IMPLEMENTATION_SLOT;
+        assembly {
+            impl := sload(slot)
+        }
+    }
+    function setImplementation(address newImplementation) external ifAdmin {
+        bytes32 slot = _IMPLEMENTATION_SLOT;
+        assembly {
+            sstore(slot, newImplementation)
+        }
+    }
+    function admin() public ifAdmin returns (address adm) {
+        bytes32 slot = _ADMIN_SLOT;
+        assembly {
+            adm := sload(slot)
+        }
+    }
+    function changeAdmin(address newAdmin) external ifAdmin {
+        bytes32 slot = _ADMIN_SLOT;
+        assembly {
+            sstore(slot, newAdmin)
+        }
+    }
+
+    function _delegate() internal {
+        address _implementation = implementation();
+        // 下面代码是利用 delegatecall 把请求转发给 _implementation 所指定地址的合约中去
+        assembly {
+            calldatacopy(0, 0, calldatasize())
+            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
+            returndatacopy(0, 0, returndatasize())
+
+            switch result
+            case 0 { revert(0, returndatasize()) }
+            default { return(0, returndatasize()) }
+        }
+    }
+
+    fallback () payable external {
+        // 来自 admin 的请求不转发
+        require(msg.sender != admin(), &quot;admin cannot fallback to proxy target&quot;);
+        _delegate();
+    }
+
+    // 来自 admin 的请求不转发
+    receive () payable external {
+        require(msg.sender != admin(), &quot;admin cannot fallback to proxy target&quot;);
+        _delegate();
+    }
+}
+</code></pre>
+<p>可以看到，合约中添加了 <code>ifAdmin</code> 修饰符，用于判断请求的来源。对于代理合约自身的一些函数如 <code>changeAdmin</code> 等，均使用了该修饰符。这样即使出现了签名冲突的情况，只要是来自于普通用户的请求，均直接转发给了逻辑合约执行。这样就解决了前面的第二个问题。</p>
+<p>不过，仍然存在一个小问题，就是 <code>admin</code> 用户无法作为普通用户的视角正常调用。这个问题也比较好解决，一般可以准备一个特殊账户作为 <code>admin</code> 用户，仅调用管理员方法即可。也有另一个解决方法，就是使用一个 <code>ProxyAdmin</code> 合约来作为管理员，这样所有的账户都可以正常调用合约了。</p>
+<p><code>ProxyAdmin</code> 的合约代码片段如下：</p>
+<pre><code class="line-numbers language-solidity">contract ProxyAdmin is Ownable {
+    // 管理员EOA地址通过调用该方法来更换逻辑合约
+    function upgrade(IProxy proxy, address newImplementation) public onlyOwner {
+        proxy.setImplementation(implementation);
+    }
+    // ......
+}
+
+interface IProxy {
+    function setImplementation(address newImplementation);
+    // ......
+}
+</code></pre>
+<p>此时整个合约的架构为：</p>
+<p><img src="/upload_image/2022-07-30-深入理解合约升级4/2.png" alt="可升级合约架构" title="可升级合约架构"></p>
+<h3 id="Universal-Upgradeable-Proxy-Standard-UUPS"><a href="#Universal-Upgradeable-Proxy-Standard-UUPS" class="headerlink" title="Universal Upgradeable Proxy Standard (UUPS)"></a>Universal Upgradeable Proxy Standard (UUPS)</h3><p>UUPS 是 OpenZeppelin 在近期推出的一种新的合约升级模式，与上面的 <code>Transparent</code> 代理模式原理相同，都是利用 <code>delegatecall</code> 通过代理合约调用逻辑合约。所不同的是，<code>Transparent</code> 模式是将替换逻辑合约的函数放在代理合约中，而 <code>UUPS</code> 则是将其放在了逻辑合约中。也就是说，前者模式中，每个代理合约中都有一个类似 <code>upgradeTo</code> 这样的函数，用来更换逻辑合约。而在后者模式中，这样的函数是放在了逻辑合约的实现中。</p>
+<p><a href="https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups" target="_blank" rel="noopener">官方文档</a>中对于两者的对比，主要表述了 <code>UUPS</code> 模式更加轻量级，更加节省 gas，并且更推荐使用这种模式。由于代理合约中不用再包含替换逻辑合约的函数，因此节省了 gas。我个人目前对于这种模式持保留意见，因为对于可升级合约来说，代理合约和逻辑合约是一对多的关系。在之前的模式中，把替换逻辑合约的部分放在代理合约中，这也只需要部署一份代理合约。而新模式中，每个逻辑合约都要包含这部分升级组件，这样是否更加耗费 gas。而且将这部分逻辑放在逻辑合约中，是否会造成逻辑合约变得更加臃肿。毕竟在之前的模式中，开发逻辑合约时只需要关注业务逻辑即可。也许是因为目前我对于 <code>UUPS</code> 模式的理解不够深入，暂时先将疑问抛出，待后续继续深入学习。</p>
+<h2 id="可升级合约的一些限制"><a href="#可升级合约的一些限制" class="headerlink" title="可升级合约的一些限制"></a>可升级合约的一些限制</h2><p>要实现合约升级，有一些限制需要我们注意。</p>
+<p><strong>第一个</strong>就是我们在<strong>上篇文章</strong>最后提到的，在升级合约，也就是更换逻辑合约的时候，新合约的新增状态变量必须添加在当前所有变量之后，不能在前面的变量中插入，否则会更改内存插槽对应关系。同理，如果合约涉及到继承关系，不能在基类中添加变量（在基类中添加变量就相当于在基类和子类的状态变量之前插入变量）。也不能够更改或删除之前的状态变量。</p>
+<p><strong>第二个</strong>是不能使用构造函数 <code>constructor</code>，由于合约的构造函数是在合约初始化的时候就被调用，这时它的一些赋值操作会直接影响到自身的内存。合约升级的前提是代理合约通过 <code>delegatecall</code> 调用逻辑合约来影响代理的内存布局，如果逻辑合约自己使用了构造函数去初始化一些变量，那么对于代理合约而言，内存是没有任何变化的。对于该问题，替代方法是使用 <code>initialize</code> 函数来代替构造函数。在合约部署完成后需要手动调用 <code>initialize</code> 函数。同时要记得，逻辑合约中实现的 <code>initialize</code> 函数中要手动实现调用基类的 <code>initialize</code> 方法。例如：</p>
+<pre><code class="line-numbers language-solidity">pragma solidity ^0.6.0;
+
+import &quot;@openzeppelin/upgrades/contracts/Initializable.sol&quot;;
+
+contract BaseContract is Initializable {
+    uint256 public y;
+
+    function initialize() public initializer {
+        y = 42;
+    }
+}
+
+contract MyContract is BaseContract {
+    uint256 public x;
+
+    function initialize(uint256 _x) public initializer {
+        // 手动调用基类中的初始化方法
+        BaseContract.initialize();
+        x = _x;
+    }
+}
+</code></pre>
+<p><strong>第三个</strong>是所有状态变量不能在声明时就赋初始值，例如：</p>
+<pre><code class="line-numbers language-solidity">contract MyContract {
+    uint256 public hasInitialValue = 42;
+}
+</code></pre>
+<p>这种行为类似于在构造函数中赋值，不可行。需要改为在 <code>initialize</code> 函数中赋值。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>Openzeppelin 库已经实现了完善的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable" target="_blank" rel="noopener">可升级合约库</a>，我们在开发过程中可以直接使用现有的合约进行部署，避免重复造轮子出现错误。同时也提供了相应的<a href="https://docs.openzeppelin.com/contracts/4.x/upgradeable" target="_blank" rel="noopener">文档</a>以供参考。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a><br><a href="https://blog.openzeppelin.com/the-transparent-proxy-pattern/" target="_blank" rel="noopener">blog.openzeppelin.com</a><br><a href="https://ethereum.stackexchange.com/questions/81994/what-is-the-receive-keyword-in-solidity" target="_blank" rel="noopener">ethereum.stackexchange.com</a><br><a href="https://docs.openzeppelin.com/contracts/4.x/upgradeable" target="_blank" rel="noopener">docs.openzeppelin.com</a><br><a href="https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups" target="_blank" rel="noopener">docs.openzeppelin.com</a><br><a href="https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786" target="_blank" rel="noopener">forum.openzeppelin.com</a></p>
+<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
+<li><a href>深入理解合约升级(1) - 概括</a></li>
+<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
+<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
+<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
+<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
+</ol>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/VSyU0JfmVrcqN-F28tX5mzYjxFFAosl8tDAQX3vB5Dg" target="_blank" rel="noopener">原文链接</a></h2>
+      
+    </div>
+    
+    
+    
+
+
+
+
+    <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:36px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+        
+    </div>
+
+    <div>
+        
+          
+
+        
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/合约升级/" rel="tag"><i class="fa fa-tag"></i> 合约升级</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/" rel="next" title="深入理解合约升级(3) - call 与 delegatecall">
+                <i class="fa fa-chevron-left"></i> 深入理解合约升级(3) - call 与 delegatecall
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/07/31/Ethereum-2022-07-31-深入理解合约升级-5-部署一个可升级合约/" rel="prev" title="深入理解合约升级(5) - 部署一个可升级合约">
+                深入理解合约升级(5) - 部署一个可升级合约 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="martin">
+            
+              <p class="site-author-name" itemprop="name">martin</p>
+              <p class="site-description motion-element" itemprop="description">for myself, not only myself</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tiyanguan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yanchongsheng@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/martinyan8080" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.google.com/" title="google" target="_blank">google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://etherscan.io/" title="etherscan" target="_blank">etherscan</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.feixiaohaocn.com/" title="feixiaohao" target="_blank">feixiaohao</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#合约升级实现过程"><span class="nav-number">1.</span> <span class="nav-text">合约升级实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简版-Proxy"><span class="nav-number">1.1.</span> <span class="nav-text">简版 Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EIP-1967"><span class="nav-number">1.2.</span> <span class="nav-text">EIP-1967</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transparent-Proxy"><span class="nav-number">1.3.</span> <span class="nav-text">Transparent Proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Universal-Upgradeable-Proxy-Standard-UUPS"><span class="nav-number">1.4.</span> <span class="nav-text">Universal Upgradeable Proxy Standard (UUPS)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可升级合约的一些限制"><span class="nav-number">2.</span> <span class="nav-text">可升级合约的一些限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合约升级系列文章"><span class="nav-number">5.</span> <span class="nav-text">合约升级系列文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文链接"><span class="nav-number">6.</span> <span class="nav-text">原文链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart" aria-hidden="true"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">martin</span>
+</div>
+
+
+
+<div class="powered-by">
+  <i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_uv">访问用户：<span id="busuanzi_value_site_uv"></span>次</span>
+</div>
+
+
+  <span class="post-meta-divider">|</span>
+
+
+<div class="powered-by">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span id="busuanzi_container_site_uv">访问总量：<span id="busuanzi_value_site_pv"></span>次</span>
+</div>
+
+
+  <span class="post-meta-divider">|</span>
+
+
+<div class="theme-info">
+  <i class="fa fa-paint-brush" aria-hidden="true"></i>
+  <span class="post-count">博客全站共 9.9k 字</span>
+</div>
+
+
+
+<script src="/js/prism/prism.js" async></script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Qu6rmVm1gcMYRPyyiWcRJaEH-gzGzoHsz", "w40lNEaD5KbJiMUWYExaMFst");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
+<!-- 背景动画 -->
+<!-- <script type="text/javascript" src="/js/src/particle.js"></script> -->
+
