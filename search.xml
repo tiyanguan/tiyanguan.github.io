@@ -1,113 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>深入理解合约升级(3) - call 与 delegatecall</title>
-    <url>/2022/07/29/Ethereum-2022-07-29-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-3-call-%E4%B8%8E-delegatecall/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(3) - call 与 delegatecall </blockquote>
+    <title>Ethers.js 简明使用教程</title>
+    <url>/2022/08/12/Ethereum-2022-08-12-Ethers-js-%E7%AE%80%E6%98%8E%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> Ethers.js 简明使用教程 </blockquote>
 
 <a id="more"></a>
-<h2 id="call-与-delegatecall-的区别"><a href="#call-与-delegatecall-的区别" class="headerlink" title="call 与 delegatecall 的区别"></a>call 与 delegatecall 的区别</h2><p><code>call</code> 和 <code>delegatecall</code> 是 Solidity 中调用外部合约的方法，但是它俩却有挺大的区别。假设 A 合约调用 B 合约，当在 A 合约中使用 <code>call</code> 调用 B 合约时，使用的是 B 合约的上下文，修改的是 B 合约的内存插槽值。而在如果在 A 合约中使用 <code>delegatecall</code> 调用 B 合约，那么在 B 合约的函数执行过程中，使用的是 A 合约的上下文，同时修改的也是 A 合约的内存插槽值。这么说有些抽象，我们来看一个简单的示意图：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/1.png" alt="通过 call 调用" title="通过 call 调用"></p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/2.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
-<p>从上面的图中我们可以看出，在使用 <code>call</code> 调用时，B 合约使用的上下文数据均是 B 本身的。而当使用 <code>delegatecall</code> 调用时，B 合约使用了 A 合约中的上下文数据。我们来写段代码测试一下：</p>
-<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
+<p><code>Ethers.js</code> 是一个与 <code>EVM-compatible</code> 区块链交互的 JavaScript 库。用户通过编写 JavaScript 代码就可以与区块链进行交互，包括读写等操作。同时还有一个名为 <code>web3.js</code> 的库也可以与区块链交互，与之相比，<code>Ethers.js</code> 更加轻量级，上手更加简单。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>npm install --save ethers</p>
+</blockquote>
+<h2 id="基本使用方法"><a href="#基本使用方法" class="headerlink" title="基本使用方法"></a>基本使用方法</h2><pre><code class="line-numbers language-javascript">// 需要导入 ethers 包
+const { ethers } = require(&quot;ethers&quot;);
 
+// 构建 provider，可以理解为与区块链交互的桥梁
+// 1. 可使用最基础的 JsonRpcProvider 进行构建 provider
+const INFURA_ID = &#39;xxx..&#39;;
+const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`);
 
-contract A {
-    address public b;
-    constructor(address _b) {
-        b = _b;
-    }
-
-    function foo() external {
-        (bool success, bytes memory data) = 
-            b.call(abi.encodeWithSignature(&quot;foo()&quot;));
-        require(success, &quot;Tx failed&quot;);
-    }
-}
-
-contract B {
-    event Log(address sender, address me);
-    function foo() external {
-        emit Log(msg.sender, address(this));
-    }
-}
+// 2. 也可使用封装好的特定 provider，例如 AlchemyProvider，InfuraProvider
+// 使用 alchemy 的时候，第一个参数若为 null 则代表主网
+const ALCHEMY_ID = `xxx...`;
+const provider = new ethers.providers.AlchemyProvider(&#39;null&#39;, ALCHEMY_ID);
 </code></pre>
-<p>上面代码中，我们在 A 合约中使用 <code>call</code> 调用 B 合约，通过 <code>Log</code> 事件记录一些信息。先部署 B 合约，然后将其地址作为参数部署 A 合约，接着我们调用 <code>foo</code> 函数，可以获取到 <code>Log</code> 事件的内容为：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/3.png" alt="通过 call 调用" title="通过 call 调用"></p>
-<p>与我们前面的说的规则一致，使用 <code>call</code> 调用时，使用的是 B 本身的上下文。接下来我们将 <code>call</code> 改成 <code>delegatecall</code>：</p>
-<pre><code class="line-numbers language-solidity">function foo() external {
-    (bool success, bytes memory data) = 
-        b.delegatecall(abi.encodeWithSignature(&quot;foo()&quot;));
-    require(success, &quot;Tx failed&quot;);
-}
+<p>接下来我们看看一些常用的函数：</p>
+<pre><code class="line-numbers language-javascript">// 获取当前网络最新的区块号 
+let blockNumber = await provider.getBlockNumber(); 
+
+// 获取余额，参数为地址，返回值是 bignumber 格式，单位为 wei
+let balance = await provider.getBalance(&quot;0x...&quot;);
+
+// 将 wei 格式转化为 ether 格式，bignumber 和 toString 格式都可以作为参数
+let balance_in_ether = ethers.utils.formatEther(balance);
+
+// 将 ether 转换为 wei 格式，返回值为 bignumber 格式
+let result = ethers.utils.parseEther(&quot;1.0&quot;);
+
+// 获取 gas price，返回值为 bignumber 格式
+let gasPrice = await provider.getGasPrice();
+
+// 获取内存 storage slot
+// 第一个参数是合约地址，第二个参数是插槽位置
+// 插槽位置可以使用十进制或者十六进制，十六进制需要加引号
+await provider.getStorageAt(&quot;0x...&quot;, 3);
+await provider.getStorageAt(&quot;0x...&quot;, &quot;0x121&quot;);
+
+// 获取地址的 nonce
+await provider.getTransactionCount(&quot;0x...&quot;);
 </code></pre>
-<p>再来看看执行结果：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/4.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
-<p>可以看到当使用了 <code>delegatecall</code> 调用时，使用了 A 合约的上下文。</p>
-<p>上面我们还提到，当使用 <code>delegatecall</code> 时，修改的是调用合约的内存插槽值，这是什么意思呢，我们来看一个例子：</p>
-<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
-
-
-contract A {
-    uint256 public alice;
-    uint256 public bob;
-
-    address public b;
-    constructor(address _b) {
-        b = _b;
-    }
-
-    function foo(uint256 _alice, uint256 _bob) external {
-        (bool success, bytes memory data) = 
-            b.delegatecall(abi.encodeWithSignature(&quot;foo(uint256,uint256)&quot;, 
-            _alice, _bob));
-        require(success, &quot;Tx failed&quot;);
-    }
+<p>注意上面返回值为 <code>bignumber</code> 格式的数据，如果要在控制台打印，需要使用 <code>toString()</code> 进行转换。同时，由于 JavaScript 中的语法限制，所有 <code>await</code> 的语句都要放在 <code>async</code> 函数中。也就是说，要执行带有 <code>await</code> 的语句，必须为：</p>
+<pre><code class="line-numbers language-javascript">const main = async () =&gt; {
+    let gasPrice = await provider.getGasPrice();
 }
 
-contract B {
-    uint256 public alice;
-    uint256 public bob;
-    function foo(uint256 _alice, uint256 _bob) external {
-        alice = _alice;
-        bob = _bob;
-    }
-}
+main();
 </code></pre>
-<p>这段代码中，我们使用 <code>delegatecall</code> 来调用 <code>foo</code> 函数，<code>foo</code> 函数的作用是给 B 合约的两个变量赋值。但是实际调用后的结果是，A 合约的两个变量被赋值，而 B 中的变量仍为空。这就是我们前面说的，<code>delegatecall</code> 会修改调用合约的内存插槽值，我们来看一个图示：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/5.png" alt="内存插槽" title="内存插槽"></p>
-<p>在 A 合约中有三个状态变量，B 合约中有两个状态变量。当 A 合约使用 <code>delegatecall</code> 调用 B 合约时，对 B 合约状态变量的赋值会通过插槽顺序分别影响 A 合约的各个变量。也就是说，对 B 合约插槽 0 的变量 <code>alice</code> 赋值，实际上是把值赋给了 A 合约插槽 0 的变量 <code>alice</code>。同理，对 B 合约的第 n 个插槽赋值，实际上会对 A 合约的第 n 个插槽赋值。注意，这里仅仅和插槽顺序有关，而和变量名无关。如果我们将 B 合约改为：</p>
-<pre><code class="line-numbers language-solidity">contract B {
-    // 调换了变量声明顺序
-    uint256 public bob;
-    uint256 public alice;
-    function foo(uint256 _alice, uint256 _bob) external {
-        // 调换了赋值内容
-        bob = _alice;
-        alice = _bob;
-    }
-}
+<h2 id="构建钱包信息"><a href="#构建钱包信息" class="headerlink" title="构建钱包信息"></a>构建钱包信息</h2><pre><code class="line-numbers language-javascript">// 构建钱包有两种方法
+// 1. 直接通过 provider 和 私钥 构建
+const privateKey1 = `0x...` // Private key of account 1
+const wallet = new ethers.Wallet(privateKey1, provider);
+
+// 2. 先通过 私钥 构建钱包，然后连接 provider
+wallet = new ethers.Wallet(privateKey1);
+walletSigner = wallet.connect(provider);
+
+// 获取钱包地址
+let address = await wallet.getAddress();
 </code></pre>
-<p>这段代码中，虽然变量声明以及赋值的顺序调换，但是 <code>foo</code> 的内容仍然是将 <code>_alice</code> 赋值给插槽 0 的变量，将 <code>_bob</code> 赋值给插槽 1 的变量，因此 A 合约的结果不变。</p>
-<h2 id="delegatecall-在合约升级方面的应用"><a href="#delegatecall-在合约升级方面的应用" class="headerlink" title="delegatecall 在合约升级方面的应用"></a>delegatecall 在合约升级方面的应用</h2><p>学习理解 <code>delegatecall</code> 是我们后面学习合约升级的基础，合约升级的原理就是代理合约通过 <code>delegatecall</code> 调用逻辑合约，此时逻辑合约的上下文以及数据都是来自于代理合约，那么即使升级，更换了逻辑合约，所有的数据仍然存在于代理合约中，没有影响。可升级合约还有一个限制是，在升级合约时，不能更改已有的状态变量的顺序，如果需要新添变量，只能放在当前所有变量之后，不能在其中插入，原因就是这会改变插槽对应关系，使变量内容混乱。例如，若升级前的插槽为：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/6.png" alt="内存插槽" title="内存插槽"></p>
-<p>此时，变量 a 和 b 的值分别存储在代理合约的插槽 0，1 中。若添加变量 c，将其放在 a 和 b 中间，那么后续对于 c 的修改实际修改的是 b 的插槽，而对于 b 的修改则是在一个新的插槽上操作，造成数据混乱。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>delegatecall</code> 会在被调用合约中使用调用合约的上下文，同时影响的是调用合约的内存插槽，这有时会对合约开发带来一些困扰。在使用时，一定要多考虑各方面的影响。同时，<code>delegatecall</code> 也是代理合约升级模式的基石，要理解合约升级，必须要明白这种调用方式的方方面面。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blockchain-academy.hs-mittweida.de/courses/solidity-coding-beginners-to-intermediate/lessons/solidity-5-calling-other-contracts-visibility-state-access/topic/delegatecall/" target="_blank" rel="noopener">blockchain-academy.hs-mittweida.de</a><br><a href="https://www.anquanke.com/post/id/152590" target="_blank" rel="noopener">www.anquanke.com</a><br><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a></p>
-<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
-<li><a href>深入理解合约升级(1) - 概括</a></li>
-<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
-<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
-<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
-<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
-</ol>
-<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/0gmFpVZVlHhwb2YlmaSY8Dyv5r3Z24sKIks38cyQRFk" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
+<h2 id="发送链上原生货币（例如-ETH，BNB）"><a href="#发送链上原生货币（例如-ETH，BNB）" class="headerlink" title="发送链上原生货币（例如 ETH，BNB）"></a>发送链上原生货币（例如 ETH，BNB）</h2><pre><code class="line-numbers language-javascript">// eth 转账
+const tx = await wallet.sendTransaction({
+    to: wallet2.getAddress(),
+    value: ethers.utils.parseEther(&quot;100&quot;)
+});
+
+// 等待交易上链
+await tx.wait();
+// 打印交易信息
+console.log(tx);
+</code></pre>
+<h2 id="构建合约"><a href="#构建合约" class="headerlink" title="构建合约"></a>构建合约</h2><pre><code class="line-numbers language-javascript">// 可以直接通过 函数签名 构建 abi
+// 需要用到哪个函数就写哪个，不需要写出全部的函数签名
+const ERC20_ABI = [
+    &quot;function name() public view returns (string)&quot;,
+    &quot;function symbol() view returns (string)&quot;,
+    &quot;function totalSupply() view returns (uint256)&quot;,
+    &quot;function balanceOf(address) view returns (uint)&quot;,
+
+    &quot;event Transfer(address indexed from, address indexed to, uint amount)&quot;
+];
+
+// 合约地址
+const address = &#39;0x...&#39;;
+// 通过 地址，abi，provider 构建合约对象
+const contract = new ethers.Contract(address, ERC20_ABI, provider);
+</code></pre>
+<h2 id="调用合约只读方法"><a href="#调用合约只读方法" class="headerlink" title="调用合约只读方法"></a>调用合约只读方法</h2><pre><code class="line-numbers language-javascript">// 读取 name() 的值
+const name = await contract.name();
+console.log(name.toString());
+
+// 读取 symbol() 的值
+const symbol = await contract.symbol();
+console.log(symbol);
+
+// 读取 ERC20 合约中 balanceOf 的值
+const balance = await contract.balanceOf(&#39;0x....&#39;);
+console.log(balance.toString());
+</code></pre>
+<h2 id="调用合约的写方法"><a href="#调用合约的写方法" class="headerlink" title="调用合约的写方法"></a>调用合约的写方法</h2><pre><code class="line-numbers language-javascript">// 获取钱包的 ERC20 余额
+const balance = await contract.balanceOf(wallet.getAddress());
+
+// 合约连接钱包对象
+const contractWithWallet = contract.connect(wallet);
+
+// 调用合约的 transfer 方法向其他账户转账
+// 注意这里是调用 ERC20 合约的 transfer 函数，而不是原生货币转账
+// 如果要调用 approve 函数，则为 contractWithWallet.approve
+const tx = await contractWithWallet.transfer(&#39;0x...&#39;, balance);
+// 等待交易上链
+await tx.wait();
+
+console.log(tx);
+</code></pre>
+<h2 id="实时监听合约事件"><a href="#实时监听合约事件" class="headerlink" title="实时监听合约事件"></a>实时监听合约事件</h2><pre><code class="line-numbers language-javascript">// Transfer 事件要在 abi 中声明
+// 括号中的参数分别对应 Transfer 事件的参数
+contract.on(&quot;Transfer&quot;, (from, to, amount, event) =&gt; {
+    console.log(`${from} sent ${ethers.utils.formatEther(amount)} to ${to}`);
+});
+
+// 这里是指定参数的监听行为
+// 例如，我只想监听接收人是 `0x1234....` 的事件，那么就这样指定地址
+// 构造一个 filter，然后通过 filter 筛选
+filter = contract.filters.Transfer(null, &#39;0x1234....&#39;);
+
+// Receive an event when that filter occurs
+contract.on(filter, (from, to, amount, event) =&gt; {
+    // The to will always be &quot;address&quot;
+    console.log(`I got ${ethers.utils.formatEther(amount)} from ${from}.`);
+});
+</code></pre>
+<h2 id="设置范围，扫描指定区块范围的事件"><a href="#设置范围，扫描指定区块范围的事件" class="headerlink" title="设置范围，扫描指定区块范围的事件"></a>设置范围，扫描指定区块范围的事件</h2><pre><code class="line-numbers language-javascript">// 创建 指定发送人是 myAddress 的 filter
+const myAddress = `0x...`;
+filterFrom = contract.filters.Transfer(myAddress, null);
+
+// 创建 指定接收人是 myAddress 的 filter
+filterTo = contract.filters.Transfer(null, myAddress);
+// 扫描指定区块的范围
+
+console.log(await contract.queryFilter(filterFrom, 14692250, 14693250))
+
+// 扫描最近 1000 个区块
+console.log(await contract.queryFilter(filterFrom, -1000))
+
+// 扫描所有区块
+await daiContract.queryFilter(filterTo)
+</code></pre>
+<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><pre><code class="line-numbers language-javascript">// 签名 utf-8
+const signature = await wallet.signMessage(&#39;hello world&#39;);
+console.log(signature);
+
+// 更常见的 case 是签名 hash，长度为 32 字节
+// 注意签名十六进制时，必须要将其转换为数组格式
+
+// This string is 66 characters long
+message = &quot;0x4c8f18581c0167eb90a761b4a304e009b924f03b619a0c0e8ea3adfce20aee64&quot;;
+// This array representation is 32 bytes long
+messageBytes = ethers.utils.arrayify(message);
+
+// To sign a hash, you most often want to sign the bytes
+const signature2 = await wallet.signMessage(messageBytes);
+console.log(signature2);
+</code></pre>
+<h2 id="指定调用合约时的一些参数"><a href="#指定调用合约时的一些参数" class="headerlink" title="指定调用合约时的一些参数"></a>指定调用合约时的一些参数</h2><pre><code class="line-numbers language-javascript">// 我们上面在做一些写操作，例如转 ETH，写合约等操作时
+// 使用的 gasLimit、gasPrice，都是由链上获取的默认数值
+// 如果想要手动指定，需要添加一个额外的参数
+// 声明一个对象，填写需要覆盖的字段，例如
+let overrides = {
+    gasLimit: 230000,
+    maxFeePerGas: ethers.utils.parseUnits(&#39;12&#39;, &#39;gwei&#39;),
+    maxPriorityFeePerGas: ethers.utils.parseUnits(&#39;3&#39;, &#39;gwei&#39;),
+    nonce: (await provider.getTransactionCount(wallet.getAddress()))
+}
+// 将 overrides 作为最后一个参数
+await walletWithSigner.transfer(wallet2.getAddress(), amount, overrides)
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文列出了一些常用的用法，作为基本的使用基本够用了。查询更多方法可以查询 <code>Ethers.js</code> 的<a href="https://docs.ethers.io/v5/" target="_blank" rel="noopener">官方文档</a>。总的来说，<code>Ethers.js</code> 还是比较简单的，上手也比较快。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://docs.ethers.io/v5/" target="_blank" rel="noopener">Documentation</a></p>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/hT78s8EI3wYp-IixUC951fQNWTON-EhNcGd2jXEtcdM" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
       <categories>
         <category>Ethereum</category>
       </categories>
       <tags>
-        <tag>合约升级</tag>
+        <tag>Ethers.js</tag>
       </tags>
   </entry>
   <entry>
@@ -142,6 +225,437 @@ contract B {
 <li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
 </ol>
 <h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/RZscMYGkeGTY8z6ccHseY8HKu-ER3pX0mFYoWXRqXQ0" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
+      <categories>
+        <category>Ethereum</category>
+      </categories>
+      <tags>
+        <tag>合约升级</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解合约升级(5) - 部署一个可升级合约</title>
+    <url>/2022/07/31/Ethereum-2022-07-31-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-5-%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%8D%87%E7%BA%A7%E5%90%88%E7%BA%A6/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(5) - 部署一个可升级合约 </blockquote>
+
+<a id="more"></a>
+<p>前面的文章我们基本把合约升级的原理介绍完了，这篇文章我们来实际操作一下，部署一个可升级合约。我们将会使用到 <code>hardhat</code> 框架和 <code>OpenZeppelin</code> 的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable" target="_blank" rel="noopener">可升级合约库</a>。这个库和 OZ 的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank" rel="noopener">普通合约库</a>的区别是，所有的合约中都没有构造函数，作为代替的是 <code>initialize</code> 函数，用来作初始化操作。</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>首先执行下面的命令来做一些初始化的工作：</p>
+<ol>
+<li><code>mkdir upgradeable_demo &amp;&amp; cd upgradeable_demo</code></li>
+<li><code>npm init -y</code></li>
+<li><code>npm install --save-dev hardhat</code></li>
+<li><code>npx hardhat</code>，创建实例项目，并且按照步骤进行</li>
+<li><code>npm install --save-dev @openzeppelin/hardhat-upgrades</code>，安装 hardhat 的升级组件</li>
+<li><code>npm install --save-dev @nomiclabs/hardhat-ethers ethers</code>，这两个包主要用于合约部署和测试</li>
+<li><code>npm install --save @openzeppelin/contracts-upgradeable</code>，安装可升级合约库</li>
+</ol>
+<p>接下来我们配置 <code>hardhat</code> 的配置文件：</p>
+<pre><code class="line-numbers language-solidity">// hardhat.config.js
+require(&quot;@nomiclabs/hardhat-ethers&quot;);
+require(&#39;@openzeppelin/hardhat-upgrades&#39;);
+
+/**
+ * @type import(&#39;hardhat/config&#39;).HardhatUserConfig
+ */
+module.exports = {
+  solidity: &quot;0.8.4&quot;,
+  networks: {
+    rinkeby: {
+      url: // 这里填写对应网络的 rpc 地址,
+      accounts: [这里填写私钥]
+    }
+  }
+};
+</code></pre>
+<p>然后我们再来编写可升级合约，在 <code>contracts</code> 文件夹下创建 <code>Demo.sol</code> 文件：</p>
+<pre><code class="line-numbers language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.4;
+
+import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol&quot;;
+
+contract Demo is Initializable {
+    uint256 public a;
+
+    // 初始化函数，后面的修饰符 initializer 来自 Initializable.sol
+    // 用于限制该函数只能调用一次
+    function initialize(uint256 _a) public initializer {
+        a = _a;
+    }
+
+    function increaseA() external {
+        ++a;
+    }
+}
+</code></pre>
+<p>编译合约 <code>npx hardhat compile</code>，没有问题。</p>
+<h2 id="Transparent-Proxy"><a href="#Transparent-Proxy" class="headerlink" title="Transparent Proxy"></a>Transparent Proxy</h2><p>接着我们编写部署脚本，在 <code>scripts</code> 文件夹下创建 <code>deploy.js</code> 文件：</p>
+<pre><code class="line-numbers language-javascript">async function main() {
+    const Demo = await ethers.getContractFactory(&quot;Demo&quot;);
+    console.log(&quot;Deploying Demo...&quot;);
+    // initializer 后面的参数为初始化函数的名字，这里为 initialize
+    // 中括号的参数为初始化函数的参数
+    const demo = await upgrades.deployProxy(Demo, [101], { initializer: &#39;initialize&#39; });
+    // 这里打印的地址为代理合约的地址
+    console.log(&quot;Demo deployed to:&quot;, demo.address);
+}
+
+// 这里也可以简化为 main()，后面的都省略也可以
+main()
+    .then(() =&gt; process.exit(0))
+    .catch(error =&gt; {
+        console.error(error);
+        process.exit(1);
+    });
+</code></pre>
+<p>我们来运行部署脚本，这里我们使用本地测试网络进行部署：</p>
+<p>注意，本地测试网络需要运行 <code>npx hardhat node</code>。本地网络无需在配置文件中配置，如果使用真实网络，需要进行配置，并且在 <code>--network</code> 后面指定网络名称即可。</p>
+<blockquote>
+<p>npx hardhat run scripts/deploy.js --network localhost</p>
+</blockquote>
+<p>可以观察到一共部署了三个合约，对应的部署顺序分别是</p>
+<ol>
+<li>逻辑合约</li>
+<li><code>ProxyAdmin</code> 合约</li>
+<li>代理合约（名为 <code>TransparentUpgradeableProxy</code>）</li>
+</ol>
+<p>注意，一个项目中只会有一个 <code>ProxyAdmin</code> 合约，管理着所有的代理合约。也就是说，我们在同一个项目中再去部署另外的合约，那么只会有步骤 1、3，<code>ProxyAdmin</code> 只在部署第一个合约时会部署。</p>
+<p>这时，假设由于业务场景变化，需要修改合约，将 <code>increaseA</code> 函数修改为：</p>
+<pre><code class="line-numbers language-solidity">function increaseA() external {
+    a += 10;
+}
+</code></pre>
+<p>再次编译，没有问题。接着编写升级脚本，在 <code>scripts</code> 文件夹下创建 <code>upgrade.js</code> 文件：</p>
+<pre><code class="line-numbers language-javascript">async function main() {
+    // 这里的地址为前面部署的代理合约地址
+    const proxyAddress = &#39;0x...&#39;;
+
+    const Demo = await ethers.getContractFactory(&quot;Demo&quot;);
+    console.log(&quot;Preparing upgrade...&quot;);
+    // 升级合约
+    await upgrades.upgradeProxy(proxyAddress, Demo);
+}
+
+main()
+    .then(() =&gt; process.exit(0))
+    .catch(error =&gt; {
+        console.error(error);
+        process.exit(1);
+    });
+</code></pre>
+<p>接着运行</p>
+<blockquote>
+<p>npx hardhat run scripts/upgrade.js --network localhost</p>
+</blockquote>
+<p>升级合约时， <code>upgradeProxy</code> 中一共有两个步骤：</p>
+<ol>
+<li>部署新的逻辑合约</li>
+<li>调用 <code>ProxyAdmin</code> 合约的 <code>upgrade</code> 函数来更换新合约，两个参数分别是代理合约和新逻辑合约的地址</li>
+</ol>
+<p>这样我们就完成了可升级合约的部署与升级，注意到我们的部署过程中有 <code>ProxyAdmin</code> 合约，说明这是 <code>TransparentProxy</code> 的合约升级模式。接下来我们看看 <code>UUPS</code> 的模式如何部署及升级。</p>
+<h2 id="UUPS"><a href="#UUPS" class="headerlink" title="UUPS"></a>UUPS</h2><p>若要支持 <code>UUPS</code> 的升级模式，需要做以下几点改动：</p>
+<ol>
+<li>逻辑合约需继承 <code>UUPSUpgradeable</code> 合约</li>
+<li>覆写 <code>_authorizeUpgrade</code> 函数</li>
+<li>部署脚本需要添加 <code>kind: &#39;uups&#39;</code> 参数</li>
+</ol>
+<p>此时，逻辑合约变为：</p>
+<pre><code class="line-numbers language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.4;
+
+import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol&quot;;
+import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol&quot;;
+
+// 需要继承 UUPSUpgradeable 合约
+contract Demo is Initializable, UUPSUpgradeable {
+    uint256 public a;
+
+    function initialize(uint256 _a) public initializer {
+        a = _a;
+    }
+
+    function increaseA() external {
+        a += 10;
+    }
+
+    // 覆写 _authorizeUpgrade 函数
+    function _authorizeUpgrade(address) internal override {}
+}
+</code></pre>
+<p>部署脚本变为：</p>
+<pre><code class="line-numbers language-javascript">async function main() {
+    const Demo = await ethers.getContractFactory(&quot;Demo&quot;);
+    console.log(&quot;Deploying Demo...&quot;);
+    // 这里添加了参数 =&gt; kind: &#39;uups&#39;
+    const demo = await upgrades.deployProxy(Demo, [101], { initializer: &#39;initialize&#39;, kind: &#39;uups&#39; });
+    console.log(&quot;Demo deployed to:&quot;, demo.address);
+}
+
+main()
+    .then(() =&gt; process.exit(0))
+    .catch(error =&gt; {
+        console.error(error);
+        process.exit(1);
+    });
+</code></pre>
+<p>编译合约并运行部署脚本（注意，这时最好删除 <code>.openzeppelin</code> 文件夹下的对应网络配置文件，因为其包含了我们上面测试的 <code>TransparentProxy</code> 模式的一些运行配置，可能会有影响），可以观察到一共部署了两个合约，分别是：</p>
+<ol>
+<li>逻辑合约</li>
+<li>代理合约（名为 <code>ERC1967Proxy</code>）</li>
+</ol>
+<p>此时，假设我们需要升级合约，在改动了合约之后，我们可以继续使用上面的 <code>upgrade.js</code> 脚本进行升级，这时的升级步骤是：</p>
+<ol>
+<li>部署新的逻辑合约</li>
+<li>调用<strong>代理合约</strong>的 <code>upgradeTo</code> 函数进行升级，参数是新的逻辑合约地址</li>
+</ol>
+<p>我们可以看到，两种升级模式有所区别。<code>TransparentProxy</code> 模式在升级的时候，需要调用 <code>ProxyAdmin</code> 的升级函数。而 <code>UUPS</code> 模式在升级时，需要调用代理合约的升级函数。后者相比于前者少部署一个合约。</p>
+<h2 id="UUPS-中需要注意的权限管理问题"><a href="#UUPS-中需要注意的权限管理问题" class="headerlink" title="UUPS 中需要注意的权限管理问题"></a>UUPS 中需要注意的权限管理问题</h2><p>这里有一个重点是，由于 <code>TransparentProxy</code> 模式是由 <code>ProxyAdmin</code> 进行管理，也就是说只有 <code>ProxyAdmin</code> 有权限进行升级，那么我们只要保证 <code>ProxyAdmin</code> 合约的管理员权限安全即可保证整个可升级架构安全。而对于 <code>UUPS</code> 模式来说，升级合约的逻辑是需要调用代理合约的，这时的权限管理就需要开发者手动处理。具体来说，就是对于我们覆写的 <code>_authorizeUpgrade</code> 函数，需要加上权限管理：</p>
+<pre><code class="line-numbers language-solidity">function _authorizeUpgrade(address) internal 
+    override onlyOwner {}
+</code></pre>
+<p>这里加上了 <code>onlyOwner</code> 用于限制升级权限，否则任何人都可调用代理合约的 <code>upgradeTo</code> 进行升级。但要注意的是，我们这里只是简单加上了 <code>onlyOwner</code> 做为示例的权限管理，在实际开发中，由于升级的逻辑和业务逻辑都在逻辑合约中，因此需要区分业务场景的 <code>owner</code> 和合约升级架构的 <code>owner</code>。这里可能会对开发者带来困扰，因此需要多加注意。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>TransparentProxy</code> 和 <code>UUPS</code> 是目前阶段比较流行的成熟的合约升级解决方案。OZ 建议开发者使用 <code>UUPS</code>，更加轻量级，节省 gas。我个人还是比较倾向于前者，因为我觉得前者架构清晰，权限管理简单。后者将业务逻辑和升级组件都放在逻辑合约中，当需要多次升级合约时，是否节省 gas 仍需探讨。不过建议大家两个都能够熟练掌握，毕竟难度不高，上手也很简单。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786" target="_blank" rel="noopener">forum.openzeppelin.com</a><br><a href="https://forum.openzeppelin.com/t/openzeppelin-upgrades-step-by-step-tutorial-for-hardhat/3580" target="_blank" rel="noopener">forum.openzeppelin.com</a><br><a href="https://www.npmjs.com/package/@openzeppelin/hardhat-upgrades" target="_blank" rel="noopener">www.npmjs.com</a><br><a href="https://blog.logrocket.com/using-uups-proxy-pattern-upgrade-smart-contracts" target="_blank" rel="noopener">blog.logrocket.com</a></p>
+<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
+<li><a href>深入理解合约升级(1) - 概括</a></li>
+<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
+<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
+<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
+<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
+</ol>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/kM9ld2u0D1BpHAfXTiaSPGPtDnOd6vrxJ5_tW4wZVBk" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
+      <categories>
+        <category>Ethereum</category>
+      </categories>
+      <tags>
+        <tag>合约升级</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>深入理解合约升级(4) - 合约升级原理的代码实现</title>
+    <url>/2022/07/30/Ethereum-2022-07-30-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-4-%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7%E5%8E%9F%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(4) - 合约升级原理的代码实现 </blockquote>
+
+<a id="more"></a>
+<p>前面的文章我们提到，合约升级的原理是将合约架构分为 <code>代理合约</code> 与 <code>逻辑合约</code>，通过前面对于内存结构以及 <code>delegatecall</code> 的学习，我们已经基本掌握的合约升级的基础。这篇文章我们就从代码层面来看看合约升级到底应该如何实现。</p>
+<p><img src="/upload_image/2022-07-30-深入理解合约升级4/1.png" alt></p>
+<p>这是我们在第一篇文章中的图例，当我们学习了内存结构以及 <code>delegatecall</code> 之后，我们再来看这幅图，就能够很好地理解了：数据都存放在代理合约的内存插槽中，而由于代理合约使用了 <code>delegatecall</code>，因此函数执行都在逻辑合约中运行，修改的却是代理合约中的数据。这样就可以方便替换逻辑合约，实现合约升级。</p>
+<h2 id="合约升级实现过程"><a href="#合约升级实现过程" class="headerlink" title="合约升级实现过程"></a>合约升级实现过程</h2><h3 id="简版-Proxy"><a href="#简版-Proxy" class="headerlink" title="简版 Proxy"></a>简版 Proxy</h3><p>首先我们考虑，对于代理合约而言，如何将请求转发到逻辑合约。最简单的方法就是对于逻辑合约中的每个函数，都在代理合约中包装一层，然后通过 <code>delegatecall</code> 来分别调用各个函数。这种方法是不可行的，因为既然我们都用到了可升级合约，那就说明我们后期会对合约做改动，我们总不能每添加一个函数，都在代理合约中添加一个包装层。一是这样很冗余，二是这样无法实现，因为代理合约也是区块链上的智能合约，它本身是不可变的。</p>
+<p>这时我们想到，能不能够利用 Solidity 中的 <code>fallback</code> 与 <code>receive</code> 函数，它们的作用就是接收并处理一切未实现的函数（两者的区别是，<code>receive</code> 接收所有 <code>msg.data</code> 为空的调用，<code>fallback</code> 接收所有未匹配函数的调用）。如果我们将所有的函数调用都通过 <code>fallback</code> 转发给逻辑合约，那么是否就达到目标了呢？我们来看看代码：</p>
+<pre><code class="line-numbers language-solidity">// 注：这个实现有问题（后文有描述），不要直接使用！
+contract Proxy {
+    address public implementation;
+    address public admin;
+
+    constructor() public {
+        admin = msg.sender;
+    }
+    function setImplementation(address newImplementation) external {
+        require(msg.sender == admin, &quot;must called by admin&quot;);
+        implementation = newImplementation;
+    }
+    function changeAdmin(address newAdmin) external {
+        require(msg.sender == admin, &quot;must called by admin&quot;);
+        admin = newAdmin;
+    }
+
+    function _delegate() internal {
+        require(msg.sender != admin, &quot;admin cannot fallback to proxy target&quot;);
+        address _implementation = implementation;
+        // 下面代码是利用 delegatecall 把请求转发给 _implementation 所指定地址的合约中去
+        assembly {
+            calldatacopy(0, 0, calldatasize())
+            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
+            returndatacopy(0, 0, returndatasize())
+
+            switch result
+            case 0 { revert(0, returndatasize()) }
+            default { return(0, returndatasize()) }
+        }
+    }
+
+    fallback () payable external {
+        _delegate();
+    }
+    // Will run if call data is empty.
+    receive () payable external {
+        _delegate();
+    }
+}
+</code></pre>
+<p>这段代码中，我们将 <code>fallback</code> 和 <code>receive</code> 函数都指向了 <code>_delegate</code> 函数，它会将有请求都转发给逻辑合约。乍一看没有什么问题，但是需要注意：</p>
+<ol>
+<li>此合约中有两个字段，<code>implementation</code> 和 <code>admin</code>，分别存储逻辑合约地址和管理员地址（管理员地址用户更换逻辑合约升级）。它们分别占据了插槽 0 和 1 的位置，那么这就有可能和我们的逻辑合约中的内存发生冲突，如果逻辑合约中有对这俩插槽的修改，那就直接把这两个很重要的变量给改掉了，那就乱套了。</li>
+<li>还有一个问题就是代理合约本身也存在一些自身的方法，比如 <code>changeAdmin</code> 等，如果逻辑合约中恰好也有这些方法，那么用户的请求就不会转发到逻辑合约。</li>
+</ol>
+<h3 id="EIP-1967"><a href="#EIP-1967" class="headerlink" title="EIP-1967"></a>EIP-1967</h3><p>该如何解决这个问题呢？<a href="https://eips.ethereum.org/EIPS/eip-1967" target="_blank" rel="noopener">EIP-1967</a> 提出了一个解决办法，它把 <code>implementation</code> 和 <code>admin</code> 这两个字段放在了两个特殊的插槽中：</p>
+<pre><code class="line-numbers language-solidity"># bytes32(uint256(keccak256(&#39;eip1967.proxy.implementation&#39;)) - 1)
+0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
+
+# bytes32(uint256(keccak256(&#39;eip1967.proxy.admin&#39;)) - 1)
+0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
+</code></pre>
+<p>这两个插槽是经过哈希计算出来的值，根据概率来看，不可能与逻辑合约中的其他内存位置发生冲突。此时，我们的代码就变成了：</p>
+<pre><code class="line-numbers language-solidity">bytes32 private constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+
+bytes32 private constant _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
+</code></pre>
+<p>注意这里指用了 <code>constant</code> 来保存插槽位置，<code>constant</code> 关键字保存的是常量，并不保存在插槽中。这样我们就解决了前面提到的第一个问题。</p>
+<p>我们再来看看第二个问题，这个问题看似很好解决，比如我们给代理合约中的函数都起一些不常用的名字就行。例如，把上面的 <code>changeAdmin</code> 改成 <code>changeAdmin12345</code>。但是问题没有这么简单，我们要知道，智能合约匹配请求是根据函数签名 <code>keccak256</code> 值的前 4 个字节来判断的，如果两个函数的哈希值前 4 位相同，那么它们就被判断为同一个函数，例如：</p>
+<pre><code class="line-numbers language-solidity"># keccak256(&quot;proxyOwner()&quot;) 前 4 字节为 025313a2
+proxyOwner()
+
+# keccak256(&quot;clash550254402()&quot;) 前 4 字节为 025313a2
+clash550254402()
+</code></pre>
+<p>这个问题被称为 <code>Proxy selector clashing</code>。这可能会造成一些问题，如果我们的逻辑合约中恰好有函数的哈希值前 4 位与代理合约中的某个函数相同，那就会造成用户的请求实际上是在代理合约中执行的，而执行结果必然是我们不希望发生的。</p>
+<h3 id="Transparent-Proxy"><a href="#Transparent-Proxy" class="headerlink" title="Transparent Proxy"></a>Transparent Proxy</h3><p><a href="https://blog.openzeppelin.com/the-transparent-proxy-pattern/" target="_blank" rel="noopener">Transparent Proxy</a> 提出了解决方案，它主要从两方面解决这个问题：</p>
+<ol>
+<li>来自普通用户的请求全部转发给逻辑合约，即使代理合约与逻辑合约发生了名称冲突，也要转发</li>
+<li>来自管理员 <code>admin</code> 的请求，全部不转发，由代理合约处理</li>
+</ol>
+<p>主要的代码如下：</p>
+<pre><code class="line-numbers language-solidity">contract Proxy {
+    bytes32 private constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+    bytes32 private constant _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
+
+    modifier ifAdmin() {
+        // 如果调用者是 admin，就执行；否则转发到 Implementation 合约
+        if (msg.sender == admin()) {
+            _;
+        } else {
+            _delegate();
+        }
+    }
+
+    constructor() public {
+        address admin = msg.sender;
+        bytes32 slot = _ADMIN_SLOT;
+        assembly {
+            sstore(slot, admin)
+        }
+    }
+    function implementation() public ifAdmin returns (address) {
+        return _implementation();
+    }
+
+    function _implementation() internal view returns (address impl) {
+        bytes32 slot = _IMPLEMENTATION_SLOT;
+        assembly {
+            impl := sload(slot)
+        }
+    }
+
+    function setImplementation(address newImplementation) external ifAdmin {
+        bytes32 slot = _IMPLEMENTATION_SLOT;
+        assembly {
+            sstore(slot, newImplementation)
+        }
+    }
+    function admin() public ifAdmin returns (address) {
+        return _admin();
+    }
+
+    function _admin() internal view returns (address adm) {
+        bytes32 slot = _ADMIN_SLOT;
+        assembly {
+            adm := sload(slot)
+        }
+    }
+    function changeAdmin(address newAdmin) external ifAdmin {
+        bytes32 slot = _ADMIN_SLOT;
+        assembly {
+            sstore(slot, newAdmin)
+        }
+    }
+
+    function _delegate() internal {
+        address _implementation = _implementation();
+        // 下面代码是利用 delegatecall 把请求转发给 _implementation 所指定地址的合约中去
+        assembly {
+            calldatacopy(0, 0, calldatasize())
+            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
+            returndatacopy(0, 0, returndatasize())
+
+            switch result
+            case 0 { revert(0, returndatasize()) }
+            default { return(0, returndatasize()) }
+        }
+    }
+
+    fallback () payable external {
+        // 来自 admin 的请求不转发
+        require(msg.sender != _admin(), &quot;admin cannot fallback to proxy target&quot;);
+        _delegate();
+    }
+
+    // 来自 admin 的请求不转发
+    receive () payable external {
+        require(msg.sender != _admin(), &quot;admin cannot fallback to proxy target&quot;);
+        _delegate();
+    }
+}
+</code></pre>
+<p>可以看到，合约中添加了 <code>ifAdmin</code> 修饰符，用于判断请求的来源。对于代理合约自身的一些函数如 <code>changeAdmin</code> 等，均使用了该修饰符。这样即使出现了签名冲突的情况，只要是来自于普通用户的请求，均直接转发给了逻辑合约执行。这样就解决了前面的第二个问题。</p>
+<p>不过，仍然存在一个小问题，就是 <code>admin</code> 用户无法作为普通用户的视角正常调用。这个问题也比较好解决，一般可以准备一个特殊账户作为 <code>admin</code> 用户，仅调用管理员方法即可。也有另一个解决方法，就是使用一个 <code>ProxyAdmin</code> 合约来作为管理员，这样所有的账户都可以正常调用合约了。</p>
+<p><code>ProxyAdmin</code> 的合约代码片段如下：</p>
+<pre><code class="line-numbers language-solidity">contract ProxyAdmin is Ownable {
+    // 管理员EOA地址通过调用该方法来更换逻辑合约
+    function upgrade(IProxy proxy, address newImplementation) public onlyOwner {
+        proxy.setImplementation(implementation);
+    }
+    // ......
+}
+
+interface IProxy {
+    function setImplementation(address newImplementation);
+    // ......
+}
+</code></pre>
+<p>此时整个合约的架构为：</p>
+<p><img src="/upload_image/2022-07-30-深入理解合约升级4/2.png" alt="可升级合约架构" title="可升级合约架构"></p>
+<h3 id="Universal-Upgradeable-Proxy-Standard-UUPS"><a href="#Universal-Upgradeable-Proxy-Standard-UUPS" class="headerlink" title="Universal Upgradeable Proxy Standard (UUPS)"></a>Universal Upgradeable Proxy Standard (UUPS)</h3><p>UUPS 是 OpenZeppelin 在近期推出的一种新的合约升级模式，与上面的 <code>Transparent</code> 代理模式原理相同，都是利用 <code>delegatecall</code> 通过代理合约调用逻辑合约。所不同的是，<code>Transparent</code> 模式是将替换逻辑合约的函数放在代理合约中，而 <code>UUPS</code> 则是将其放在了逻辑合约中。也就是说，前者模式中，每个代理合约中都有一个类似 <code>upgradeTo</code> 这样的函数，用来更换逻辑合约。而在后者模式中，这样的函数是放在了逻辑合约的实现中。</p>
+<p><a href="https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups" target="_blank" rel="noopener">官方文档</a>中对于两者的对比，主要表述了 <code>UUPS</code> 模式更加轻量级，更加节省 gas，并且更推荐使用这种模式。由于代理合约中不用再包含替换逻辑合约的函数，因此节省了 gas。我个人目前对于这种模式持保留意见，因为对于可升级合约来说，代理合约和逻辑合约是一对多的关系。在之前的模式中，把替换逻辑合约的部分放在代理合约中，这也只需要部署一份代理合约。而新模式中，每个逻辑合约都要包含这部分升级组件，这样是否更加耗费 gas。而且将这部分逻辑放在逻辑合约中，是否会造成逻辑合约变得更加臃肿。毕竟在之前的模式中，开发逻辑合约时只需要关注业务逻辑即可。也许是因为目前我对于 <code>UUPS</code> 模式的理解不够深入，暂时先将疑问抛出，待后续继续深入学习。</p>
+<h2 id="可升级合约的一些限制"><a href="#可升级合约的一些限制" class="headerlink" title="可升级合约的一些限制"></a>可升级合约的一些限制</h2><p>要实现合约升级，有一些限制需要我们注意。</p>
+<p><strong>第一个</strong>就是我们在<strong>上篇文章</strong>最后提到的，在升级合约，也就是更换逻辑合约的时候，新合约的新增状态变量必须添加在当前所有变量之后，不能在前面的变量中插入，否则会更改内存插槽对应关系。同理，如果合约涉及到继承关系，不能在基类中添加变量（在基类中添加变量就相当于在基类和子类的状态变量之前插入变量）。也不能够更改或删除之前的状态变量。</p>
+<p><strong>第二个</strong>是不能使用构造函数 <code>constructor</code>，由于合约的构造函数是在合约初始化的时候就被调用，这时它的一些赋值操作会直接影响到自身的内存。合约升级的前提是代理合约通过 <code>delegatecall</code> 调用逻辑合约来影响代理的内存布局，如果逻辑合约自己使用了构造函数去初始化一些变量，那么对于代理合约而言，内存是没有任何变化的。对于该问题，替代方法是使用 <code>initialize</code> 函数来代替构造函数。在合约部署完成后需要手动调用 <code>initialize</code> 函数。同时要记得，逻辑合约中实现的 <code>initialize</code> 函数中要手动实现调用基类的 <code>initialize</code> 方法。例如：</p>
+<pre><code class="line-numbers language-solidity">pragma solidity ^0.6.0;
+
+import &quot;@openzeppelin/upgrades/contracts/Initializable.sol&quot;;
+
+contract BaseContract is Initializable {
+    uint256 public y;
+
+    function initialize() public initializer {
+        y = 42;
+    }
+}
+
+contract MyContract is BaseContract {
+    uint256 public x;
+
+    function initialize(uint256 _x) public initializer {
+        // 手动调用基类中的初始化方法
+        BaseContract.initialize();
+        x = _x;
+    }
+}
+</code></pre>
+<p><strong>第三个</strong>是所有状态变量不能在声明时就赋初始值，例如：</p>
+<pre><code class="line-numbers language-solidity">contract MyContract {
+    uint256 public hasInitialValue = 42;
+}
+</code></pre>
+<p>这种行为类似于在构造函数中赋值，不可行。需要改为在 <code>initialize</code> 函数中赋值。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>Openzeppelin 库已经实现了完善的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable" target="_blank" rel="noopener">可升级合约库</a>，我们在开发过程中可以直接使用现有的合约进行部署，避免重复造轮子出现错误。同时也提供了相应的<a href="https://docs.openzeppelin.com/contracts/4.x/upgradeable" target="_blank" rel="noopener">文档</a>以供参考。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a><br><a href="https://blog.openzeppelin.com/the-transparent-proxy-pattern/" target="_blank" rel="noopener">blog.openzeppelin.com</a><br><a href="https://ethereum.stackexchange.com/questions/81994/what-is-the-receive-keyword-in-solidity" target="_blank" rel="noopener">ethereum.stackexchange.com</a><br><a href="https://docs.openzeppelin.com/contracts/4.x/upgradeable" target="_blank" rel="noopener">docs.openzeppelin.com</a><br><a href="https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups" target="_blank" rel="noopener">docs.openzeppelin.com</a><br><a href="https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786" target="_blank" rel="noopener">forum.openzeppelin.com</a></p>
+<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
+<li><a href>深入理解合约升级(1) - 概括</a></li>
+<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
+<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
+<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
+<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
+</ol>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/VSyU0JfmVrcqN-F28tX5mzYjxFFAosl8tDAQX3vB5Dg" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
       <categories>
         <category>Ethereum</category>
       </categories>
@@ -345,214 +859,100 @@ let a = await provider.getStorageAt(
       </tags>
   </entry>
   <entry>
-    <title>深入理解合约升级(4) - 合约升级原理的代码实现</title>
-    <url>/2022/07/30/Ethereum-2022-07-30-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-4-%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7%E5%8E%9F%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(4) - 合约升级原理的代码实现 </blockquote>
+    <title>深入理解合约升级(3) - call 与 delegatecall</title>
+    <url>/2022/07/29/Ethereum-2022-07-29-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-3-call-%E4%B8%8E-delegatecall/</url>
+    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(3) - call 与 delegatecall </blockquote>
 
 <a id="more"></a>
-<p>前面的文章我们提到，合约升级的原理是将合约架构分为 <code>代理合约</code> 与 <code>逻辑合约</code>，通过前面对于内存结构以及 <code>delegatecall</code> 的学习，我们已经基本掌握的合约升级的基础。这篇文章我们就从代码层面来看看合约升级到底应该如何实现。</p>
-<p><img src="/upload_image/2022-07-30-深入理解合约升级4/1.png" alt></p>
-<p>这是我们在第一篇文章中的图例，当我们学习了内存结构以及 <code>delegatecall</code> 之后，我们再来看这幅图，就能够很好地理解了：数据都存放在代理合约的内存插槽中，而由于代理合约使用了 <code>delegatecall</code>，因此函数执行都在逻辑合约中运行，修改的却是代理合约中的数据。这样就可以方便替换逻辑合约，实现合约升级。</p>
-<h2 id="合约升级实现过程"><a href="#合约升级实现过程" class="headerlink" title="合约升级实现过程"></a>合约升级实现过程</h2><h3 id="简版-Proxy"><a href="#简版-Proxy" class="headerlink" title="简版 Proxy"></a>简版 Proxy</h3><p>首先我们考虑，对于代理合约而言，如何将请求转发到逻辑合约。最简单的方法就是对于逻辑合约中的每个函数，都在代理合约中包装一层，然后通过 <code>delegatecall</code> 来分别调用各个函数。这种方法是不可行的，因为既然我们都用到了可升级合约，那就说明我们后期会对合约做改动，我们总不能每添加一个函数，都在代理合约中添加一个包装层。一是这样很冗余，二是这样无法实现，因为代理合约也是区块链上的智能合约，它本身是不可变的。</p>
-<p>这时我们想到，能不能够利用 Solidity 中的 <code>fallback</code> 与 <code>receive</code> 函数，它们的作用就是接收并处理一切未实现的函数（两者的区别是，<code>receive</code> 接收所有 <code>msg.data</code> 为空的调用，<code>fallback</code> 接收所有未匹配函数的调用）。如果我们将所有的函数调用都通过 <code>fallback</code> 转发给逻辑合约，那么是否就达到目标了呢？我们来看看代码：</p>
-<pre><code class="line-numbers language-solidity">// 注：这个实现有问题（后文有描述），不要直接使用！
-contract Proxy {
-    address public implementation;
-    address public admin;
+<h2 id="call-与-delegatecall-的区别"><a href="#call-与-delegatecall-的区别" class="headerlink" title="call 与 delegatecall 的区别"></a>call 与 delegatecall 的区别</h2><p><code>call</code> 和 <code>delegatecall</code> 是 Solidity 中调用外部合约的方法，但是它俩却有挺大的区别。假设 A 合约调用 B 合约，当在 A 合约中使用 <code>call</code> 调用 B 合约时，使用的是 B 合约的上下文，修改的是 B 合约的内存插槽值。而在如果在 A 合约中使用 <code>delegatecall</code> 调用 B 合约，那么在 B 合约的函数执行过程中，使用的是 A 合约的上下文，同时修改的也是 A 合约的内存插槽值。这么说有些抽象，我们来看一个简单的示意图：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/1.png" alt="通过 call 调用" title="通过 call 调用"></p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/2.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
+<p>从上面的图中我们可以看出，在使用 <code>call</code> 调用时，B 合约使用的上下文数据均是 B 本身的。而当使用 <code>delegatecall</code> 调用时，B 合约使用了 A 合约中的上下文数据。我们来写段代码测试一下：</p>
+<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
 
-    constructor() public {
-        admin = msg.sender;
-    }
-    function setImplementation(address newImplementation) external {
-        require(msg.sender == admin, &quot;must called by admin&quot;);
-        implementation = newImplementation;
-    }
-    function changeAdmin(address newAdmin) external {
-        require(msg.sender == admin, &quot;must called by admin&quot;);
-        admin = newAdmin;
+
+contract A {
+    address public b;
+    constructor(address _b) {
+        b = _b;
     }
 
-    function _delegate() internal {
-        require(msg.sender != admin, &quot;admin cannot fallback to proxy target&quot;);
-        address _implementation = implementation;
-        // 下面代码是利用 delegatecall 把请求转发给 _implementation 所指定地址的合约中去
-        assembly {
-            calldatacopy(0, 0, calldatasize())
-            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
-            returndatacopy(0, 0, returndatasize())
-
-            switch result
-            case 0 { revert(0, returndatasize()) }
-            default { return(0, returndatasize()) }
-        }
-    }
-
-    fallback () payable external {
-        _delegate();
-    }
-    // Will run if call data is empty.
-    receive () payable external {
-        _delegate();
-    }
-}
-</code></pre>
-<p>这段代码中，我们将 <code>fallback</code> 和 <code>receive</code> 函数都指向了 <code>_delegate</code> 函数，它会将有请求都转发给逻辑合约。乍一看没有什么问题，但是需要注意：</p>
-<ol>
-<li>此合约中有两个字段，<code>implementation</code> 和 <code>admin</code>，分别存储逻辑合约地址和管理员地址（管理员地址用户更换逻辑合约升级）。它们分别占据了插槽 0 和 1 的位置，那么这就有可能和我们的逻辑合约中的内存发生冲突，如果逻辑合约中有对这俩插槽的修改，那就直接把这两个很重要的变量给改掉了，那就乱套了。</li>
-<li>还有一个问题就是代理合约本身也存在一些自身的方法，比如 <code>changeAdmin</code> 等，如果逻辑合约中恰好也有这些方法，那么用户的请求就不会转发到逻辑合约。</li>
-</ol>
-<h3 id="EIP-1967"><a href="#EIP-1967" class="headerlink" title="EIP-1967"></a>EIP-1967</h3><p>该如何解决这个问题呢？<a href="https://eips.ethereum.org/EIPS/eip-1967" target="_blank" rel="noopener">EIP-1967</a> 提出了一个解决办法，它把 <code>implementation</code> 和 <code>admin</code> 这两个字段放在了两个特殊的插槽中：</p>
-<pre><code class="line-numbers language-solidity"># bytes32(uint256(keccak256(&#39;eip1967.proxy.implementation&#39;)) - 1)
-0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc
-
-# bytes32(uint256(keccak256(&#39;eip1967.proxy.admin&#39;)) - 1)
-0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103
-</code></pre>
-<p>这两个插槽是经过哈希计算出来的值，根据概率来看，不可能与逻辑合约中的其他内存位置发生冲突。此时，我们的代码就变成了：</p>
-<pre><code class="line-numbers language-solidity">bytes32 private constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
-
-bytes32 private constant _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
-</code></pre>
-<p>注意这里指用了 <code>constant</code> 来保存插槽位置，<code>constant</code> 关键字保存的是常量，并不保存在插槽中。这样我们就解决了前面提到的第一个问题。</p>
-<p>我们再来看看第二个问题，这个问题看似很好解决，比如我们给代理合约中的函数都起一些不常用的名字就行。例如，把上面的 <code>changeAdmin</code> 改成 <code>changeAdmin12345</code>。但是问题没有这么简单，我们要知道，智能合约匹配请求是根据函数签名 <code>keccak256</code> 值的前 4 个字节来判断的，如果两个函数的哈希值前 4 位相同，那么它们就被判断为同一个函数，例如：</p>
-<pre><code class="line-numbers language-solidity"># keccak256(&quot;proxyOwner()&quot;) 前 4 字节为 025313a2
-proxyOwner()
-
-# keccak256(&quot;clash550254402()&quot;) 前 4 字节为 025313a2
-clash550254402()
-</code></pre>
-<p>这个问题被称为 <code>Proxy selector clashing</code>。这可能会造成一些问题，如果我们的逻辑合约中恰好有函数的哈希值前 4 位与代理合约中的某个函数相同，那就会造成用户的请求实际上是在代理合约中执行的，而执行结果必然是我们不希望发生的。</p>
-<h3 id="Transparent-Proxy"><a href="#Transparent-Proxy" class="headerlink" title="Transparent Proxy"></a>Transparent Proxy</h3><p><a href="https://blog.openzeppelin.com/the-transparent-proxy-pattern/" target="_blank" rel="noopener">Transparent Proxy</a> 提出了解决方案，它主要从两方面解决这个问题：</p>
-<ol>
-<li>来自普通用户的请求全部转发给逻辑合约，即使代理合约与逻辑合约发生了名称冲突，也要转发</li>
-<li>来自管理员 <code>admin</code> 的请求，全部不转发，由代理合约处理</li>
-</ol>
-<p>主要的代码如下：</p>
-<pre><code class="line-numbers language-solidity">contract Proxy {
-    bytes32 private constant _IMPLEMENTATION_SLOT = 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
-    bytes32 private constant _ADMIN_SLOT = 0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103;
-
-    modifier ifAdmin() {
-        // 如果调用者是 admin，就执行；否则转发到 Implementation 合约
-        if (msg.sender == admin()) {
-            _;
-        } else {
-            _delegate();
-        }
-    }
-
-    constructor() public {
-        address admin = msg.sender;
-        bytes32 slot = _ADMIN_SLOT;
-        assembly {
-            sstore(slot, admin)
-        }
-    }
-    function implementation() public ifAdmin returns (address impl) {
-        bytes32 slot = _IMPLEMENTATION_SLOT;
-        assembly {
-            impl := sload(slot)
-        }
-    }
-    function setImplementation(address newImplementation) external ifAdmin {
-        bytes32 slot = _IMPLEMENTATION_SLOT;
-        assembly {
-            sstore(slot, newImplementation)
-        }
-    }
-    function admin() public ifAdmin returns (address adm) {
-        bytes32 slot = _ADMIN_SLOT;
-        assembly {
-            adm := sload(slot)
-        }
-    }
-    function changeAdmin(address newAdmin) external ifAdmin {
-        bytes32 slot = _ADMIN_SLOT;
-        assembly {
-            sstore(slot, newAdmin)
-        }
-    }
-
-    function _delegate() internal {
-        address _implementation = implementation();
-        // 下面代码是利用 delegatecall 把请求转发给 _implementation 所指定地址的合约中去
-        assembly {
-            calldatacopy(0, 0, calldatasize())
-            let result := delegatecall(gas(), _implementation, 0, calldatasize(), 0, 0)
-            returndatacopy(0, 0, returndatasize())
-
-            switch result
-            case 0 { revert(0, returndatasize()) }
-            default { return(0, returndatasize()) }
-        }
-    }
-
-    fallback () payable external {
-        // 来自 admin 的请求不转发
-        require(msg.sender != admin(), &quot;admin cannot fallback to proxy target&quot;);
-        _delegate();
-    }
-
-    // 来自 admin 的请求不转发
-    receive () payable external {
-        require(msg.sender != admin(), &quot;admin cannot fallback to proxy target&quot;);
-        _delegate();
-    }
-}
-</code></pre>
-<p>可以看到，合约中添加了 <code>ifAdmin</code> 修饰符，用于判断请求的来源。对于代理合约自身的一些函数如 <code>changeAdmin</code> 等，均使用了该修饰符。这样即使出现了签名冲突的情况，只要是来自于普通用户的请求，均直接转发给了逻辑合约执行。这样就解决了前面的第二个问题。</p>
-<p>不过，仍然存在一个小问题，就是 <code>admin</code> 用户无法作为普通用户的视角正常调用。这个问题也比较好解决，一般可以准备一个特殊账户作为 <code>admin</code> 用户，仅调用管理员方法即可。也有另一个解决方法，就是使用一个 <code>ProxyAdmin</code> 合约来作为管理员，这样所有的账户都可以正常调用合约了。</p>
-<p><code>ProxyAdmin</code> 的合约代码片段如下：</p>
-<pre><code class="line-numbers language-solidity">contract ProxyAdmin is Ownable {
-    // 管理员EOA地址通过调用该方法来更换逻辑合约
-    function upgrade(IProxy proxy, address newImplementation) public onlyOwner {
-        proxy.setImplementation(implementation);
-    }
-    // ......
-}
-
-interface IProxy {
-    function setImplementation(address newImplementation);
-    // ......
-}
-</code></pre>
-<p>此时整个合约的架构为：</p>
-<p><img src="/upload_image/2022-07-30-深入理解合约升级4/2.png" alt="可升级合约架构" title="可升级合约架构"></p>
-<h3 id="Universal-Upgradeable-Proxy-Standard-UUPS"><a href="#Universal-Upgradeable-Proxy-Standard-UUPS" class="headerlink" title="Universal Upgradeable Proxy Standard (UUPS)"></a>Universal Upgradeable Proxy Standard (UUPS)</h3><p>UUPS 是 OpenZeppelin 在近期推出的一种新的合约升级模式，与上面的 <code>Transparent</code> 代理模式原理相同，都是利用 <code>delegatecall</code> 通过代理合约调用逻辑合约。所不同的是，<code>Transparent</code> 模式是将替换逻辑合约的函数放在代理合约中，而 <code>UUPS</code> 则是将其放在了逻辑合约中。也就是说，前者模式中，每个代理合约中都有一个类似 <code>upgradeTo</code> 这样的函数，用来更换逻辑合约。而在后者模式中，这样的函数是放在了逻辑合约的实现中。</p>
-<p><a href="https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups" target="_blank" rel="noopener">官方文档</a>中对于两者的对比，主要表述了 <code>UUPS</code> 模式更加轻量级，更加节省 gas，并且更推荐使用这种模式。由于代理合约中不用再包含替换逻辑合约的函数，因此节省了 gas。我个人目前对于这种模式持保留意见，因为对于可升级合约来说，代理合约和逻辑合约是一对多的关系。在之前的模式中，把替换逻辑合约的部分放在代理合约中，这也只需要部署一份代理合约。而新模式中，每个逻辑合约都要包含这部分升级组件，这样是否更加耗费 gas。而且将这部分逻辑放在逻辑合约中，是否会造成逻辑合约变得更加臃肿。毕竟在之前的模式中，开发逻辑合约时只需要关注业务逻辑即可。也许是因为目前我对于 <code>UUPS</code> 模式的理解不够深入，暂时先将疑问抛出，待后续继续深入学习。</p>
-<h2 id="可升级合约的一些限制"><a href="#可升级合约的一些限制" class="headerlink" title="可升级合约的一些限制"></a>可升级合约的一些限制</h2><p>要实现合约升级，有一些限制需要我们注意。</p>
-<p><strong>第一个</strong>就是我们在<strong>上篇文章</strong>最后提到的，在升级合约，也就是更换逻辑合约的时候，新合约的新增状态变量必须添加在当前所有变量之后，不能在前面的变量中插入，否则会更改内存插槽对应关系。同理，如果合约涉及到继承关系，不能在基类中添加变量（在基类中添加变量就相当于在基类和子类的状态变量之前插入变量）。也不能够更改或删除之前的状态变量。</p>
-<p><strong>第二个</strong>是不能使用构造函数 <code>constructor</code>，由于合约的构造函数是在合约初始化的时候就被调用，这时它的一些赋值操作会直接影响到自身的内存。合约升级的前提是代理合约通过 <code>delegatecall</code> 调用逻辑合约来影响代理的内存布局，如果逻辑合约自己使用了构造函数去初始化一些变量，那么对于代理合约而言，内存是没有任何变化的。对于该问题，替代方法是使用 <code>initialize</code> 函数来代替构造函数。在合约部署完成后需要手动调用 <code>initialize</code> 函数。同时要记得，逻辑合约中实现的 <code>initialize</code> 函数中要手动实现调用基类的 <code>initialize</code> 方法。例如：</p>
-<pre><code class="line-numbers language-solidity">pragma solidity ^0.6.0;
-
-import &quot;@openzeppelin/upgrades/contracts/Initializable.sol&quot;;
-
-contract BaseContract is Initializable {
-    uint256 public y;
-
-    function initialize() public initializer {
-        y = 42;
+    function foo() external {
+        (bool success, bytes memory data) = 
+            b.call(abi.encodeWithSignature(&quot;foo()&quot;));
+        require(success, &quot;Tx failed&quot;);
     }
 }
 
-contract MyContract is BaseContract {
-    uint256 public x;
-
-    function initialize(uint256 _x) public initializer {
-        // 手动调用基类中的初始化方法
-        BaseContract.initialize();
-        x = _x;
+contract B {
+    event Log(address sender, address me);
+    function foo() external {
+        emit Log(msg.sender, address(this));
     }
 }
 </code></pre>
-<p><strong>第三个</strong>是所有状态变量不能在声明时就赋初始值，例如：</p>
-<pre><code class="line-numbers language-solidity">contract MyContract {
-    uint256 public hasInitialValue = 42;
+<p>上面代码中，我们在 A 合约中使用 <code>call</code> 调用 B 合约，通过 <code>Log</code> 事件记录一些信息。先部署 B 合约，然后将其地址作为参数部署 A 合约，接着我们调用 <code>foo</code> 函数，可以获取到 <code>Log</code> 事件的内容为：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/3.png" alt="通过 call 调用" title="通过 call 调用"></p>
+<p>与我们前面的说的规则一致，使用 <code>call</code> 调用时，使用的是 B 本身的上下文。接下来我们将 <code>call</code> 改成 <code>delegatecall</code>：</p>
+<pre><code class="line-numbers language-solidity">function foo() external {
+    (bool success, bytes memory data) = 
+        b.delegatecall(abi.encodeWithSignature(&quot;foo()&quot;));
+    require(success, &quot;Tx failed&quot;);
 }
 </code></pre>
-<p>这种行为类似于在构造函数中赋值，不可行。需要改为在 <code>initialize</code> 函数中赋值。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>Openzeppelin 库已经实现了完善的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable" target="_blank" rel="noopener">可升级合约库</a>，我们在开发过程中可以直接使用现有的合约进行部署，避免重复造轮子出现错误。同时也提供了相应的<a href="https://docs.openzeppelin.com/contracts/4.x/upgradeable" target="_blank" rel="noopener">文档</a>以供参考。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a><br><a href="https://blog.openzeppelin.com/the-transparent-proxy-pattern/" target="_blank" rel="noopener">blog.openzeppelin.com</a><br><a href="https://ethereum.stackexchange.com/questions/81994/what-is-the-receive-keyword-in-solidity" target="_blank" rel="noopener">ethereum.stackexchange.com</a><br><a href="https://docs.openzeppelin.com/contracts/4.x/upgradeable" target="_blank" rel="noopener">docs.openzeppelin.com</a><br><a href="https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups" target="_blank" rel="noopener">docs.openzeppelin.com</a><br><a href="https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786" target="_blank" rel="noopener">forum.openzeppelin.com</a></p>
+<p>再来看看执行结果：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/4.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
+<p>可以看到当使用了 <code>delegatecall</code> 调用时，使用了 A 合约的上下文。</p>
+<p>上面我们还提到，当使用 <code>delegatecall</code> 时，修改的是调用合约的内存插槽值，这是什么意思呢，我们来看一个例子：</p>
+<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
+
+
+contract A {
+    uint256 public alice;
+    uint256 public bob;
+
+    address public b;
+    constructor(address _b) {
+        b = _b;
+    }
+
+    function foo(uint256 _alice, uint256 _bob) external {
+        (bool success, bytes memory data) = 
+            b.delegatecall(abi.encodeWithSignature(&quot;foo(uint256,uint256)&quot;, 
+            _alice, _bob));
+        require(success, &quot;Tx failed&quot;);
+    }
+}
+
+contract B {
+    uint256 public alice;
+    uint256 public bob;
+    function foo(uint256 _alice, uint256 _bob) external {
+        alice = _alice;
+        bob = _bob;
+    }
+}
+</code></pre>
+<p>这段代码中，我们使用 <code>delegatecall</code> 来调用 <code>foo</code> 函数，<code>foo</code> 函数的作用是给 B 合约的两个变量赋值。但是实际调用后的结果是，A 合约的两个变量被赋值，而 B 中的变量仍为空。这就是我们前面说的，<code>delegatecall</code> 会修改调用合约的内存插槽值，我们来看一个图示：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/5.png" alt="内存插槽" title="内存插槽"></p>
+<p>在 A 合约中有三个状态变量，B 合约中有两个状态变量。当 A 合约使用 <code>delegatecall</code> 调用 B 合约时，对 B 合约状态变量的赋值会通过插槽顺序分别影响 A 合约的各个变量。也就是说，对 B 合约插槽 0 的变量 <code>alice</code> 赋值，实际上是把值赋给了 A 合约插槽 0 的变量 <code>alice</code>。同理，对 B 合约的第 n 个插槽赋值，实际上会对 A 合约的第 n 个插槽赋值。注意，这里仅仅和插槽顺序有关，而和变量名无关。如果我们将 B 合约改为：</p>
+<pre><code class="line-numbers language-solidity">contract B {
+    // 调换了变量声明顺序
+    uint256 public bob;
+    uint256 public alice;
+    function foo(uint256 _alice, uint256 _bob) external {
+        // 调换了赋值内容
+        bob = _alice;
+        alice = _bob;
+    }
+}
+</code></pre>
+<p>这段代码中，虽然变量声明以及赋值的顺序调换，但是 <code>foo</code> 的内容仍然是将 <code>_alice</code> 赋值给插槽 0 的变量，将 <code>_bob</code> 赋值给插槽 1 的变量，因此 A 合约的结果不变。</p>
+<h2 id="delegatecall-在合约升级方面的应用"><a href="#delegatecall-在合约升级方面的应用" class="headerlink" title="delegatecall 在合约升级方面的应用"></a>delegatecall 在合约升级方面的应用</h2><p>学习理解 <code>delegatecall</code> 是我们后面学习合约升级的基础，合约升级的原理就是代理合约通过 <code>delegatecall</code> 调用逻辑合约，此时逻辑合约的上下文以及数据都是来自于代理合约，那么即使升级，更换了逻辑合约，所有的数据仍然存在于代理合约中，没有影响。可升级合约还有一个限制是，在升级合约时，不能更改已有的状态变量的顺序，如果需要新添变量，只能放在当前所有变量之后，不能在其中插入，原因就是这会改变插槽对应关系，使变量内容混乱。例如，若升级前的插槽为：</p>
+<p><img src="/upload_image/2022-07-29-深入理解合约升级3/6.png" alt="内存插槽" title="内存插槽"></p>
+<p>此时，变量 a 和 b 的值分别存储在代理合约的插槽 0，1 中。若添加变量 c，将其放在 a 和 b 中间，那么后续对于 c 的修改实际修改的是 b 的插槽，而对于 b 的修改则是在一个新的插槽上操作，造成数据混乱。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>delegatecall</code> 会在被调用合约中使用调用合约的上下文，同时影响的是调用合约的内存插槽，这有时会对合约开发带来一些困扰。在使用时，一定要多考虑各方面的影响。同时，<code>delegatecall</code> 也是代理合约升级模式的基石，要理解合约升级，必须要明白这种调用方式的方方面面。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blockchain-academy.hs-mittweida.de/courses/solidity-coding-beginners-to-intermediate/lessons/solidity-5-calling-other-contracts-visibility-state-access/topic/delegatecall/" target="_blank" rel="noopener">blockchain-academy.hs-mittweida.de</a><br><a href="https://www.anquanke.com/post/id/152590" target="_blank" rel="noopener">www.anquanke.com</a><br><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a></p>
 <h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
 <li><a href>深入理解合约升级(1) - 概括</a></li>
 <li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
@@ -560,205 +960,7 @@ contract MyContract is BaseContract {
 <li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
 <li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
 </ol>
-<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/VSyU0JfmVrcqN-F28tX5mzYjxFFAosl8tDAQX3vB5Dg" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
-      <categories>
-        <category>Ethereum</category>
-      </categories>
-      <tags>
-        <tag>合约升级</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>深入理解合约升级(5) - 部署一个可升级合约</title>
-    <url>/2022/07/31/Ethereum-2022-07-31-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-5-%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AA%E5%8F%AF%E5%8D%87%E7%BA%A7%E5%90%88%E7%BA%A6/</url>
-    <content><![CDATA[<blockquote class="blockquote-center"> 深入理解合约升级(5) - 部署一个可升级合约 </blockquote>
-
-<a id="more"></a>
-<p>前面的文章我们基本把合约升级的原理介绍完了，这篇文章我们来实际操作一下，部署一个可升级合约。我们将会使用到 <code>hardhat</code> 框架和 <code>OpenZeppelin</code> 的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable" target="_blank" rel="noopener">可升级合约库</a>。这个库和 OZ 的<a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank" rel="noopener">普通合约库</a>的区别是，所有的合约中都没有构造函数，作为代替的是 <code>initialize</code> 函数，用来作初始化操作。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>首先执行下面的命令来做一些初始化的工作：</p>
-<ol>
-<li><code>mkdir upgradeable_demo &amp;&amp; cd upgradeable_demo</code></li>
-<li><code>npm init -y</code></li>
-<li><code>npm install --save-dev hardhat</code></li>
-<li><code>npx hardhat</code>，创建实例项目，并且按照步骤进行</li>
-<li><code>npm install --save-dev @openzeppelin/hardhat-upgrades</code>，安装 hardhat 的升级组件</li>
-<li><code>npm install --save-dev @nomiclabs/hardhat-ethers ethers</code>，这两个包主要用于合约部署和测试</li>
-<li><code>npm install --save @openzeppelin/contracts-upgradeable</code>，安装可升级合约库</li>
-</ol>
-<p>接下来我们配置 <code>hardhat</code> 的配置文件：</p>
-<pre><code class="line-numbers language-solidity">// hardhat.config.js
-require(&quot;@nomiclabs/hardhat-ethers&quot;);
-require(&#39;@openzeppelin/hardhat-upgrades&#39;);
-
-/**
- * @type import(&#39;hardhat/config&#39;).HardhatUserConfig
- */
-module.exports = {
-  solidity: &quot;0.8.4&quot;,
-  networks: {
-    rinkeby: {
-      url: // 这里填写对应网络的 rpc 地址,
-      accounts: [这里填写私钥]
-    }
-  }
-};
-</code></pre>
-<p>然后我们再来编写可升级合约，在 <code>contracts</code> 文件夹下创建 <code>Demo.sol</code> 文件：</p>
-<pre><code class="line-numbers language-solidity">// SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.4;
-
-import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol&quot;;
-
-contract Demo is Initializable {
-    uint256 public a;
-
-    // 初始化函数，后面的修饰符 initializer 来自 Initializable.sol
-    // 用于限制该函数只能调用一次
-    function initialize(uint256 _a) public initializer {
-        a = _a;
-    }
-
-    function increaseA() external {
-        ++a;
-    }
-}
-</code></pre>
-<p>编译合约 <code>npx hardhat compile</code>，没有问题。</p>
-<h2 id="Transparent-Proxy"><a href="#Transparent-Proxy" class="headerlink" title="Transparent Proxy"></a>Transparent Proxy</h2><p>接着我们编写部署脚本，在 <code>scripts</code> 文件夹下创建 <code>deploy.js</code> 文件：</p>
-<pre><code class="line-numbers language-javascript">async function main() {
-    const Demo = await ethers.getContractFactory(&quot;Demo&quot;);
-    console.log(&quot;Deploying Demo...&quot;);
-    // initializer 后面的参数为初始化函数的名字，这里为 initialize
-    // 中括号的参数为初始化函数的参数
-    const demo = await upgrades.deployProxy(Demo, [101], { initializer: &#39;initialize&#39; });
-    // 这里打印的地址为代理合约的地址
-    console.log(&quot;Demo deployed to:&quot;, demo.address);
-}
-
-// 这里也可以简化为 main()，后面的都省略也可以
-main()
-    .then(() =&gt; process.exit(0))
-    .catch(error =&gt; {
-        console.error(error);
-        process.exit(1);
-    });
-</code></pre>
-<p>我们来运行部署脚本，这里我们使用本地测试网络进行部署：</p>
-<p>注意，本地测试网络需要运行 <code>npx hardhat node</code>。本地网络无需在配置文件中配置，如果使用真实网络，需要进行配置，并且在 <code>--network</code> 后面指定网络名称即可。</p>
-<blockquote>
-<p>npx hardhat run scripts/deploy.js –network localhost</p>
-</blockquote>
-<p>可以观察到一共部署了三个合约，对应的部署顺序分别是</p>
-<ol>
-<li>逻辑合约</li>
-<li><code>ProxyAdmin</code> 合约</li>
-<li>代理合约（名为 <code>TransparentUpgradeableProxy</code>）</li>
-</ol>
-<p>注意，一个项目中只会有一个 <code>ProxyAdmin</code> 合约，管理着所有的代理合约。也就是说，我们在同一个项目中再去部署另外的合约，那么只会有步骤 1、3，<code>ProxyAdmin</code> 只在部署第一个合约时会部署。</p>
-<p>这时，假设由于业务场景变化，需要修改合约，将 <code>increaseA</code> 函数修改为：</p>
-<pre><code class="line-numbers language-solidity">function increaseA() external {
-    a += 10;
-}
-</code></pre>
-<p>再次编译，没有问题。接着编写升级脚本，在 <code>scripts</code> 文件夹下创建 <code>upgrade.js</code> 文件：</p>
-<pre><code class="line-numbers language-javascript">async function main() {
-    // 这里的地址为前面部署的代理合约地址
-    const proxyAddress = &#39;0x...&#39;;
-
-    const Demo = await ethers.getContractFactory(&quot;Demo&quot;);
-    console.log(&quot;Preparing upgrade...&quot;);
-    // 升级合约
-    await upgrades.upgradeProxy(proxyAddress, Demo);
-}
-
-main()
-    .then(() =&gt; process.exit(0))
-    .catch(error =&gt; {
-        console.error(error);
-        process.exit(1);
-    });
-</code></pre>
-<p>接着运行</p>
-<blockquote>
-<p>npx hardhat run scripts/upgrade.js –network localhost</p>
-</blockquote>
-<p>升级合约时， <code>upgradeProxy</code> 中一共有两个步骤：</p>
-<ol>
-<li>部署新的逻辑合约</li>
-<li>调用 <code>ProxyAdmin</code> 合约的 <code>upgrade</code> 函数来更换新合约，两个参数分别是代理合约和新逻辑合约的地址</li>
-</ol>
-<p>这样我们就完成了可升级合约的部署与升级，注意到我们的部署过程中有 <code>ProxyAdmin</code> 合约，说明这是 <code>TransparentProxy</code> 的合约升级模式。接下来我们看看 <code>UUPS</code> 的模式如何部署及升级。</p>
-<h2 id="UUPS"><a href="#UUPS" class="headerlink" title="UUPS"></a>UUPS</h2><p>若要支持 <code>UUPS</code> 的升级模式，需要做以下几点改动：</p>
-<ol>
-<li>逻辑合约需继承 <code>UUPSUpgradeable</code> 合约</li>
-<li>覆写 <code>_authorizeUpgrade</code> 函数</li>
-<li>部署脚本需要添加 <code>kind: &#39;uups&#39;</code> 参数</li>
-</ol>
-<p>此时，逻辑合约变为：</p>
-<pre><code class="line-numbers language-solidity">// SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.4;
-
-import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol&quot;;
-import &quot;@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol&quot;;
-
-// 需要继承 UUPSUpgradeable 合约
-contract Demo is Initializable, UUPSUpgradeable {
-    uint256 public a;
-
-    function initialize(uint256 _a) public initializer {
-        a = _a;
-    }
-
-    function increaseA() external {
-        a += 10;
-    }
-
-    // 覆写 _authorizeUpgrade 函数
-    function _authorizeUpgrade(address) internal override {}
-}
-</code></pre>
-<p>部署脚本变为：</p>
-<pre><code class="line-numbers language-javascript">async function main() {
-    const Demo = await ethers.getContractFactory(&quot;Demo&quot;);
-    console.log(&quot;Deploying Demo...&quot;);
-    // 这里添加了参数 =&gt; kind: &#39;uups&#39;
-    const demo = await upgrades.deployProxy(Demo, [101], { initializer: &#39;initialize&#39;, kind: &#39;uups&#39; });
-    console.log(&quot;Demo deployed to:&quot;, demo.address);
-}
-
-main()
-    .then(() =&gt; process.exit(0))
-    .catch(error =&gt; {
-        console.error(error);
-        process.exit(1);
-    });
-</code></pre>
-<p>编译合约并运行部署脚本（注意，这时最好删除 <code>.openzeppelin</code> 文件夹下的对应网络配置文件，因为其包含了我们上面测试的 <code>TransparentProxy</code> 模式的一些运行配置，可能会有影响），可以观察到一共部署了两个合约，分别是：</p>
-<ol>
-<li>逻辑合约</li>
-<li>代理合约（名为 <code>ERC1967Proxy</code>）</li>
-</ol>
-<p>此时，假设我们需要升级合约，在改动了合约之后，我们可以继续使用上面的 <code>upgrade.js</code> 脚本进行升级，这时的升级步骤是：</p>
-<ol>
-<li>部署新的逻辑合约</li>
-<li>调用<strong>代理合约</strong>的 <code>upgradeTo</code> 函数进行升级，参数是新的逻辑合约地址</li>
-</ol>
-<p>我们可以看到，两种升级模式有所区别。<code>TransparentProxy</code> 模式在升级的时候，需要调用 <code>ProxyAdmin</code> 的升级函数。而 <code>UUPS</code> 模式在升级时，需要调用代理合约的升级函数。后者相比于前者少部署一个合约。</p>
-<h2 id="UUPS-中需要注意的权限管理问题"><a href="#UUPS-中需要注意的权限管理问题" class="headerlink" title="UUPS 中需要注意的权限管理问题"></a>UUPS 中需要注意的权限管理问题</h2><p>这里有一个重点是，由于 <code>TransparentProxy</code> 模式是由 <code>ProxyAdmin</code> 进行管理，也就是说只有 <code>ProxyAdmin</code> 有权限进行升级，那么我们只要保证 <code>ProxyAdmin</code> 合约的管理员权限安全即可保证整个可升级架构安全。而对于 <code>UUPS</code> 模式来说，升级合约的逻辑是需要调用代理合约的，这时的权限管理就需要开发者手动处理。具体来说，就是对于我们覆写的 <code>_authorizeUpgrade</code> 函数，需要加上权限管理：</p>
-<pre><code class="line-numbers language-solidity">function _authorizeUpgrade(address) internal 
-    override onlyOwner {}
-</code></pre>
-<p>这里加上了 <code>onlyOwner</code> 用于限制升级权限，否则任何人都可调用代理合约的 <code>upgradeTo</code> 进行升级。但要注意的是，我们这里只是简单加上了 <code>onlyOwner</code> 做为示例的权限管理，在实际开发中，由于升级的逻辑和业务逻辑都在逻辑合约中，因此需要区分业务场景的 <code>owner</code> 和合约升级架构的 <code>owner</code>。这里可能会对开发者带来困扰，因此需要多加注意。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>TransparentProxy</code> 和 <code>UUPS</code> 是目前阶段比较流行的成熟的合约升级解决方案。OZ 建议开发者使用 <code>UUPS</code>，更加轻量级，节省 gas。我个人还是比较倾向于前者，因为我觉得前者架构清晰，权限管理简单。后者将业务逻辑和升级组件都放在逻辑合约中，当需要多次升级合约时，是否节省 gas 仍需探讨。不过建议大家两个都能够熟练掌握，毕竟难度不高，上手也很简单。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786" target="_blank" rel="noopener">forum.openzeppelin.com</a><br><a href="https://forum.openzeppelin.com/t/openzeppelin-upgrades-step-by-step-tutorial-for-hardhat/3580" target="_blank" rel="noopener">forum.openzeppelin.com</a><br><a href="https://www.npmjs.com/package/@openzeppelin/hardhat-upgrades" target="_blank" rel="noopener">www.npmjs.com</a><br><a href="https://blog.logrocket.com/using-uups-proxy-pattern-upgrade-smart-contracts" target="_blank" rel="noopener">blog.logrocket.com</a></p>
-<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
-<li><a href>深入理解合约升级(1) - 概括</a></li>
-<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
-<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
-<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
-<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
-</ol>
-<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/kM9ld2u0D1BpHAfXTiaSPGPtDnOd6vrxJ5_tW4wZVBk" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/0gmFpVZVlHhwb2YlmaSY8Dyv5r3Z24sKIks38cyQRFk" target="_blank" rel="noopener">原文链接</a></h2>]]></content>
       <categories>
         <category>Ethereum</category>
       </categories>
