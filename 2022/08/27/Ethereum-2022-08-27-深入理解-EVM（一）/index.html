@@ -99,7 +99,7 @@
 
 
 
-  <meta name="keywords" content="合约升级,">
+  <meta name="keywords" content="EVM,">
 
 
 
@@ -112,25 +112,22 @@
 
 
 
-<meta name="description" content="深入理解合约升级(3) - call 与 delegatecall">
-<meta name="keywords" content="合约升级">
+<meta name="description" content="深入理解 EVM（一）">
+<meta name="keywords" content="EVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入理解合约升级(3) - call 与 delegatecall">
-<meta property="og:url" content="tiyanguan.github.io/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/index.html">
+<meta property="og:title" content="深入理解 EVM（一）">
+<meta property="og:url" content="tiyanguan.github.io/2022/08/27/Ethereum-2022-08-27-深入理解-EVM（一）/index.html">
 <meta property="og:site_name" content="体验官">
-<meta property="og:description" content="深入理解合约升级(3) - call 与 delegatecall">
+<meta property="og:description" content="深入理解 EVM（一）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/1.png">
-<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/2.png">
-<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/3.png">
-<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/4.png">
-<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/5.png">
-<meta property="og:image" content="/upload_image/2022-07-29-深入理解合约升级3/6.png">
-<meta property="og:updated_time" content="2022-07-28T16:43:13.421Z">
+<meta property="og:image" content="/upload_image/2022-08-27-深入理解%20EVM1/1.png">
+<meta property="og:image" content="/upload_image/2022-08-27-深入理解%20EVM1/2.png">
+<meta property="og:image" content="/upload_image/2022-08-27-深入理解%20EVM1/3.png">
+<meta property="og:updated_time" content="2022-08-29T06:13:51.062Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解合约升级(3) - call 与 delegatecall">
-<meta name="twitter:description" content="深入理解合约升级(3) - call 与 delegatecall">
-<meta name="twitter:image" content="/upload_image/2022-07-29-深入理解合约升级3/1.png">
+<meta name="twitter:title" content="深入理解 EVM（一）">
+<meta name="twitter:description" content="深入理解 EVM（一）">
+<meta name="twitter:image" content="/upload_image/2022-08-27-深入理解%20EVM1/1.png">
 
 
 
@@ -160,7 +157,7 @@
 
 
 
-  <link rel="canonical" href="tiyanguan.github.io/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/">
+  <link rel="canonical" href="tiyanguan.github.io/2022/08/27/Ethereum-2022-08-27-深入理解-EVM（一）/">
 
 
 
@@ -168,7 +165,7 @@
 
 <link rel="stylesheet" href="/js/prism/prism.css">
 
-  <title>深入理解合约升级(3) - call 与 delegatecall | 体验官</title>
+  <title>深入理解 EVM（一） | 体验官</title>
   
 
 
@@ -340,7 +337,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="tiyanguan.github.io/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/">
+    <link itemprop="mainEntityOfPage" href="tiyanguan.github.io/2022/08/27/Ethereum-2022-08-27-深入理解-EVM（一）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="martin">
@@ -357,7 +354,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">深入理解合约升级(3) - call 与 delegatecall</h1>
+          <h1 class="post-title" itemprop="name headline">深入理解 EVM（一）</h1>
         
 
         <div class="post-meta">
@@ -369,8 +366,8 @@
                         
                           <span class="post-meta-item-text">发表于</span>
                         
-                        <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-07-29T00:00:00+08:00">
-                          2022-07-29
+                        <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-08-27T00:00:00+08:00">
+                          2022-08-27
                         </time>
                       
 
@@ -406,7 +403,7 @@
 
           
           
-             <span id="/2022/07/29/Ethereum-2022-07-29-深入理解合约升级-3-call-与-delegatecall/" class="leancloud_visitors" data-flag-title="深入理解合约升级(3) - call 与 delegatecall">
+             <span id="/2022/08/27/Ethereum-2022-08-27-深入理解-EVM（一）/" class="leancloud_visitors" data-flag-title="深入理解 EVM（一）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -435,7 +432,7 @@
                           <span class="post-meta-item-text">字数统计</span>
                         
                         <span title="字数统计">
-                          1,400
+                          1,957
                         </span>
                       
 
@@ -451,7 +448,7 @@
                           <span class="post-meta-item-text">阅读时长 &asymp;</span>
                         
                         <span title="阅读时长">
-                          5
+                          7
                         </span>
                       
 
@@ -472,106 +469,137 @@
       
 
       
-        <blockquote class="blockquote-center"> 深入理解合约升级(3) - call 与 delegatecall </blockquote>
+        <blockquote class="blockquote-center"> 深入理解 EVM（一） </blockquote>
 
 <a id="more"></a>
-<h2 id="call-与-delegatecall-的区别"><a href="#call-与-delegatecall-的区别" class="headerlink" title="call 与 delegatecall 的区别"></a>call 与 delegatecall 的区别</h2><p><code>call</code> 和 <code>delegatecall</code> 是 Solidity 中调用外部合约的方法，但是它俩却有挺大的区别。假设 A 合约调用 B 合约，当在 A 合约中使用 <code>call</code> 调用 B 合约时，使用的是 B 合约的上下文，修改的是 B 合约的内存插槽值。而在如果在 A 合约中使用 <code>delegatecall</code> 调用 B 合约，那么在 B 合约的函数执行过程中，使用的是 A 合约的上下文，同时修改的也是 A 合约的内存插槽值。这么说有些抽象，我们来看一个简单的示意图：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/1.png" alt="通过 call 调用" title="通过 call 调用"></p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/2.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
-<p>从上面的图中我们可以看出，在使用 <code>call</code> 调用时，B 合约使用的上下文数据均是 B 本身的。而当使用 <code>delegatecall</code> 调用时，B 合约使用了 A 合约中的上下文数据。我们来写段代码测试一下：</p>
-<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
+<p>今天我们来聊聊 EVM，那么什么是 EVM？EVM 其实就是执行 bytecode（字节码）的机器，它的全称是 Ethereum Virtual Machine（以太坊虚拟机），和 Java 的 JVM 很类似。我们平时写合约都是用 Solidity （或者 Vyper）编写的，但是这种语言机器是没有办法理解的，我们需要先使用编译器进行编译，编译后的结果是一串二进制码，EVM 可以理解这些二进制的东西，因此它就可以执行这些代码，从而完成一笔交易。</p>
+<h2 id="合约编译"><a href="#合约编译" class="headerlink" title="合约编译"></a>合约编译</h2><p>我们用一个简单的图示来解释这个过程：</p>
+<p><img src="/upload_image/2022-08-27-深入理解 EVM1/1.png" alt></p>
+<p>我们从一个很简单的例子开始（文件命名为 Demo.sol）：</p>
+<pre><code class="line-numbers language-solidity">// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.15;
 
-
-contract A {
-    address public b;
-    constructor(address _b) {
-        b = _b;
-    }
-
-    function foo() external {
-        (bool success, bytes memory data) = 
-            b.call(abi.encodeWithSignature(&quot;foo()&quot;));
-        require(success, &quot;Tx failed&quot;);
-    }
-}
-
-contract B {
-    event Log(address sender, address me);
-    function foo() external {
-        emit Log(msg.sender, address(this));
+contract Demo {
+    uint256 a;
+    constructor() {
+      a = 1;
     }
 }
 </code></pre>
-<p>上面代码中，我们在 A 合约中使用 <code>call</code> 调用 B 合约，通过 <code>Log</code> 事件记录一些信息。先部署 B 合约，然后将其地址作为参数部署 A 合约，接着我们调用 <code>foo</code> 函数，可以获取到 <code>Log</code> 事件的内容为：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/3.png" alt="通过 call 调用" title="通过 call 调用"></p>
-<p>与我们前面的说的规则一致，使用 <code>call</code> 调用时，使用的是 B 本身的上下文。接下来我们将 <code>call</code> 改成 <code>delegatecall</code>：</p>
-<pre><code class="line-numbers language-solidity">function foo() external {
-    (bool success, bytes memory data) = 
-        b.delegatecall(abi.encodeWithSignature(&quot;foo()&quot;));
-    require(success, &quot;Tx failed&quot;);
-}
-</code></pre>
-<p>再来看看执行结果：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/4.png" alt="通过 delegatecall 调用" title="通过 delegatecall 调用"></p>
-<p>可以看到当使用了 <code>delegatecall</code> 调用时，使用了 A 合约的上下文。</p>
-<p>上面我们还提到，当使用 <code>delegatecall</code> 时，修改的是调用合约的内存插槽值，这是什么意思呢，我们来看一个例子：</p>
-<pre><code class="line-numbers language-solidity">pragma solidity 0.8.13;
-
-
-contract A {
-    uint256 public alice;
-    uint256 public bob;
-
-    address public b;
-    constructor(address _b) {
-        b = _b;
-    }
-
-    function foo(uint256 _alice, uint256 _bob) external {
-        (bool success, bytes memory data) = 
-            b.delegatecall(abi.encodeWithSignature(&quot;foo(uint256,uint256)&quot;, 
-            _alice, _bob));
-        require(success, &quot;Tx failed&quot;);
-    }
-}
-
-contract B {
-    uint256 public alice;
-    uint256 public bob;
-    function foo(uint256 _alice, uint256 _bob) external {
-        alice = _alice;
-        bob = _bob;
-    }
-}
-</code></pre>
-<p>这段代码中，我们使用 <code>delegatecall</code> 来调用 <code>foo</code> 函数，<code>foo</code> 函数的作用是给 B 合约的两个变量赋值。但是实际调用后的结果是，A 合约的两个变量被赋值，而 B 中的变量仍为空。这就是我们前面说的，<code>delegatecall</code> 会修改调用合约的内存插槽值，我们来看一个图示：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/5.png" alt="内存插槽" title="内存插槽"></p>
-<p>在 A 合约中有三个状态变量，B 合约中有两个状态变量。当 A 合约使用 <code>delegatecall</code> 调用 B 合约时，对 B 合约状态变量的赋值会通过插槽顺序分别影响 A 合约的各个变量。也就是说，对 B 合约插槽 0 的变量 <code>alice</code> 赋值，实际上是把值赋给了 A 合约插槽 0 的变量 <code>alice</code>。同理，对 B 合约的第 n 个插槽赋值，实际上会对 A 合约的第 n 个插槽赋值。注意，这里仅仅和插槽顺序有关，而和变量名无关。如果我们将 B 合约改为：</p>
-<pre><code class="line-numbers language-solidity">contract B {
-    // 调换了变量声明顺序
-    uint256 public bob;
-    uint256 public alice;
-    function foo(uint256 _alice, uint256 _bob) external {
-        // 调换了赋值内容
-        bob = _alice;
-        alice = _bob;
-    }
-}
-</code></pre>
-<p>这段代码中，虽然变量声明以及赋值的顺序调换，但是 <code>foo</code> 的内容仍然是将 <code>_alice</code> 赋值给插槽 0 的变量，将 <code>_bob</code> 赋值给插槽 1 的变量，因此 A 合约的结果不变。</p>
-<h2 id="delegatecall-在合约升级方面的应用"><a href="#delegatecall-在合约升级方面的应用" class="headerlink" title="delegatecall 在合约升级方面的应用"></a>delegatecall 在合约升级方面的应用</h2><p>学习理解 <code>delegatecall</code> 是我们后面学习合约升级的基础，合约升级的原理就是代理合约通过 <code>delegatecall</code> 调用逻辑合约，此时逻辑合约的上下文以及数据都是来自于代理合约，那么即使升级，更换了逻辑合约，所有的数据仍然存在于代理合约中，没有影响。可升级合约还有一个限制是，在升级合约时，不能更改已有的状态变量的顺序，如果需要新添变量，只能放在当前所有变量之后，不能在其中插入，原因就是这会改变插槽对应关系，使变量内容混乱。例如，若升级前的插槽为：</p>
-<p><img src="/upload_image/2022-07-29-深入理解合约升级3/6.png" alt="内存插槽" title="内存插槽"></p>
-<p>此时，变量 a 和 b 的值分别存储在代理合约的插槽 0，1 中。若添加变量 c，将其放在 a 和 b 中间，那么后续对于 c 的修改实际修改的是 b 的插槽，而对于 b 的修改则是在一个新的插槽上操作，造成数据混乱。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>delegatecall</code> 会在被调用合约中使用调用合约的上下文，同时影响的是调用合约的内存插槽，这有时会对合约开发带来一些困扰。在使用时，一定要多考虑各方面的影响。同时，<code>delegatecall</code> 也是代理合约升级模式的基石，要理解合约升级，必须要明白这种调用方式的方方面面。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blockchain-academy.hs-mittweida.de/courses/solidity-coding-beginners-to-intermediate/lessons/solidity-5-calling-other-contracts-visibility-state-access/topic/delegatecall/" target="_blank" rel="noopener">blockchain-academy.hs-mittweida.de</a><br><a href="https://www.anquanke.com/post/id/152590" target="_blank" rel="noopener">www.anquanke.com</a><br><a href="http://aandds.com/blog/eth-delegatecall.html" target="_blank" rel="noopener">aandds.com</a></p>
-<h2 id="合约升级系列文章"><a href="#合约升级系列文章" class="headerlink" title="合约升级系列文章"></a>合约升级系列文章</h2><ol>
-<li><a href>深入理解合约升级(1) - 概括</a></li>
-<li><a href>深入理解合约升级(2) - Solidity 内存布局</a></li>
-<li><a href>深入理解合约升级(3) - call 与 delegatecall</a></li>
-<li><a href>深入理解合约升级(4) - 合约升级原理的代码实现</a></li>
-<li><a href>深入理解合约升级(5) - 部署一个可升级合约</a></li>
+<p>我们平时开发项目用的都是 <code>hardhat</code>，<code>forge</code> 这种框架，他们的底层都是通过 <code>solc</code> 来进行编译。这次我们就直接使用编译工具 <code>solc</code> 来进行编译，可以参考<a href="https://docs.soliditylang.org/en/v0.8.15/installing-solidity.html" target="_blank" rel="noopener">这里</a>进行安装。这里列出 Mac 的安装方法：</p>
+<pre><code>brew update
+brew upgrade
+brew tap ethereum/ethereum
+brew install solidity
+</code></pre><p>安装完成后，我们来编译试试，使用下面的命令：</p>
+<blockquote>
+<p>solc Demo.sol --bin</p>
+</blockquote>
+<p>输出以下内容：</p>
+<pre><code>======= Demo.sol:Demo =======
+Binary:
+6080604052348015600f57600080fd5b506001600081905550603f8060256000396000f3fe6080604052600080fdfea26469706673582212204ca38d4a605f03f1487b9cb337c0853cca3c62a6c42f942ecb021fb7357002b564736f6c634300080f0033
+</code></pre><p>我们看到在结果中输出了一串 16 进制字符，这就是上面的合约经过编译过后的字节码。我们前面说过，字节码是一串二进制的字符，这里显示为 16 进制方便阅读。注意到我们在命令中指定了 <code>--bin</code> 参数，因此输出的是 16 进制。</p>
+<p>第一眼看见这串字符是不是已经懵了，别慌，我们慢慢来研究。首先，我们需要知道，<strong>EVM 的核心实际上是一个 stack machine（栈机器）</strong>，它会接受操作符和操作数，学过数据结构的朋友应该都了解栈的原理。其次，上面这些字符都是由操作符和操作数组成的。例如开头的 <code>60</code> 代表的是 <code>PUSH1</code>，也就是将后面的一个字节（这里是 <code>80</code>）压入栈中。后面又是一个 <code>60</code>，接着是 <code>40</code>，即代表将 <code>40</code> 压入栈中。后面是 <code>52</code>，代表 <code>MSTORE</code>，它需要消耗两个操作数，需要从栈中获取。也就是说，上面的 <code>6080604052</code>，就代表着：</p>
+<pre><code>PUSH1 0x80
+PUSH1 0x40
+MSTORE
+</code></pre><p>MSTORE 的两个操作数分别为 0x40、0x80，即 MSTORE(0x40, 0x80)，也就是在内存中地址 0x40 处存储了数据 0x80。（这一句不明白没关系，我们先往下看）</p>
+<p>现在我们已经明白了<strong>字节码的基本逻辑，它就是由操作符和操作数组成的</strong>。其中两个字符代表一个字节，操作符都是一个字节，但是操作数可能有多个字节。像我们前面看到的 <code>PUSH1</code>，是将后面的一个字节压入栈中，如果是 <code>PUSH4</code>，就是将后面的四个字节压入栈中。一般将操作符称为 Opcodes，<a href="https://www.evm.codes/" target="_blank" rel="noopener">这里</a>可以看到所有的 Opcodes。需要注意的是操作符和操作数有可能重复，例如判断 <code>60</code> 是操作符还是操作数，取决于它在字节码中的位置，并不是绝对的。例如 <code>6060</code>，前面的 <code>60</code> 是操作符，后面的就是操作数，代表 <code>PUSH1 60</code>。</p>
+<h2 id="字节码构造"><a href="#字节码构造" class="headerlink" title="字节码构造"></a>字节码构造</h2><p>接下来我们看看字节码的构造，我们在上面的字节码中搜索 <code>fe</code>，可以看到其中有两个 <code>fe</code>，同时查询 Opcodes 对照表，可知 fe 是无效操作符（INVALID）。它的作用其实是分隔符，它将字节码分成了三部分：</p>
+<ol>
+<li>init bytecode（初始化字节码）</li>
+<li>runtime bytecode （运行时字节码）</li>
+<li>metadata hash（合约的一些 meta 信息哈希）</li>
 </ol>
-<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/0gmFpVZVlHhwb2YlmaSY8Dyv5r3Z24sKIks38cyQRFk" target="_blank" rel="noopener">原文链接</a></h2>
+<p><img src="/upload_image/2022-08-27-深入理解 EVM1/2.png" alt></p>
+<p>那么我们前面编译的字节码就被分成了三部分：</p>
+<pre><code>6080604052348015600f57600080fd5b506001600081905550603f8060256000396000f3（init bytecode）
+
+6080604052600080fd（runtime bytecode）
+
+a26469706673582212204ca38d4a605f03f1487b9cb337c0853cca3c62a6c42f942ecb021fb7357002b564736f6c634300080f0033（metadata hash）
+</code></pre><p>我们先来看看最后这里的 metadata hash，它默认是合约 metadata 文件的 IPFS 哈希值，我们可以使用：</p>
+<blockquote>
+<p>solc Demo.sol --metadata</p>
+</blockquote>
+<p>来获取到其 metadata：</p>
+<pre><code>{
+    &quot;compiler&quot;: {
+        &quot;version&quot;: &quot;0.8.15+commit.e14f2714&quot;
+    },
+    &quot;language&quot;: &quot;Solidity&quot;,
+    &quot;output&quot;: {
+        &quot;abi&quot;: [
+            {
+                &quot;inputs&quot;: [],
+                &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+                &quot;type&quot;: &quot;constructor&quot;
+            }
+        ],
+        &quot;devdoc&quot;: {
+            &quot;kind&quot;: &quot;dev&quot;,
+            &quot;methods&quot;: {},
+            &quot;version&quot;: 1
+        },
+        &quot;userdoc&quot;: {
+            &quot;kind&quot;: &quot;user&quot;,
+            &quot;methods&quot;: {},
+            &quot;version&quot;: 1
+        }
+    },
+    &quot;settings&quot;: {
+        &quot;compilationTarget&quot;: {
+            &quot;Demo.sol&quot;: &quot;Demo&quot;
+        },
+        &quot;evmVersion&quot;: &quot;london&quot;,
+        &quot;libraries&quot;: {},
+        &quot;metadata&quot;: {
+            &quot;bytecodeHash&quot;: &quot;ipfs&quot;
+        },
+        &quot;optimizer&quot;: {
+            &quot;enabled&quot;: false,
+            &quot;runs&quot;: 200
+        },
+        &quot;remappings&quot;: []
+    },
+    &quot;sources&quot;: {
+        &quot;Demo.sol&quot;: {
+            &quot;keccak256&quot;: &quot;0xf6e99f20fac61b16466088a9996227f35c4ca82119a846ba19a83698e8e126b1&quot;,
+            &quot;license&quot;: &quot;UNLICENSED&quot;,
+            &quot;urls&quot;: [
+                &quot;bzz-raw://3fda90691cfa365f68a59d5b6bb76f8a0189153cebf93143879521ea309751b8&quot;,
+                &quot;dweb:/ipfs/QmP2dVkfPWy3tAriX17tar9phGzC8gqYzutmhEur6dwdiw&quot;
+            ]
+        }
+    },
+    &quot;version&quot;: 1
+}
+</code></pre><p>可以看到其中主要包含了编译器版本，ABI，IPFS 等信息。这部分了解即可，我们平时也用不到这些，详细内容可以查看<a href="https://docs.soliditylang.org/en/latest/metadata.html" target="_blank" rel="noopener">文档</a>。</p>
+<p>我们前面提到了一些操作数，例如 0x40、0x80，这些数字是什么意思呢。要了解这些，我们就得先明白 EVM 中的内存布局。前面的<a href="https://tiyanguan.github.io/2022/07/28/Ethereum-2022-07-28-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7-2-Solidity-%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80/">文章</a>中，我们讲解过内存布局，但是当时讲的实际上是 Storage Layout，也就是状态变量的布局结构。而我们现在要讲的是 Memory Layout。区别在于 Storage 的数据是永久存在于区块链上的，类似于计算机的硬盘数据。而 Memory 的数据只有在发起交易的时候才有，交易完毕，数据全部消失，类似于计算机的内存数据。</p>
+<h2 id="合约内存"><a href="#合约内存" class="headerlink" title="合约内存"></a>合约内存</h2><p>Memory 的数据结构就是一个简单的<strong>字节数组</strong>，数据可以以 1 字节（8 位）或者 32 字节（256 位）为单位进行存储，读取时只能以 32 字节为单位读取，但是读取时可以从任意字节处开始读取，不限定于 32 的倍数字节。图示：</p>
+<p><img src="/upload_image/2022-08-27-深入理解 EVM1/3.png" alt></p>
+<p>用于操作内存的一共有 3 个操作符：</p>
+<ul>
+<li>MSTORE (x, y) - 在内存 x 处开始存储 32 字节的数据 y</li>
+<li>MLOAD (x) - 将内存 x 处开始的 32 字节数据加载到栈中</li>
+<li>MSTORE8 (x, y) - 在内存 x 处存储 1 字节数据 y（32字节栈值中的最低有效字节）</li>
+</ul>
+<p>Solidity 中预留了 4 个 32 字节的插槽（slot），分别是：</p>
+<ul>
+<li>0x00=00 - 0x3f=63 (64 字节): 哈希方法的暂存空间</li>
+<li>0x40=64 - 0x5f=95 (32 字节): 当前已分配内存大小 (也称为空闲内存指针)</li>
+<li>0x60=96 - 0x7f=127 (32 字节): 零槽，用作动态内存数组的初始值，永远不能写入值</li>
+</ul>
+<p>这里面最重要的就是中间这一项，也就是空闲指针。它会指向空闲空间的开始位置，也就是说，要将一个新变量写入内存，给它分配的位置就是空闲指针所指向的位置。需要注意的是，Solidity 中的内存是不会被释放（free）的。</p>
+<p>对于空闲指针，它的更新遵守了很简单的原则：</p>
+<blockquote>
+<p>新的空闲指针位置 = 旧的空闲指针位置 + 分配的数据大小</p>
+</blockquote>
+<p>上图中我们看到，Solidity 的预留空间已经占据了 128 个字节，因此空闲指针的起始位置就只能从 0x80（128字节） 开始。空闲指针本身是存在于 0x40 位置的。由于我们在函数中的操作均需要在内存中进行，因此首要任务就是要通过空闲指针分配内存，所以我们前面才需要使用 <code>6080604052</code>，也就是 <code>MSTORE(0x40, 0x80)</code>，来加载空闲指针。此时是不是已经有些明白为什么所有的合约都是以 <code>6080604052</code> 开头了（有些老版本合约以 <code>6060604052</code> 开头）。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这篇文章我们就先介绍到这里，我们学习了合约的编译过程，字节码的构造，以及合约的内存分布。可以多看几遍消化消化。下篇文章我们将介绍合约的部署，也就是 init bytecode 部分，了解 EVM 在合约部署时的运行逻辑。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://leftasexercise.com/2021/09/08/a-deep-dive-into-solidity-function-selectors-encoding-and-state-variables/" target="_blank" rel="noopener">A deep-dive into Solidity – function selectors, encoding and state variables</a><br><a href="https://noxx.substack.com/p/evm-deep-dives-the-path-to-shadowy-d6b" target="_blank" rel="noopener">EVM Deep Dives: The Path to Shadowy Super Coder</a></p>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a><a href="https://mirror.xyz/xyyme.eth/GNVcUgKAOEiLyClKeqkmD35ctLu6_XomT3ZDIfV3tz8" target="_blank" rel="noopener">原文链接</a></h2>
       
     </div>
     
@@ -609,7 +637,7 @@ contract B {
       
         <div class="post-tags">
           
-            <a href="/tags/合约升级/" rel="tag"><i class="fa fa-tag"></i> 合约升级</a>
+            <a href="/tags/EVM/" rel="tag"><i class="fa fa-tag"></i> EVM</a>
           
         </div>
       
@@ -622,8 +650,8 @@ contract B {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2022/07/28/Ethereum-2022-07-28-深入理解合约升级-2-Solidity-内存布局/" rel="next" title="深入理解合约升级(2) - Solidity 内存布局">
-                <i class="fa fa-chevron-left"></i> 深入理解合约升级(2) - Solidity 内存布局
+              <a href="/2022/08/12/Ethereum-2022-08-12-Ethers-js-简明使用教程/" rel="next" title="Ethers.js 简明使用教程">
+                <i class="fa fa-chevron-left"></i> Ethers.js 简明使用教程
               </a>
             
           </div>
@@ -632,8 +660,8 @@ contract B {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2022/07/30/Ethereum-2022-07-30-深入理解合约升级-4-合约升级原理的代码实现/" rel="prev" title="深入理解合约升级(4) - 合约升级原理的代码实现">
-                深入理解合约升级(4) - 合约升级原理的代码实现 <i class="fa fa-chevron-right"></i>
+              <a href="/2022/08/28/Ethereum-2022-08-28-深入理解-EVM（二）/" rel="prev" title="深入理解 EVM（二）">
+                深入理解 EVM（二） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -822,7 +850,7 @@ contract B {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#call-与-delegatecall-的区别"><span class="nav-number">1.</span> <span class="nav-text">call 与 delegatecall 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delegatecall-在合约升级方面的应用"><span class="nav-number">2.</span> <span class="nav-text">delegatecall 在合约升级方面的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合约升级系列文章"><span class="nav-number">5.</span> <span class="nav-text">合约升级系列文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文链接"><span class="nav-number">6.</span> <span class="nav-text">原文链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#合约编译"><span class="nav-number">1.</span> <span class="nav-text">合约编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节码构造"><span class="nav-number">2.</span> <span class="nav-text">字节码构造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合约内存"><span class="nav-number">3.</span> <span class="nav-text">合约内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文链接"><span class="nav-number">6.</span> <span class="nav-text">原文链接</span></a></li></ol></div>
             
 
           </div>
